@@ -37,7 +37,7 @@ const C4K_I18N = {
 		'err.title_required':'Title is required','err.points_required':'Points are required','err.points_number':'Points must be a number','err.points_positive':'Points must be 0 or more',
 		'status.assigned':'Assigned','status.in_progress':'In progress','status.awaiting_approval':'Awaiting approval','status.approved':'Approved','status.rejected':'Rejected','status.unassigned':'Unassigned',
 		// Shop
-		'shop.title':'Point shop','shop.open':'Open shop','shop.item':'Item','shop.price':'Price','shop.icon':'Icon','shop.image':'Image','shop.upload':'Upload image','shop.add_item':'Add item','shop.history':'Purchase history','shop.child':'Child','shop.when':'When','shop.date':'Date','shop.time':'Time','shop.advanced':'Advanced actions','shop.entity':'Entity','shop.operation':'Operation','shop.add_action':'Add action','shop.add_delay':'Add delay','shop.steps':'Steps','shop.seconds':'Seconds','shop.minutes':'Minutes','shop.hours':'Hours','shop.delay':'Delay','shop.active':'Active','shop.buy':'Buy',
+		'shop.title':'Point shop','shop.open':'Open shop','shop.item':'Item','shop.price':'Price','shop.icon':'Icon','shop.image':'Image','shop.upload':'Upload image','shop.add_item':'Add item','shop.history':'Purchase history','shop.child':'Child','shop.when':'When','shop.date':'Date','shop.time':'Time','shop.advanced':'Advanced actions','shop.entity':'Entity','shop.operation':'Operation','shop.add_action':'Add action','shop.add_delay':'Add delay','shop.steps':'Steps','shop.seconds':'Seconds','shop.minutes':'Minutes','shop.hours':'Hours','shop.delay':'Delay','shop.active':'Active','shop.buy':'Buy','shop.clear_history':'Clear history','confirm.clear_history':'Clear all purchase history?',
 		// Child specific
 		'card.child_title_fallback': 'Chores4Kids – {name}',
 		'msg.child_not_found': 'Child not found. Check the name in card configuration.',
@@ -82,7 +82,7 @@ const C4K_I18N = {
 		'points.title': 'Tilføj point til {name}', 'points.quick':'Hurtig tilføj', 'points.remove':'Hurtig fratræk', 'points.custom':'Valgfrit antal',
 		'err.title_required':'Titel er påkrævet','err.points_required':'Point skal udfyldes','err.points_number':'Point skal være et tal','err.points_positive':'Point skal være 0 eller mere',
 		'status.assigned':'Tildelt','status.in_progress':'I gang','status.awaiting_approval':'Afventer godkendelse','status.approved':'Godkendt','status.rejected':'Afvist','status.unassigned':'Ikke tildelt',
-		'shop.title':'Pointshop','shop.open':'Åbn shop','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Billede','shop.upload':'Upload billede','shop.add_item':'Tilføj vare','shop.history':'Købshistorik','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.advanced':'Avancerede handlinger','shop.entity':'Enhed','shop.operation':'Handling','shop.add_action':'Tilføj handling','shop.add_delay':'Tilføj delay','shop.steps':'Trin','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse','shop.active':'Aktiv','shop.buy':'Køb',
+		'shop.title':'Pointshop','shop.open':'Åbn shop','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Billede','shop.upload':'Upload billede','shop.add_item':'Tilføj vare','shop.history':'Købshistorik','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.advanced':'Avancerede handlinger','shop.entity':'Enhed','shop.operation':'Handling','shop.add_action':'Tilføj handling','shop.add_delay':'Tilføj delay','shop.steps':'Trin','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse','shop.active':'Aktiv','shop.buy':'Køb','shop.clear_history':'Ryd historik','confirm.clear_history':'Ryd hele købshistorikken?',
 			'card.child_title_fallback': 'Chores4Kids – {name}', 'msg.child_not_found': 'Barn ikke fundet. Tjek navn i kort-konfigurationen.', 'msg.no_tasks':'Ingen opgaver lige nu.', 'btn.done':'Fuldført', 'btn.start_task':'Start opgave', 'btn.complete_task':'Opgave klaret', 'lbl.awaiting':'Afventer godkendelse', 'lbl.points': 'point'
 			,
 			// Editor UI
@@ -327,7 +327,7 @@ const C4K_ICON_SET = [
 	{ id:'mdi:bookshelf', label:'Books' },
 ];
 
-class Chores4KidsDevCard extends LitElement {
+class Chores4KidsCard extends LitElement {
 	static get properties(){
 		return {
 			hass: {},
@@ -497,7 +497,7 @@ class Chores4KidsDevCard extends LitElement {
 		this._childName = this.config.child || '';
 	}
 
-	static getConfigElement(){ return document.createElement('chores4kids-dev-card-editor'); }
+	static getConfigElement(){ return document.createElement('chores4kids-card-editor'); }
 	static getStubConfig(){ return { mode: 'admin' }; }
 
 	getCardSize(){ return this._mode==='admin'? 8 : 3; }
@@ -805,7 +805,10 @@ class Chores4KidsDevCard extends LitElement {
 										</div>
 									`)}
 								</div>
-				<h3 style="margin-top:12px;">${this._t('shop.history')}</h3>
+				<div class="row" style="align-items:center; justify-content:space-between; margin-top:12px;">
+					<h3 style="margin:0;">${this._t('shop.history')}</h3>
+					${(this._store.purchases||[]).length ? html`<button class="btn-danger" @click=${this._clearShopHistory}>${this._t('shop.clear_history')}</button>`:''}
+				</div>
 								<div class="table-wrap desktop-only"><table class="table-center">
 					<thead><tr><th>${this._t('shop.date')}</th><th>${this._t('shop.time')}</th><th>${this._t('shop.child')}</th><th>${this._t('shop.item')}</th><th>${this._t('shop.price')}</th></tr></thead>
 					<tbody>
@@ -992,6 +995,18 @@ class Chores4KidsDevCard extends LitElement {
 	async _deleteTask(taskId){ if(!confirm(this._t('confirm.delete_task'))) return; await this.hass.callService('chores4kids','delete_task',{ task_id: taskId }); }
 	async _addShopItem(){ const title=String(this._shopTitle||'').trim(); const price=Number(this._shopPrice||0); if(!title || !Number.isFinite(price)) return; await this.hass.callService('chores4kids','add_shop_item',{ title, price, image: this._shopImage||undefined }); this._shopTitle=this._shopPrice=this._shopImage=''; try{ const el=this.shadowRoot.getElementById('c4k-shop-file'); if(el) el.value=''; }catch{} }
 	async _deleteShopItem(id){ if(!id) return; await this.hass.callService('chores4kids','delete_shop_item',{ item_id: id }); }
+	async _clearShopHistory(){
+		if(!confirm(this._t('confirm.clear_history'))) return;
+		try{
+			await this.hass.callService('chores4kids','clear_shop_history',{});
+		}catch(err){
+			try{
+				await this.hass.callService('chores4kids','reset_shop_history',{});
+			}catch(err2){
+				alert('Service chores4kids.clear_shop_history not available');
+			}
+		}
+	}
 	async _onPickImage(e){ const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ try{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._shopImage=`/local/chores4kids/${name}`; } finally { this.requestUpdate(); } }; reader.readAsDataURL(f); }
 	_startEditItem(i){ this._editItem={ id:i.id, title:i.title, price:i.price, image:i.image||'', active:i.active!==false }; this.requestUpdate(); }
 	async _onPickEditImage(e){ const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._editItem={ ...this._editItem, image:`/local/chores4kids/${name}` }; this.requestUpdate(); }; reader.readAsDataURL(f); }
@@ -1005,9 +1020,9 @@ class Chores4KidsDevCard extends LitElement {
 	async _buy(item, childId){ if(!item?.id || !childId) return; await this.hass.callService('chores4kids','buy_shop_item',{ child_id: childId, item_id: item.id }); }
 }
 
-customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
+customElements.define('chores4kids-card', Chores4KidsCard);
 // Simple GUI editor
-class Chores4KidsDevCardEditor extends LitElement{
+class Chores4KidsCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
 	setConfig(config){ this._config = { mode:'admin', ...config }; this.requestUpdate(); }
 	_t(key, vars){ return c4kLocalize(key, this.hass || navigator.language || 'en', vars); }
@@ -1057,9 +1072,9 @@ class Chores4KidsDevCardEditor extends LitElement{
 		</div>`; }
 	static get styles(){ return css`.card-config{ display:grid; gap:8px; } label{ display:block; font-weight:600; margin-bottom:4px; } input,select{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); }`; }
 }
-customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor);
+customElements.define('chores4kids-card-editor', Chores4KidsCardEditor);
 
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-dev-card', name: 'Chores4Kids (Dev – Admin/Kid)', preview: true, description: 'Kombineret kort – vælg Admin eller Barn i editoren' });
+window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Admin/Kid)', preview: true, description: 'Kombineret kort – vælg Admin eller Barn i editoren' });
 
