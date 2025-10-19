@@ -1,5 +1,7 @@
 # Chores4Kids Dev Card — Feature Guide & How‑To ✨🧹👧👦🧩
 
+> **Important:** This card **requires** the [Chores4Kids integration](https://github.com/qlerup/chores4kids-sync) (custom component). Install and configure the integration first (via HACS or by copying `custom_components/chores4kids/`). The card will **not** work without it.
+
 A powerful, family‑friendly Home Assistant card to manage kids’ chores, points, and a reward shop — all in one place. It supports an **Admin view** (for parents) and a **Kid view** (for each child), plus repeat/auto‑assignment and an optional point shop with advanced actions.
 
 <img width="2290" height="1125" alt="image" src="https://github.com/user-attachments/assets/74f144b6-eb41-4f65-9ccf-d5fba1914383" />
@@ -20,7 +22,7 @@ A powerful, family‑friendly Home Assistant card to manage kids’ chores, poin
 * **Reward shop:** create items, upload images, set prices, and even trigger HA actions on purchase 🛍️⚙️.
 * **Multi‑language i18n:** English, Danish, and several others built‑in 🌍.
 
-> **Works with the `chores4kids` integration**: the card reads sensors and calls services in the `chores4kids` domain. The points and task data live in HA entities (no local storage hacks).
+> **Requires the [`chores4kids`](https://github.com/qlerup/chores4kids-sync) integration:** the card reads sensors and calls services in the `chores4kids` domain. The points and task data live in HA entities (no local storage hacks). Without the integration, there are no entities/services for the card to use.
 
 ---
 
