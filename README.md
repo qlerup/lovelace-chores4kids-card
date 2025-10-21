@@ -4,6 +4,9 @@
 
 A powerful, family‑friendly Home Assistant card to manage kids’ chores, points, and a reward shop — all in one place. It supports an **Admin view** (for parents) and a **Kid view** (for each child), plus repeat/auto‑assignment and an optional point shop with advanced actions.
 
+[![Open this repository in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=qlerup&repository=lovelace-chores4kids-card)
+
+
 <img width="2290" height="1125" alt="image" src="https://github.com/user-attachments/assets/74f144b6-eb41-4f65-9ccf-d5fba1914383" />
 
 <img width="2287" height="245" alt="image" src="https://github.com/user-attachments/assets/c23c1b43-0470-4d76-9641-05e34fa2a879" />
