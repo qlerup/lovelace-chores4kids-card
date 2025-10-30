@@ -1,4 +1,4 @@
-# Chores4Kids Dev Card — Feature Guide & How‑To ✨🧹👧👦🧩
+# Chores4Kids Card — Feature Guide & How‑To ✨🧹👧👦🧩
 
 > **Important:** This card **requires** the [Chores4Kids integration](https://github.com/qlerup/chores4kids-sync) (custom component). Install and configure the integration first (via HACS or by copying `custom_components/chores4kids/`). The card will **not** work without it.
 
