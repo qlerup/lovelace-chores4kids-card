@@ -447,7 +447,7 @@ class Chores4KidsCard extends LitElement {
 		.actions{ display:flex; gap:8px; }
 		.img-preview{ width:72px; height:72px; border-radius:10px; border:1px solid var(--divider-color); background: color-mix(in srgb, var(--primary-color) 6%, transparent); object-fit:cover; }
 		.file-hidden{ display:none; }
-		.shop-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:12px; }
+		.shop-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:12px; width: min(95vw, 860px); }
 		.shop-item{ border: 1px solid var(--divider-color); border-radius: 12px; overflow:hidden; background: var(--card-background-color); display:flex; flex-direction:column; }
 		.shop-item .img-wrap{ width:100%; aspect-ratio: 1/1; background: color-mix(in srgb, var(--primary-color) 6%, transparent); overflow:hidden; display:block; }
 		.shop-item .img-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -1209,4 +1209,5 @@ customElements.define('chores4kids-card-editor', Chores4KidsCardEditor);
 // Lovelace card registry
 window.customCards = window.customCards || [];
 window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+
 
