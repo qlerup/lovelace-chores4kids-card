@@ -4,18 +4,24 @@ import { LitElement, html, css } from "https://unpkg.com/lit?module";
 const C4K_I18N = {
 	en: {
 		// Shared/admin
-		'overview.title': 'Recent tasks',
+		'overview.title': 'Assigned tasks',
 		'overview.show_all': 'Show all ({pending} pending)',
 		'overview.none': 'No tasks yet.',
 		'card.admin_title': 'Chores4Kids – Parents',
 		'input.new_child_name': 'New child — name',
+			'input.new_category_name': 'New category — name',
 		'btn.add_child': 'Add child',
+			'btn.add_category': 'Add category',
 		'section.children': 'Children',
+			'section.categories': 'Categories',
 		'th.name': 'Name', 'th.points': 'Points', 'th.pending': 'Pending', 'th.actions': 'Actions', 'th.status':'Status', 'th.assign':'Assigned to',
+			'th.categories':'Categories',
 		'btn.rename': 'Rename', 'btn.delete': 'Delete',
 		'section.new_task': 'New task',
 		'ph.title': 'Title', 'ph.points': 'Points', 'ph.description': 'Description (optional)',
+			'ph.categories': 'Categories',
 		'select.assign_child': 'Assign child',
+			'select.categories': 'Select categories',
 		'ph.icon': 'Icon (mdi:...)',
 		'icon.choose': 'Choose icon', 'icon.clear': 'Clear icon', 'icon.none': 'None', 'icon.search': 'Search icon',
 		'btn.create_task': 'Create task', 'btn.update_task': 'Update task', 'btn.edit': 'Edit', 'editor.loaded_task': 'Editing existing task',
@@ -34,7 +40,8 @@ const C4K_I18N = {
 		'repeat.days.mon':'Mon','repeat.days.tue':'Tue','repeat.days.wed':'Wed','repeat.days.thu':'Thu','repeat.days.fri':'Fri','repeat.days.sat':'Sat','repeat.days.sun':'Sun',
 		'assign.disabled_auto': 'Disabled: auto-assign (repeat) is active',
 		'assign.auto_to': 'Auto-assigned to {names}',
-		'btn.add_points': 'Add points', 'btn.reset_points': 'Reset points',
+			'btn.add_points': 'Add points', 'btn.reset_points': 'Reset points',
+			'sort.configure': 'Sorting', 'sort.title': 'Choose order', 'sort.categories_order': 'Categories order', 'sort.none': 'No category', 'sort.save': 'Save', 'sort.reset': 'Reset',
 		'points.title': 'Add points to {name}', 'points.quick':'Quick add', 'points.remove':'Quick remove', 'points.custom':'Custom amount',
 		'err.title_required':'Title is required','err.points_required':'Points are required','err.points_number':'Points must be a number','err.points_positive':'Points must be 0 or more',
 		'status.assigned':'Assigned','status.in_progress':'In progress','status.awaiting_approval':'Awaiting approval','status.approved':'Approved','status.rejected':'Rejected','status.unassigned':'Unassigned',
@@ -52,18 +59,24 @@ const C4K_I18N = {
 			'editor.child_label':'Child', 'editor.child_placeholder':'Child name', 'editor.child_select_prompt':'— Select child —', 'editor.child_hint':'No children found yet — type the name manually.'
 	},
 	da: {
-		'overview.title': 'Seneste opgaver',
+		'overview.title': 'Tildelte opgaver',
 		'overview.show_all': 'Vis alle ({pending} afventer)',
 		'overview.none': 'Ingen opgaver endnu.',
 		'card.admin_title': 'Chores4Kids – Forældre',
 		'input.new_child_name': 'Nyt barn – navn',
+			'input.new_category_name': 'Ny kategori – navn',
 		'btn.add_child': 'Tilføj barn',
+			'btn.add_category': 'Tilføj kategori',
 		'section.children': 'Børn',
+			'section.categories': 'Kategorier',
 		'th.name': 'Navn', 'th.points': 'Point', 'th.pending': 'Ventende', 'th.actions': 'Handling', 'th.status':'Status', 'th.assign':'Tildelt til',
+			'th.categories':'Kategorier',
 		'btn.rename': 'Omdøb', 'btn.delete': 'Slet',
 		'section.new_task': 'Ny opgave',
 		'ph.title': 'Titel', 'ph.points': 'Point', 'ph.description': 'Beskrivelse (valgfri)',
+			'ph.categories': 'Kategorier',
 		'select.assign_child': 'Tildel barn',
+			'select.categories': 'Vælg kategorier',
 		'ph.icon': 'Ikon (mdi:...)',
 		'icon.choose': 'Vælg ikon', 'icon.clear': 'Fjern ikon', 'icon.none': 'Ingen', 'icon.search': 'Søg ikon',
 		'btn.create_task': 'Opret opgave', 'btn.update_task': 'Opdatér opgave', 'btn.edit': 'Redigér', 'editor.loaded_task': 'Redigerer eksisterende opgave',
@@ -83,6 +96,7 @@ const C4K_I18N = {
 		'assign.disabled_auto': 'Deaktiveret: auto-tildeling (gentagelse) er aktiv',
 		'assign.auto_to': 'Auto-tildelt til {names}',
 		'btn.add_points': 'Tilføj point', 'btn.reset_points': 'Nulstil point',
+			'sort.configure': 'Sortering', 'sort.title': 'Vælg rækkefølge', 'sort.categories_order': 'Rækkefølge for kategorier', 'sort.none': 'Ingen kategori', 'sort.save': 'Gem', 'sort.reset': 'Nulstil',
 		'points.title': 'Tilføj point til {name}', 'points.quick':'Hurtig tilføj', 'points.remove':'Hurtig fratræk', 'points.custom':'Valgfrit antal',
 		'err.title_required':'Titel er påkrævet','err.points_required':'Point skal udfyldes','err.points_number':'Point skal være et tal','err.points_positive':'Point skal være 0 eller mere',
 		'status.assigned':'Tildelt','status.in_progress':'I gang','status.awaiting_approval':'Afventer godkendelse','status.approved':'Godkendt','status.rejected':'Afvist','status.unassigned':'Ikke tildelt',
@@ -94,8 +108,9 @@ const C4K_I18N = {
 			'editor.child_label':'Barn','editor.child_placeholder':'Navn på barn','editor.child_select_prompt':'— Vælg barn —','editor.child_hint':'Ingen børn fundet endnu – skriv navnet manuelt.'
 		},
 		sv: {
-			'overview.title': 'Senaste uppgifter', 'overview.show_all': 'Visa alla ({pending} väntar)', 'overview.none': 'Inga uppgifter ännu.',
+			'overview.title': 'Tilldelade uppgifter', 'overview.show_all': 'Visa alla ({pending} väntar)', 'overview.none': 'Inga uppgifter ännu.',
 			'card.admin_title': 'Chores4Kids – Förälder', 'input.new_child_name': 'Nytt barn — namn', 'btn.add_child': 'Lägg till barn',
+			'input.new_category_name':'Ny kategori — namn','btn.add_category':'Lägg till kategori','section.categories':'Kategorier','th.categories':'Kategorier','ph.categories':'Kategorier','select.categories':'Välj kategorier',
 			'section.children': 'Barn', 'th.name':'Namn','th.points':'Poäng','th.pending':'Väntar','th.actions':'Åtgärder','th.status':'Status','th.assign':'Tilldelad till',
 			'btn.rename':'Byt namn','btn.delete':'Ta bort', 'section.new_task':'Ny uppgift', 'ph.title':'Titel','ph.points':'Poäng','ph.description':'Beskrivning (valfritt)',
 			'select.assign_child':'Tilldela barn', 'ph.icon':'Ikon (mdi:...)', 'icon.choose':'Välj ikon','icon.clear':'Rensa ikon','icon.none':'Ingen','icon.search':'Sök ikon',
@@ -113,14 +128,16 @@ const C4K_I18N = {
 			'status.assigned':'Tilldelad','status.in_progress':'Pågår','status.awaiting_approval':'Väntar på godkännande','status.approved':'Godkänd','status.rejected':'Avvisad','status.unassigned':'Ej tilldelad',
 			'shop.title':'Shop','shop.open':'Öppna shop','shop.item':'Vara','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bild','shop.upload':'Ladda upp bild','shop.add_item':'Lägg till vara','shop.history':'Köphistorik','shop.child':'Barn','shop.when':'Tidpunkt','shop.date':'Datum','shop.time':'Tid','shop.active':'Aktiv','shop.buy':'Köp',
 			'shop.advanced':'Avancerade åtgärder','shop.entity':'Enhet','shop.operation':'Åtgärd','shop.add_action':'Lägg till åtgärd','shop.add_delay':'Lägg till fördröjning','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minuter','shop.hours':'Timmar','shop.delay':'Fördröjning',
+			'sort.configure':'Sortering','sort.title':'Välj ordning','sort.categories_order':'Ordning för kategorier','sort.none':'Ingen kategori','sort.save':'Spara','sort.reset':'Återställ',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn hittades inte. Kontrollera namnet i kortets konfiguration.','msg.no_tasks':'Inga uppgifter just nu.', 'btn.done':'Klar','btn.start_task':'Starta uppgift','btn.complete_task':'Uppgift klar','lbl.awaiting':'Väntar på godkännande','lbl.points':'poäng',
 			// Editor UI
 			'editor.mode':'Läge','editor.mode_admin':'Förälder','editor.mode_kid':'Barn','editor.mode_overview':'Senaste uppgifter',
 			'editor.child_label':'Barn','editor.child_placeholder':'Barnets namn','editor.child_select_prompt':'— Välj barn —','editor.child_hint':'Inga barn hittades ännu – skriv namnet manuellt.'
 		},
-		nb: {
-			'overview.title':'Siste oppgaver','overview.show_all':'Vis alle ({pending} venter)','overview.none':'Ingen oppgaver ennå.',
+			nb: {
+				'overview.title':'Tildelte oppgaver','overview.show_all':'Vis alle ({pending} venter)','overview.none':'Ingen oppgaver ennå.',
 			'card.admin_title':'Chores4Kids – Forelder','input.new_child_name':'Nytt barn — navn','btn.add_child':'Legg til barn',
+				'input.new_category_name':'Ny kategori — navn','btn.add_category':'Legg til kategori','section.categories':'Kategorier','th.categories':'Kategorier','ph.categories':'Kategorier','select.categories':'Velg kategorier',
 			'section.children':'Barn','th.name':'Navn','th.points':'Poeng','th.pending':'Ventende','th.actions':'Handlinger','th.status':'Status','th.assign':'Tildelt til',
 			'btn.rename':'Gi nytt navn','btn.delete':'Slett','section.new_task':'Ny oppgave','ph.title':'Tittel','ph.points':'Poeng','ph.description':'Beskrivelse (valgfritt)',
 			'select.assign_child':'Tildel barn', 'ph.icon':'Ikon (mdi:...)','icon.choose':'Velg ikon','icon.clear':'Fjern ikon','icon.none':'Ingen','icon.search':'Søk ikon',
@@ -138,14 +155,16 @@ const C4K_I18N = {
 			'status.assigned':'Tildelt','status.in_progress':'Pågår','status.awaiting_approval':'Avventer godkjenning','status.approved':'Godkjent','status.rejected':'Avvist','status.unassigned':'Ikke tildelt',
 			'shop.title':'Butikk','shop.open':'Åpne butikk','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bilde','shop.upload':'Last opp bilde','shop.add_item':'Legg til vare','shop.history':'Kjøpshistorikk','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.active':'Aktiv','shop.buy':'Kjøp',
 			'shop.advanced':'Avanserte handlinger','shop.entity':'Enhet','shop.operation':'Handling','shop.add_action':'Legg til handling','shop.add_delay':'Legg til forsinkelse','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse',
+			'sort.configure':'Sortering','sort.title':'Velg rekkefølge','sort.categories_order':'Rekkefølge for kategorier','sort.none':'Ingen kategori','sort.save':'Lagre','sort.reset':'Nullstill',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn ikke funnet. Sjekk navnet i kortkonfigurasjonen.','msg.no_tasks':'Ingen oppgaver nå.', 'btn.done':'Ferdig','btn.start_task':'Start oppgave','btn.complete_task':'Oppgave klar','lbl.awaiting':'Venter på godkjenning','lbl.points':'poeng',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Forelder','editor.mode_kid':'Barn','editor.mode_overview':'Siste oppgaver',
 			'editor.child_label':'Barn','editor.child_placeholder':'Barnets navn','editor.child_select_prompt':'— Velg barn —','editor.child_hint':'Ingen barn funnet ennå – skriv inn navnet manuelt.'
 		},
-		de: {
-			'overview.title':'Aktuelle Aufgaben','overview.show_all':'Alle anzeigen ({pending} ausstehend)','overview.none':'Noch keine Aufgaben.',
+			de: {
+				'overview.title':'Zugewiesene Aufgaben','overview.show_all':'Alle anzeigen ({pending} ausstehend)','overview.none':'Noch keine Aufgaben.',
 			'card.admin_title':'Chores4Kids – Eltern','input.new_child_name':'Neues Kind — Name','btn.add_child':'Kind hinzufügen',
+				'input.new_category_name':'Neue Kategorie — Name','btn.add_category':'Kategorie hinzufügen','section.categories':'Kategorien','th.categories':'Kategorien','ph.categories':'Kategorien','select.categories':'Kategorien wählen',
 			'section.children':'Kinder', 'th.name':'Name','th.points':'Punkte','th.pending':'Ausstehend','th.actions':'Aktionen','th.status':'Status','th.assign':'Zugewiesen an',
 			'btn.rename':'Umbenennen','btn.delete':'Löschen','section.new_task':'Neue Aufgabe','ph.title':'Titel','ph.points':'Punkte','ph.description':'Beschreibung (optional)',
 			'select.assign_child':'Kind zuweisen','ph.icon':'Symbol (mdi:...)','icon.choose':'Symbol wählen','icon.clear':'Symbol entfernen','icon.none':'Keins','icon.search':'Symbol suchen',
@@ -163,14 +182,16 @@ const C4K_I18N = {
 			'status.assigned':'Zugewiesen','status.in_progress':'In Arbeit','status.awaiting_approval':'Wartet auf Genehmigung','status.approved':'Genehmigt','status.rejected':'Abgelehnt','status.unassigned':'Nicht zugewiesen',
 			'shop.title':'Shop','shop.open':'Shop öffnen','shop.item':'Artikel','shop.price':'Preis','shop.icon':'Symbol','shop.image':'Bild','shop.upload':'Bild hochladen','shop.add_item':'Artikel hinzufügen','shop.history':'Kaufhistorie','shop.child':'Kind','shop.when':'Zeitpunkt','shop.date':'Datum','shop.time':'Uhrzeit','shop.active':'Aktiv','shop.buy':'Kaufen',
 			'shop.advanced':'Erweiterte Aktionen','shop.entity':'Entität','shop.operation':'Aktion','shop.add_action':'Aktion hinzufügen','shop.add_delay':'Verzögerung hinzufügen','shop.steps':'Schritte','shop.seconds':'Sekunden','shop.minutes':'Minuten','shop.hours':'Stunden','shop.delay':'Verzögerung',
+			'sort.configure':'Sortierung','sort.title':'Reihenfolge wählen','sort.categories_order':'Reihenfolge der Kategorien','sort.none':'Keine Kategorie','sort.save':'Speichern','sort.reset':'Zurücksetzen',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Kind nicht gefunden. Prüfe den Namen in der Kartenkonfiguration.','msg.no_tasks':'Keine Aufgaben gerade.', 'btn.done':'Fertig','btn.start_task':'Aufgabe starten','btn.complete_task':'Aufgabe erledigt','lbl.awaiting':'Wartet auf Genehmigung','lbl.points':'Punkte',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Eltern','editor.mode_kid':'Kind','editor.mode_overview':'Aktuelle Aufgaben',
 			'editor.child_label':'Kind','editor.child_placeholder':'Name des Kindes','editor.child_select_prompt':'— Kind auswählen —','editor.child_hint':'Noch keine Kinder gefunden – Namen manuell eingeben.'
 		},
-		es: {
-			'overview.title':'Tareas recientes','overview.show_all':'Ver todas ({pending} pendientes)','overview.none':'Aún no hay tareas.',
+			es: {
+				'overview.title':'Tareas asignadas','overview.show_all':'Ver todas ({pending} pendientes)','overview.none':'Aún no hay tareas.',
 			'card.admin_title':'Chores4Kids – Padres','input.new_child_name':'Nuevo niño — nombre','btn.add_child':'Añadir niño',
+				'input.new_category_name':'Nueva categoría — nombre','btn.add_category':'Añadir categoría','section.categories':'Categorías','th.categories':'Categorías','ph.categories':'Categorías','select.categories':'Seleccionar categorías',
 			'section.children':'Niños','th.name':'Nombre','th.points':'Puntos','th.pending':'Pendiente','th.actions':'Acciones','th.status':'Estado','th.assign':'Asignado a',
 			'btn.rename':'Renombrar','btn.delete':'Eliminar','section.new_task':'Nueva tarea','ph.title':'Título','ph.points':'Puntos','ph.description':'Descripción (opcional)',
 			'select.assign_child':'Asignar niño', 'ph.icon':'Icono (mdi:...)','icon.choose':'Elegir icono','icon.clear':'Quitar icono','icon.none':'Ninguno','icon.search':'Buscar icono',
@@ -188,14 +209,16 @@ const C4K_I18N = {
 			'status.assigned':'Asignada','status.in_progress':'En curso','status.awaiting_approval':'En espera de aprobación','status.approved':'Aprobada','status.rejected':'Rechazada','status.unassigned':'Sin asignar',
 			'shop.title':'Tienda','shop.open':'Abrir tienda','shop.item':'Artículo','shop.price':'Precio','shop.icon':'Icono','shop.image':'Imagen','shop.upload':'Subir imagen','shop.add_item':'Añadir artículo','shop.history':'Historial de compras','shop.child':'Niño','shop.when':'Fecha y hora','shop.date':'Fecha','shop.time':'Hora','shop.active':'Activo','shop.buy':'Comprar',
 			'shop.advanced':'Acciones avanzadas','shop.entity':'Entidad','shop.operation':'Operación','shop.add_action':'Añadir acción','shop.add_delay':'Añadir retraso','shop.steps':'Pasos','shop.seconds':'Segundos','shop.minutes':'Minutos','shop.hours':'Horas','shop.delay':'Retraso',
+			'sort.configure':'Ordenación','sort.title':'Elegir orden','sort.categories_order':'Orden de categorías','sort.none':'Sin categoría','sort.save':'Guardar','sort.reset':'Restablecer',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Niño no encontrado. Revisa el nombre en la configuración de la tarjeta.','msg.no_tasks':'No hay tareas por ahora.', 'btn.done':'Hecho','btn.start_task':'Iniciar tarea','btn.complete_task':'Tarea hecha','lbl.awaiting':'En espera de aprobación','lbl.points':'puntos',
 			// Editor UI
 			'editor.mode':'Modo','editor.mode_admin':'Padres','editor.mode_kid':'Niño','editor.mode_overview':'Tareas recientes',
 			'editor.child_label':'Niño','editor.child_placeholder':'Nombre del niño','editor.child_select_prompt':'— Seleccionar niño —','editor.child_hint':'Aún no se encontraron niños — escribe el nombre manualmente.'
 		},
-		fr: {
-			'overview.title':'Tâches récentes','overview.show_all':'Tout afficher ({pending} en attente)','overview.none':'Aucune tâche pour le moment.',
+			fr: {
+				'overview.title':'Tâches assignées','overview.show_all':'Tout afficher ({pending} en attente)','overview.none':'Aucune tâche pour le moment.',
 			'card.admin_title':'Chores4Kids – Parents','input.new_child_name':'Nouvel enfant — nom','btn.add_child':'Ajouter un enfant',
+				'input.new_category_name':'Nouvelle catégorie — nom','btn.add_category':'Ajouter une catégorie','section.categories':'Catégories','th.categories':'Catégories','ph.categories':'Catégories','select.categories':'Sélectionner des catégories',
 			'section.children':'Enfants','th.name':'Nom','th.points':'Points','th.pending':'En attente','th.actions':'Actions','th.status':'Statut','th.assign':'Attribué à',
 			'btn.rename':'Renommer','btn.delete':'Supprimer','section.new_task':'Nouvelle tâche','ph.title':'Titre','ph.points':'Points','ph.description':'Description (facultatif)',
 			'select.assign_child':'Attribuer un enfant','ph.icon':'Icône (mdi:...)','icon.choose':'Choisir une icône','icon.clear':'Effacer l’icône','icon.none':'Aucune','icon.search':'Rechercher une icône',
@@ -213,14 +236,16 @@ const C4K_I18N = {
 			'status.assigned':'Attribuée','status.in_progress':'En cours','status.awaiting_approval':'En attente d’approbation','status.approved':'Approuvée','status.rejected':'Rejetée','status.unassigned':'Non attribuée',
 			'shop.title':'Boutique','shop.open':'Ouvrir la boutique','shop.item':'Article','shop.price':'Prix','shop.icon':'Icône','shop.image':'Image','shop.upload':'Téléverser une image','shop.add_item':'Ajouter un article','shop.history':'Historique des achats','shop.child':'Enfant','shop.when':'Date et heure','shop.date':'Date','shop.time':'Heure','shop.active':'Actif','shop.buy':'Acheter',
 			'shop.advanced':'Actions avancées','shop.entity':'Entité','shop.operation':'Opération','shop.add_action':'Ajouter une action','shop.add_delay':'Ajouter un délai','shop.steps':'Étapes','shop.seconds':'Secondes','shop.minutes':'Minutes','shop.hours':'Heures','shop.delay':'Délai',
+			'sort.configure':'Tri','sort.title':'Choisir l’ordre','sort.categories_order':'Ordre des catégories','sort.none':'Aucune catégorie','sort.save':'Enregistrer','sort.reset':'Réinitialiser',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Enfant introuvable. Vérifiez le nom dans la configuration de la carte.','msg.no_tasks':'Aucune tâche pour le moment.', 'btn.done':'Terminé','btn.start_task':'Démarrer la tâche','btn.complete_task':'Tâche terminée','lbl.awaiting':'En attente d’approbation','lbl.points':'points',
 			// Editor UI
 			'editor.mode':'Mode','editor.mode_admin':'Parents','editor.mode_kid':'Enfant','editor.mode_overview':'Tâches récentes',
 			'editor.child_label':'Enfant','editor.child_placeholder':'Nom de l’enfant','editor.child_select_prompt':'— Sélectionner un enfant —','editor.child_hint':'Aucun enfant trouvé pour l’instant — saisissez le nom manuellement.'
 		},
-		fi: {
-			'overview.title':'Viimeisimmät tehtävät','overview.show_all':'Näytä kaikki ({pending} odottaa)','overview.none':'Ei vielä tehtäviä.',
+			fi: {
+				'overview.title':'Määritetyt tehtävät','overview.show_all':'Näytä kaikki ({pending} odottaa)','overview.none':'Ei vielä tehtäviä.',
 			'card.admin_title':'Chores4Kids – Vanhemmat','input.new_child_name':'Uusi lapsi — nimi','btn.add_child':'Lisää lapsi',
+				'input.new_category_name':'Uusi kategoria — nimi','btn.add_category':'Lisää kategoria','section.categories':'Kategoriat','th.categories':'Kategoriat','ph.categories':'Kategoriat','select.categories':'Valitse kategoriat',
 			'section.children':'Lapset','th.name':'Nimi','th.points':'Pisteet','th.pending':'Odottaa','th.actions':'Toiminnot','th.status':'Tila','th.assign':'Määritetty',
 			'btn.rename':'Nimeä uudelleen','btn.delete':'Poista','section.new_task':'Uusi tehtävä','ph.title':'Otsikko','ph.points':'Pisteet','ph.description':'Kuvaus (valinnainen)',
 			'select.assign_child':'Määritä lapsi','ph.icon':'Kuvake (mdi:...)','icon.choose':'Valitse kuvake','icon.clear':'Poista kuvake','icon.none':'Ei mitään','icon.search':'Hae kuvaketta',
@@ -238,14 +263,16 @@ const C4K_I18N = {
 			'status.assigned':'Määritetty','status.in_progress':'Käynnissä','status.awaiting_approval':'Odottaa hyväksyntää','status.approved':'Hyväksytty','status.rejected':'Hylätty','status.unassigned':'Ei määritetty',
 			'shop.title':'Kauppa','shop.open':'Avaa kauppa','shop.item':'Tuote','shop.price':'Hinta','shop.icon':'Kuvake','shop.image':'Kuva','shop.upload':'Lataa kuva','shop.add_item':'Lisää tuote','shop.history':'Ostohistoria','shop.child':'Lapsi','shop.when':'Aika','shop.date':'Päiväys','shop.time':'Aika','shop.active':'Aktiivinen','shop.buy':'Osta',
 			'shop.advanced':'Edistyneet toiminnot','shop.entity':'Entiteetti','shop.operation':'Toiminto','shop.add_action':'Lisää toiminto','shop.add_delay':'Lisää viive','shop.steps':'Vaiheet','shop.seconds':'Sekuntia','shop.minutes':'Minuuttia','shop.hours':'Tuntia','shop.delay':'Viive',
+			'sort.configure':'Lajittelu','sort.title':'Valitse järjestys','sort.categories_order':'Kategorioiden järjestys','sort.none':'Ei kategoriaa','sort.save':'Tallenna','sort.reset':'Palauta',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Lasta ei löytynyt. Tarkista nimi kortin asetuksista.','msg.no_tasks':'Ei tehtäviä juuri nyt.', 'btn.done':'Valmis','btn.start_task':'Aloita tehtävä','btn.complete_task':'Tehtävä valmis','lbl.awaiting':'Odottaa hyväksyntää','lbl.points':'pistettä',
 			// Editor UI
 			'editor.mode':'Tila','editor.mode_admin':'Vanhemmat','editor.mode_kid':'Lapsi','editor.mode_overview':'Viimeisimmät tehtävät',
 			'editor.child_label':'Lapsi','editor.child_placeholder':'Lapsen nimi','editor.child_select_prompt':'— Valitse lapsi —','editor.child_hint':'Lapsia ei vielä löytynyt — kirjoita nimi manuaalisesti.'
 		},
-		it: {
-			'overview.title':'Attività recenti','overview.show_all':'Mostra tutto ({pending} in attesa)','overview.none':'Nessuna attività.',
+			it: {
+				'overview.title':'Attività assegnate','overview.show_all':'Mostra tutto ({pending} in attesa)','overview.none':'Nessuna attività.',
 			'card.admin_title':'Chores4Kids – Genitori','input.new_child_name':'Nuovo bambino — nome','btn.add_child':'Aggiungi bambino',
+				'input.new_category_name':'Nuova categoria — nome','btn.add_category':'Aggiungi categoria','section.categories':'Categorie','th.categories':'Categorie','ph.categories':'Categorie','select.categories':'Seleziona categorie',
 			'section.children':'Bambini','th.name':'Nome','th.points':'Punti','th.pending':'In sospeso','th.actions':'Azioni','th.status':'Stato','th.assign':'Assegnato a',
 			'btn.rename':'Rinomina','btn.delete':'Elimina','section.new_task':'Nuova attività','ph.title':'Titolo','ph.points':'Punti','ph.description':'Descrizione (opzionale)',
 			'select.assign_child':'Assegna bambino','ph.icon':'Icona (mdi:...)','icon.choose':'Scegli icona','icon.clear':'Rimuovi icona','icon.none':'Nessuna','icon.search':'Cerca icona',
@@ -263,6 +290,7 @@ const C4K_I18N = {
 			'status.assigned':'Assegnata','status.in_progress':'In corso','status.awaiting_approval':'In attesa di approvazione','status.approved':'Approvata','status.rejected':'Rifiutata','status.unassigned':'Non assegnata',
 			'shop.title':'Negozio','shop.open':'Apri negozio','shop.item':'Articolo','shop.price':'Prezzo','shop.icon':'Icona','shop.image':'Immagine','shop.upload':'Carica immagine','shop.add_item':'Aggiungi articolo','shop.history':'Storico acquisti','shop.child':'Bambino','shop.when':'Data e ora','shop.date':'Data','shop.time':'Ora','shop.active':'Attivo','shop.buy':'Compra',
 			'shop.advanced':'Azioni avanzate','shop.entity':'Entità','shop.operation':'Operazione','shop.add_action':'Aggiungi azione','shop.add_delay':'Aggiungi ritardo','shop.steps':'Passi','shop.seconds':'Secondi','shop.minutes':'Minuti','shop.hours':'Ore','shop.delay':'Ritardo',
+			'sort.configure':'Ordinamento','sort.title':'Scegli ordine','sort.categories_order':'Ordine categorie','sort.none':'Nessuna categoria','sort.save':'Salva','sort.reset':'Reimposta',
 			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Bambino non trovato. Controlla il nome nella configurazione della scheda.','msg.no_tasks':'Nessuna attività al momento.', 'btn.done':'Fatto','btn.start_task':'Avvia attività','btn.complete_task':'Attività completata','lbl.awaiting':'In attesa di approvazione','lbl.points':'punti',
 			// Editor UI
 			'editor.mode':'Modalità','editor.mode_admin':'Genitori','editor.mode_kid':'Bambino','editor.mode_overview':'Attività recenti',
@@ -341,13 +369,16 @@ class Chores4KidsCard extends LitElement {
 			_childName: { state: true },
 			// Admin state
 			_name: { state: true }, _taskTitle: { state: true }, _taskPoints: { state: true }, _taskDesc: { state: true }, _taskIcon: { state: true }, _iconModalOpen: { state: true },
+			_taskCategories: { state: true }, _openCategoriesMenu: { state: true }, _newCategoryName: { state: true },
 			_repeatAssign: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
 			_shopModalOpen: { state: true }, _shopTitle: { state: true }, _shopPrice: { state: true }, _shopImage: { state: true }, _editItem: { state: true }, _advItem: { state: true },
 			// UI for nicer multi-assign dropdown
-			_openAssignMenuFor: { state: true },
+			_openAssignMenuFor: { state: true }, _assignMenuStyle: { state: true },
 			_openRepeatMenu: { state: true },
 			// Child state
-			_shopOpen: { state: true }
+			_shopOpen: { state: true },
+			// Sorting/categories order
+			_sortModalOpen: { state: true }, _catOrder: { state: true }
 		};
 	}
 	static get styles(){ return css`
@@ -356,6 +387,8 @@ class Chores4KidsCard extends LitElement {
 		.row.fields{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; align-items:flex-start; margin-bottom:18px; padding-right:8px; }
 		@media (max-width: 900px){ .row.fields{ grid-template-columns: 1fr; } }
 		.row > * { flex:1 1 220px; min-width:180px; }
+		/* On smaller screens stack row items to avoid horizontal overflow */
+		@media (max-width: 700px){ .row > * { flex:1 1 100%; min-width:0; } }
 		.row button { flex:0 0 auto; min-height:40px; }
 		.section { margin-top:16px; }
 		.list { margin-top:12px; }
@@ -364,6 +397,7 @@ class Chores4KidsCard extends LitElement {
 		.btn-primary { background: var(--primary-color); color: var(--text-primary-color, #fff); border-color: transparent; }
 		.btn-danger { background: var(--error-color, #d32f2f); color:#fff; border-color: transparent; }
 		.btn-ghost { background: transparent; }
+		.icon-btn{ padding:4px 6px; border-radius:8px; min-height:auto; }
 		button:disabled { opacity:.55; cursor:not-allowed; }
 		input, select, textarea { width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); box-sizing:border-box; font: inherit; }
 		input::placeholder, textarea::placeholder{ color: var(--secondary-text-color); opacity:.85; }
@@ -379,7 +413,7 @@ class Chores4KidsCard extends LitElement {
 		.multi-dd .multi-dd-value{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1 1 auto; min-width:0; }
 		.multi-dd .box ha-icon{ flex:0 0 auto; }
 		/* Menu matches trigger width */
-		.multi-dd-menu{ position:absolute; left:0; right:0; width:100%; min-width:0; top: calc(100% + 4px); z-index: 10000; border:1px solid var(--divider-color); border-radius:10px; background: var(--card-background-color); color: var(--primary-text-color); box-shadow: var(--ha-card-box-shadow, 0 6px 16px rgba(0,0,0,.35)); max-height: 260px; overflow-y:auto; overflow-x:hidden; padding:6px; box-sizing:border-box; }
+		.multi-dd-menu{ position:absolute; left:0; right:0; width:100%; min-width:0; top: calc(100% + 4px); z-index: 200000; border:1px solid var(--divider-color); border-radius:10px; background: var(--card-background-color); color: var(--primary-text-color); box-shadow: var(--ha-card-box-shadow, 0 6px 16px rgba(0,0,0,.35)); max-height: 260px; overflow-y:auto; overflow-x:hidden; padding:6px; box-sizing:border-box; }
 		.multi-dd-menu{ text-align:left; }
 		.multi-dd-menu label{ display:grid; grid-template-columns: 20px 1fr; align-items:center; gap:8px; padding:6px 8px; border-radius:8px; justify-content:flex-start !important; width:100%; text-align:left !important; }
 		.multi-dd-menu label input[type="checkbox"]{ margin:0; }
@@ -388,7 +422,8 @@ class Chores4KidsCard extends LitElement {
 		.table-center td > .multi-dd{ margin-left:0 !important; margin-right:auto !important; }
 		@media (min-width:901px){ .table-center td .multi-dd{ margin-left:0 !important; margin-right:auto !important; } }
 		.multi-dd-menu label:hover{ background: color-mix(in srgb, var(--primary-color) 10%, transparent); }
-		.table-wrap { width:100%; overflow:visible; }
+		/* Ensure wide tables can scroll horizontally instead of bleeding out */
+		.table-wrap { width:100%; max-width:100%; overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling: touch; }
 		table{ width:100%; border-collapse: collapse; border-radius:14px; }
 		/* (Reverted: no scoped fixed widths to avoid affecting other tables) */
 		/* (Reverted fixed widths for tables to avoid affecting other sections) */
@@ -403,7 +438,18 @@ class Chores4KidsCard extends LitElement {
 		td{ padding:10px 12px; border-bottom:1px solid var(--divider-color); vertical-align: middle; }
 		tr:hover{ background: color-mix(in srgb, var(--primary-color) 6%, transparent); }
 		tbody tr:last-child td{ border-bottom: none; }
-		@media (max-width:900px){ .table-wrap{ overflow: visible; } table thead{ display:none; } table, tbody, tr, td{ display:block; width:100%; } tbody tr{ border:1px solid var(--divider-color); border-radius:12px; padding:8px 12px; margin-bottom:12px; background: var(--card-background-color); } td{ display:flex; justify-content:space-between; align-items:flex-start; border:0; padding:8px 0; flex-wrap:wrap; gap:8px; word-break: break-word; } td::before{ content: attr(data-label); font-weight:600; color: var(--secondary-text-color); margin-right:12px; flex:0 0 auto; } td:last-child{ padding-bottom:0; } }
+		@media (max-width:900px){
+			.table-wrap{ overflow: visible; }
+			table thead{ display:none; }
+			table, tbody, tr, td{ display:block; width:100%; }
+			tbody tr{ border:1px solid var(--divider-color); border-radius:12px; padding:8px 12px; margin-bottom:12px; background: var(--card-background-color); }
+			/* Stack label and content vertically for mobile */
+			td{ display:flex; flex-direction:column; justify-content:flex-start; align-items:stretch; border:0; padding:8px 0; gap:8px; word-break: break-word; }
+			td::before{ content: attr(data-label); font-weight:600; color: var(--secondary-text-color); margin:0 0 6px 0; }
+			/* Make the last column (usually actions) a responsive grid of buttons */
+			tbody tr td:last-child{ display:grid; gap:6px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); padding-bottom:0; }
+			tbody tr td:last-child button{ width:100%; }
+		}
 		.badge{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
 		.status-assigned { background: color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent); color: var(--warning-color, #ff9800); }
 		.status-in_progress { background: color-mix(in srgb, var(--primary-color) 18%, transparent); color: var(--primary-color); }
@@ -416,6 +462,17 @@ class Chores4KidsCard extends LitElement {
 		.overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.35);z-index:10000}
 		.overlay.open{display:grid}
 		.modal{min-width:260px;max-width:900px;border-radius:10px;border:1px solid var(--divider-color);background:var(--card-background-color);color:var(--primary-text-color);padding:12px; max-height: 90vh; overflow:auto}
+		/* Child shop modal sizing with responsive side padding gutters */
+		.shop-child-modal{ width:100%; max-width:600px; }
+		/* Use clamp so modal always has comfortable gutters without being too smal */
+		.shop-child-overlay{ padding-left: clamp(12px, 6vw, 40px); padding-right: clamp(12px, 6vw, 40px); }
+		/* Apply same responsive gutters for admin shop and ensure modal fits inside */
+		.shop-admin-overlay{ padding-left: clamp(12px, 6vw, 40px); padding-right: clamp(12px, 6vw, 40px); }
+		.shop-admin-overlay .shop-admin-modal{ width: 100% !important; max-width: 860px; }
+		.sort-list{ list-style:none; padding:0; margin:8px 0; display:grid; gap:8px; }
+		.sort-item{ border:1px dashed var(--divider-color); padding:8px 10px; border-radius:8px; display:flex; align-items:center; gap:10px; background: color-mix(in srgb, var(--primary-color) 6%, transparent); }
+		.sort-handle{ cursor: grab; opacity:.8; }
+		.sort-item.dragover{ outline:2px solid var(--primary-color); }
 		/* Admin shop responsive tweaks */
 		.shop-modal h3{ margin: 0 0 8px; }
 		.shop-add-row{ display:flex; align-items:center; gap:12px; }
@@ -440,6 +497,7 @@ class Chores4KidsCard extends LitElement {
 		.header-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
 		.header-points{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; border-radius:999px; background: color-mix(in srgb, var(--primary-color) 18%, transparent); color: var(--primary-color); font-weight:600; }
 		.tasks{ display:grid; gap:12px; }
+		.cat-title{ font-weight:700; color: var(--secondary-text-color); margin: 6px 0 2px; padding-left:2px; }
 		.task{ display:grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items:center; padding: 12px; border: 1px solid var(--divider-color); border-radius: 14px; background: var(--card-background-color); }
 		.task:hover{ background: color-mix(in srgb, var(--primary-color) 6%, transparent); }
 		.task-icon{ display:flex; align-items:center; justify-content:center; width: 48px; }
@@ -452,7 +510,18 @@ class Chores4KidsCard extends LitElement {
 		.actions{ display:flex; gap:8px; }
 		.img-preview{ width:72px; height:72px; border-radius:10px; border:1px solid var(--divider-color); background: color-mix(in srgb, var(--primary-color) 6%, transparent); object-fit:cover; }
 		.file-hidden{ display:none; }
-		.shop-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:12px; width: min(95vw, 860px); }
+		/* Child shop grid – responsive */
+		.shop-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap:12px; width:100%; box-sizing:border-box; }
+		@media (max-width: 900px){
+			.shop-grid{ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+		}
+		@media (max-width: 700px){
+			.shop-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		}
+		@media (max-width: 420px){
+			.shop-grid{ grid-template-columns: 1fr; }
+			.shop-item .body button{ width:100%; }
+		}
 		.shop-item{ border: 1px solid var(--divider-color); border-radius: 12px; overflow:hidden; background: var(--card-background-color); display:flex; flex-direction:column; }
 		.shop-item .img-wrap{ width:100%; aspect-ratio: 1/1; background: color-mix(in srgb, var(--primary-color) 6%, transparent); overflow:hidden; display:block; }
 		.shop-item .img-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -502,6 +571,9 @@ class Chores4KidsCard extends LitElement {
 		this._editingTask = null;
 		this._taskIcon = '';
 		this._iconModalOpen = false;
+		this._taskCategories = new Set();
+		this._openCategoriesMenu = false;
+		this._newCategoryName = '';
 		this._tasksModalOpen = false;
 		this._shopModalOpen = false;
 		this._shopTitle = ''; this._shopPrice = ''; this._shopImage = '';
@@ -516,6 +588,8 @@ class Chores4KidsCard extends LitElement {
 		this._idTasks = null; this._idShop = null; this._idChild = null;
 		try{ this._iconRecents = JSON.parse(localStorage.getItem('c4k_icn_recent')||'[]') || []; }catch{ this._iconRecents = []; }
 		this._iconSearch = '';
+		// sorting
+		try{ this._catOrder = JSON.parse(localStorage.getItem('c4k_cat_order')||'[]') || []; }catch{ this._catOrder = []; }
 	}
 
 	setConfig(config){
@@ -545,6 +619,30 @@ class Chores4KidsCard extends LitElement {
 		}catch{ return { date:String(ts||''), time:'' }; }
 	}
 
+	// ===== CATEGORY SORTING HELPERS =====
+	_catOrderResolved(){
+		const cats = this._store.categories||[];
+		const NONE='__none__';
+		let order = Array.isArray(this._catOrder)? [...this._catOrder]:[];
+		order = order.filter(id=> id===NONE || cats.some(c=> c.id===id));
+		for (const c of cats){ if (!order.includes(c.id)) order.push(c.id); }
+		if (!order.includes(NONE)) order.push(NONE);
+		return order;
+	}
+	_catRankForId(id){ const order=this._catOrderResolved(); const idx=order.indexOf(id); return idx>=0? idx : 9999; }
+	_taskCatRank(t){ const ids=Array.isArray(t?.categories)? t.categories:[]; if(ids.length){ let best=9999; for(const cid of ids){ const r=this._catRankForId(cid); if(r<best) best=r; } return best; } return this._catRankForId('__none__'); }
+	_sortTasks(list, withStatus=false){
+		const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
+		const stWeight=(s)=> s==='awaiting_approval'?0: s==='in_progress'?1: s==='assigned'?2: 3;
+		return [...list].sort((a,b)=>{
+			const ra=this._taskCatRank(a), rb=this._taskCatRank(b);
+			if (ra!==rb) return ra-rb;
+			if (withStatus){ const sw=stWeight(a.status)-stWeight(b.status); if (sw!==0) return sw; return parse(b.created)-parse(a.created); }
+			return String(a.title||'').localeCompare(String(b.title||''));
+		});
+	}
+	_orderedCategoryNames(ids){ const cats=this._store.categories||[]; const catMap=new Map(cats.map(c=>[c.id,c.name])); const clean=(ids||[]).filter(id=> catMap.has(id)); const sorted=[...clean].sort((a,b)=> this._catRankForId(a)-this._catRankForId(b)); return sorted.map(id=> catMap.get(id)); }
+
 	// ===== STORE =====
 	get _store(){
 		const states = this.hass?.states || {};
@@ -555,12 +653,13 @@ class Chores4KidsCard extends LitElement {
 		let allTasksSensor = this._idTasks && states[this._idTasks];
 		if (!allTasksSensor){ allTasksSensor = Object.values(states).find((s)=> s?.entity_id?.includes('chores4kids_tasks') && s.attributes?.tasks); if (allTasksSensor?.entity_id) this._idTasks = allTasksSensor.entity_id; }
 		const allTasks = allTasksSensor?.attributes?.tasks || [];
+		const categories = allTasksSensor?.attributes?.categories || [];
 		// shop
 		let shopSensor = this._idShop && states[this._idShop];
 		if (!shopSensor){ shopSensor = Object.values(states).find((s)=> s?.entity_id?.includes('chores4kids_shop')); if (shopSensor?.entity_id) this._idShop = shopSensor.entity_id; }
 		const items = shopSensor?.attributes?.items || [];
 		const purchases = shopSensor?.attributes?.purchases || [];
-		return { children, allTasks, items, purchases };
+		return { children, allTasks, items, purchases, categories };
 	}
 
 	// ===== RENDER =====
@@ -603,6 +702,29 @@ class Chores4KidsCard extends LitElement {
 						</table></div>
 					</div>
 
+					<!-- Categories management -->
+					<div class="list section">
+						<h3>${this._t('section.categories')} (${(this._store.categories||[]).length})</h3>
+						<div class="row">
+							<input placeholder="${this._t('input.new_category_name')}" .value=${this._newCategoryName||''} @input=${(e)=> this._newCategoryName = e.target.value} />
+							<button class="btn-ghost" @click=${this._addCategory}>${this._t('btn.add_category')}</button>
+						</div>
+						<div class="table-wrap"><table class="table-center">
+							<thead><tr><th>${this._t('th.name')}</th><th>${this._t('th.actions')}</th></tr></thead>
+							<tbody>
+								${(this._store.categories||[]).map(cat=> html`
+									<tr>
+										<td data-label="${this._t('th.name')}">${cat.name}</td>
+										<td data-label="${this._t('th.actions')}">
+											<button class="btn-ghost" @click=${()=> this._promptRenameCategory(cat)}>${this._t('btn.rename')}</button>
+											<button class="btn-danger" @click=${()=> this._deleteCategory(cat)}>${this._t('btn.delete')}</button>
+										</td>
+									</tr>
+								`)}
+							</tbody>
+						</table></div>
+					</div>
+
 					<hr />
 					<h3>${this._t('section.new_task')}</h3>
 					<div class="row fields">
@@ -616,6 +738,24 @@ class Chores4KidsCard extends LitElement {
 						</div>
 					</div>
 					<div class="row"><textarea rows="2" placeholder="${this._t('ph.description')}" .value=${this._taskDesc||''} @input=${e=>this._taskDesc=e.target.value}></textarea></div>
+					<div class="row">
+						<div style="flex:1 1 260px;">
+							<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('ph.categories')}</div>
+							<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); this._openCategoriesMenu = !this._openCategoriesMenu; }}>
+								<div class="box">
+									<span class="multi-dd-value ${this._taskCategories && this._taskCategories.size ? '' : 'placeholder'}">
+										${(()=>{ const ids=this._taskCategories||new Set(); const names=(this._store.categories||[]).filter(c=> ids.has(c.id)).map(c=>c.name); return names.length? (names.slice(0,2).join(', ')+(names.length>2?` +${names.length-2}`:'')) : this._t('select.categories'); })()}
+									</span>
+									<ha-icon icon="mdi:chevron-down"></ha-icon>
+								</div>
+								${this._openCategoriesMenu ? html`
+									<div class="multi-dd-menu" @click=${e=> e.stopPropagation()}>
+										${(this._store.categories||[]).map(c=> html`<label><input type="checkbox" .checked=${this._taskCategories?.has?.(c.id)} @change=${(e)=>{ const s=this._taskCategories instanceof Set? this._taskCategories : new Set(this._taskCategories||[]); if(e.target.checked){ s.add(c.id);}else{ s.delete(c.id);} this._taskCategories=s; this.requestUpdate(); }} /><span>${c.name}</span></label>`) }
+									</div>
+								` : ''}
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div style="flex:2 1 300px;">
 							<label style="display:inline-flex; align-items:center; gap:8px; margin:0 0 6px; font-size:.95rem;">
@@ -657,24 +797,30 @@ class Chores4KidsCard extends LitElement {
 					</div>
 
 					<hr />
-					<h3>${this._t('section.tasks')}</h3>
+					<h3 style="display:flex;align-items:center;gap:8px;">
+						<span>${this._t('section.tasks')}</span>
+						<button class="btn-ghost icon-btn" title="${this._t('sort.configure')}" @click=${()=> this._sortModalOpen = true}><ha-icon icon="mdi:sort-variant"></ha-icon></button>
+					</h3>
 					<div class="table-wrap"><table class="table-center">
-						<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
-						<tbody @click=${()=>{ this._openAssignMenuFor = null; }}>
-										${this._store.allTasks.filter(t=>!t.assigned_to).map(t=> html`
+						<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+						<tbody @click=${()=>{ this._openAssignMenuFor = null; this._assignMenuStyle=''; }}>
+										${this._sortTasks(this._store.allTasks.filter(t=>!t.assigned_to), false).map(t=> html`
 								<tr data-task="${t.id}">
 									<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
 									<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+									<td data-label="${this._t('th.categories')}">
+										${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class="chip">${n}</span>`): html`—`; })()}
+									</td>
 												<td data-label="${this._t('th.assign')}">
 													${this._autoAssignActive(t) ? (()=>{
 														const ids = (Array.isArray(t.repeat_child_ids)&&t.repeat_child_ids.length)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]);
 														const names = this._store.children.filter(c=> ids.includes(c.id)).map(c=> c.name);
 														return html`<span>${this._t('assign.auto_to',{names: (names.length? names.join(', ') : '—')})}</span>`;
 													})() : html`
-													<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); this._openAssignMenuFor = (this._openAssignMenuFor===t.id? null : t.id); }}>
+													<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); const open = this._openAssignMenuFor===t.id? null : t.id; this._openAssignMenuFor = open; if (open){ try{ const box=e.currentTarget.querySelector('.box'); const r=box.getBoundingClientRect(); this._assignMenuStyle=`position:fixed;left:${Math.round(r.left)}px;top:${Math.round(r.bottom+4)}px;width:${Math.round(r.width)}px;z-index:200000`; }catch{ this._assignMenuStyle=''; } } else { this._assignMenuStyle=''; } }}>
 														<div class="box"><span class="multi-dd-value placeholder">${this._t('select.assign_child')}</span><ha-icon icon="mdi:chevron-down"></ha-icon></div>
 														${this._openAssignMenuFor===t.id ? html`
-															<div class="multi-dd-menu" @click=${e=> e.stopPropagation()}>
+															<div class="multi-dd-menu" style="${this._assignMenuStyle||''}" @click=${e=> e.stopPropagation()}>
 																${this._store.children.map(c=> html`<label><input class="c4k-assign" type="checkbox" value=${c.id} @change=${(e)=> this._updateAssignSummary(t.id, t)} /><span>${c.name}</span></label>`)}
 															</div>
 														`: ''}
@@ -696,15 +842,19 @@ class Chores4KidsCard extends LitElement {
 					</table></div>
 
 					<hr />
-					<h3>${this._t('overview.title')}</h3>
+					<h3 style="display:flex;align-items:center;gap:8px;">
+						<span>${this._t('overview.title')}</span>
+						<button class="btn-ghost icon-btn" title="${this._t('sort.configure')}" @click=${()=> this._sortModalOpen = true}><ha-icon icon="mdi:sort-variant"></ha-icon></button>
+					</h3>
 					${(()=>{
 						const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to); if(!all.length) return html`<i>${this._t('overview.none')}</i>`;
 						const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
-						const sorted=[...all].sort((a,b)=> (b.status==='awaiting_approval') - (a.status==='awaiting_approval') || parse(b.created)-parse(a.created));
+						const sorted=this._sortTasks(all, true);
 						const top=sorted.slice(0,3); const pending=all.filter(t=>t.status==='awaiting_approval').length;
 						const row=(t)=> html`<tr>
 							<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
 							<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+							<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
 							<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span></td>
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
@@ -723,7 +873,7 @@ class Chores4KidsCard extends LitElement {
 						</tr>`;
 						return html`
 							<div class="table-wrap"><table class="table-center">
-								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 								<tbody>${top.map(row)}</tbody>
 							</table></div>
 							<div class="row" style="justify-content:flex-end;">${all.length>3? html`<button class="btn-primary" @click=${()=>this._tasksModalOpen=true}>${this._t('overview.show_all',{pending})}</button>`:''}</div>
@@ -745,6 +895,7 @@ class Chores4KidsCard extends LitElement {
 				${this._renderAllTasksModal()}
 				${this._renderShopModal()}
 				${this._renderAdvancedModal()}
+				${this._renderSortModal()}
 			</ha-card>
 			${this._renderIconModal()}
 		`;
@@ -758,11 +909,12 @@ class Chores4KidsCard extends LitElement {
 				<div class="card-content">
 					${all.length===0 ? html`<i>${this._t('overview.none')}</i>` : (()=>{
 						const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
-						const sorted=[...all].sort((a,b)=> (b.status==='awaiting_approval') - (a.status==='awaiting_approval') || parse(b.created)-parse(a.created));
+						const sorted=this._sortTasks(all, true);
 						const top=sorted.slice(0,3); const pending=all.filter(t=>t.status==='awaiting_approval').length;
 						const row=(t)=> html`<tr>
 							<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
 							<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+							<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=(this._store.categories||[]).filter(c=> ids.includes(c.id)).map(c=> c.name); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
 							<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span></td>
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
@@ -781,7 +933,7 @@ class Chores4KidsCard extends LitElement {
 						</tr>`;
 						return html`
 							<div class="table-wrap"><table class="table-center">
-								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 								<tbody>${top.map(row)}</tbody>
 							</table></div>
 							<div class="row" style="justify-content:flex-end;">${all.length>3? html`<button class="btn-primary" @click=${()=>this._tasksModalOpen=true}>${this._t('overview.show_all',{pending})}</button>`:''}</div>
@@ -813,16 +965,17 @@ class Chores4KidsCard extends LitElement {
 		return html`<div class="overlay ${this._tasksModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._tasksModalOpen=false; }}>
 			${this._tasksModalOpen ? html`<div class="modal" style="max-width: 820px; width: min(95vw, 820px);" @click=${e=>e.stopPropagation()}>
 				<h3>${this._t('overview.title')}</h3>
-				<div style="max-height:60vh; overflow:auto;">
+				<div style="max-height:60vh; overflow:visible;">
 					<div class="table-wrap"><table class="table-center">
-						<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+						<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 						<tbody>${(()=>{
 							const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to);
 							const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
-							const sorted=[...all].sort((a,b)=> (b.status==='awaiting_approval') - (a.status==='awaiting_approval') || parse(b.created)-parse(a.created));
+							const sorted=this._sortTasks(all, true);
 							return sorted.map((t)=> html`<tr>
 								<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
 								<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+								<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
 								<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span></td>
 								<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 								<td data-label="${this._t('th.actions')}">
@@ -846,8 +999,8 @@ class Chores4KidsCard extends LitElement {
 		</div>`;
 	}
 	_renderShopModal(){
-		return html`<div class="overlay ${this._shopModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._shopModalOpen=false; }}>
-			<div class="modal shop-modal" style="max-width: 860px; width: min(95vw, 860px);" @click=${e=>e.stopPropagation()}>
+		return html`<div class="overlay shop-admin-overlay ${this._shopModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._shopModalOpen=false; }}>
+			<div class="modal shop-modal shop-admin-modal" @click=${e=>e.stopPropagation()}>
                 <h3>${this._t('shop.title')}</h3>
 				<div class="row fields">
 					<div class="form-field title"><input placeholder="${this._t('shop.item')}" .value=${this._shopTitle||''} @input=${e=>this._shopTitle=e.target.value} /></div>
@@ -983,6 +1136,52 @@ class Chores4KidsCard extends LitElement {
 		</div>`;
 	}
 
+	_renderSortModal(){
+		const cats = (this._store.categories||[]);
+		// Working order = saved order filtered to existing + new appended; include optional NONE marker at end if present in saved
+		const NONE = '__none__';
+		let order = Array.isArray(this._catOrder)? [...this._catOrder]:[];
+		// ensure only existing ids + NONE
+		order = order.filter(id => id===NONE || cats.some(c=> c.id===id));
+		// append any missing categories
+		for (const c of cats){ if (!order.includes(c.id)) order.push(c.id); }
+		// also ensure NONE is present at end if previously chosen
+		if (!order.includes(NONE)) order.push(NONE);
+		const labelFor = (id)=> id===NONE ? this._t('sort.none') : (cats.find(c=>c.id===id)?.name || id);
+		const onDragStart = (e, idx)=>{ e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', String(idx)); };
+		const onDragOver = (e)=>{ e.preventDefault(); e.currentTarget.classList.add('dragover'); };
+		const onDragLeave = (e)=>{ e.currentTarget.classList.remove('dragover'); };
+		const onDrop = (e, toIdx)=>{
+			e.preventDefault(); e.currentTarget.classList.remove('dragover');
+			const fromIdx = Number(e.dataTransfer.getData('text/plain'));
+			if (!Number.isFinite(fromIdx)) return;
+			const arr = [...order];
+			const [it] = arr.splice(fromIdx,1);
+			arr.splice(toIdx,0,it);
+			this._catOrder = arr; this.requestUpdate();
+		};
+		const save = ()=>{ try{ localStorage.setItem('c4k_cat_order', JSON.stringify(order)); }catch{} this._catOrder = order; this._sortModalOpen=false; this.requestUpdate(); };
+		const reset = ()=>{ order = cats.map(c=> c.id); order.push(NONE); this._catOrder = order; this.requestUpdate(); };
+		return html`<div class="overlay ${this._sortModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._sortModalOpen=false; }}>
+			${this._sortModalOpen ? html`<div class="modal" style="max-width: 560px; width: min(95vw, 560px);" @click=${e=>e.stopPropagation()}>
+				<h3>${this._t('sort.title')}</h3>
+				<div style="font-size:.9rem; color: var(--secondary-text-color);">${this._t('sort.categories_order')}</div>
+				<ul class="sort-list">
+					${order.map((id, idx)=> html`
+						<li class="sort-item" draggable="true" @dragstart=${e=> onDragStart(e, idx)} @dragover=${onDragOver} @dragleave=${onDragLeave} @drop=${e=> onDrop(e, idx)}>
+							<span class="sort-handle">⋮⋮</span>
+							<span style="flex:1;">${labelFor(id)}</span>
+						</li>
+					`)}
+				</ul>
+				<div class="row" style="justify-content:flex-end; gap:8px;">
+					<button class="btn-ghost" @click=${reset}>${this._t('sort.reset')}</button>
+					<button class="btn-primary" @click=${save}>${this._t('sort.save')}</button>
+				</div>
+			</div>`: ''}
+		</div>`;
+	}
+
 	// ------- CHILD VIEW -------
 	_findChildSensor(){
 		const childName = this._childName || this.config.child;
@@ -1018,24 +1217,46 @@ class Chores4KidsCard extends LitElement {
 						<button class="btn-primary" @click=${()=>{ this._shopOpen = true; this.requestUpdate(); }}>${this._t('shop.title')}</button>
 					</div>
 					<div class="tasks">
-						${tasks.length===0 ? html`<i>${this._t('msg.no_tasks')}</i>`: tasks.map(t=> html`
-							<div class="task">
-								<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
-								<div>
-									<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
-									<div class="meta"><span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span></div>
+						${(()=>{
+							if (tasks.length===0) return html`<i>${this._t('msg.no_tasks')}</i>`;
+							const NONE='__none__';
+							const order = this._catOrderResolved();
+							const cats = this._store.categories||[];
+							const nameFor=(id)=> id===NONE? this._t('sort.none') : (cats.find(c=> c.id===id)?.name || id);
+							// group tasks by primary category (based on order)
+							const groups = new Map();
+							for (const t of tasks){
+								const ids = Array.isArray(t.categories)? t.categories:[];
+								let pid = NONE;
+								for (const cid of order){ if (cid!==NONE && ids.includes(cid)){ pid=cid; break; } }
+								if (!groups.has(pid)) groups.set(pid, []);
+								groups.get(pid).push(t);
+							}
+							const catIdsToShow = order.filter(id=> groups.has(id));
+							return catIdsToShow.map(cid=> html`
+								<div class="cat-section">
+									<div class="cat-title">${nameFor(cid)}</div>
+									${groups.get(cid).map(t=> html`
+										<div class="task">
+											<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
+											<div>
+												<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
+												<div class="meta"><span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span></div>
+											</div>
+											<div class="actions">
+												${t.status==="assigned" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`
+													: t.status==="in_progress" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
+													: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
+													: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
+											</div>
+										</div>
+									`)}
 								</div>
-								<div class="actions">
-									${t.status==="assigned" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`
-										: t.status==="in_progress" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
-										: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
-										: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
-								</div>
-							</div>
-						`)}
+							`);
+						})()}
 					</div>
-					<div class="overlay ${this._shopOpen?'open':''}" @click=${e=>{ if(e.target.classList.contains('overlay')) this._shopOpen=false; }}>
-						<div class="modal" @click=${e=>e.stopPropagation()}>
+					<div class="overlay shop-child-overlay ${this._shopOpen?'open':''}" @click=${e=>{ if(e.target.classList.contains('overlay')) this._shopOpen=false; }}>
+						<div class="modal shop-child-modal" @click=${e=>e.stopPropagation()}>
 							<h3 style="margin:0 0 8px;">${this._t('shop.title')}</h3>
 							<div class="shop-grid">
 								${items.map(i=> html`
@@ -1076,6 +1297,7 @@ class Chores4KidsCard extends LitElement {
 		if(this._hasFormErrors) return;
 		const _days = Array.from(this._repeatDays||[]);
 		const _ids = Array.from(this._repeatAssign||[]);
+		const _cats = Array.from(this._taskCategories||[]);
 		const _persist = !!this._persistUntilDone;
 		if ((_ids||[]).length <= 1){
 			await this.hass.callService('chores4kids','add_task',{
@@ -1085,7 +1307,8 @@ class Chores4KidsCard extends LitElement {
 				icon:this._taskIcon||undefined,
 				repeat_days:_days,
 				repeat_child_id: (_ids[0]||'') || undefined,
-				persist_until_completed: _persist
+				persist_until_completed: _persist,
+				categories: _cats
 			});
 		}else{
 			for (const cid of _ids){
@@ -1096,7 +1319,8 @@ class Chores4KidsCard extends LitElement {
 					icon:this._taskIcon||undefined,
 					repeat_days:_days,
 					repeat_child_id: cid,
-					persist_until_completed: _persist
+					persist_until_completed: _persist,
+					categories: _cats
 				});
 			}
 		}
@@ -1104,6 +1328,7 @@ class Chores4KidsCard extends LitElement {
 		this._taskTitle=this._taskPoints=this._taskDesc=this._taskIcon='';
 		this._repeatDays=new Set();
 		this._repeatAssign=new Set();
+		this._taskCategories=new Set();
 		this._persistUntilDone=false;
 		this._touchedTitle=false; this._touchedPoints=false;
 	}
@@ -1117,6 +1342,8 @@ class Chores4KidsCard extends LitElement {
 			try{ await this.hass.callService('chores4kids','assign_task',{ task_id: task.id, child_id: id }); }
 			catch(e){ /* continue to next */ }
 		}
+		// Best-effort: ensure new assigned copies inherit categories from template
+		try{ this._ensureAssignedHasCategories(task, ids); }catch{}
 		// clear selections
 		try{
 			const row = this.shadowRoot.querySelector(`tr[data-task="${task.id}"]`);
@@ -1126,6 +1353,35 @@ class Chores4KidsCard extends LitElement {
 		this._openAssignMenuFor = null;
 		this.requestUpdate();
 	}
+
+	_ensureAssignedHasCategories(templateTask, childIds){
+		const cats = Array.isArray(templateTask?.categories)? templateTask.categories : [];
+		if (!cats.length) return;
+		// defer to allow state to update
+		setTimeout(()=>{
+			try{
+				const all = (this._store.allTasks||[]).filter(t=> !!t.assigned_to && t.title===templateTask.title && Number(t.points)===Number(templateTask.points));
+				const now = Date.now();
+				for (const cid of childIds){
+					const candidates = all.filter(t=> t.assigned_to===cid);
+					// pick latest created
+					let chosen = null; let best = -Infinity;
+					for (const t of candidates){
+						let ts = 0; try{ ts = new Date(t.created).getTime(); }catch{}
+						if (ts>best) { best=ts; chosen=t; }
+					}
+					if (chosen && (!Array.isArray(chosen.categories) || chosen.categories.length===0)){
+						this.hass.callService('chores4kids','update_task',{ task_id: chosen.id, categories: cats });
+					}
+				}
+			}catch{}
+		}, 500);
+	}
+
+	// Category management
+	async _addCategory(){ const n=String(this._newCategoryName||'').trim(); if(!n) return; await this.hass.callService('chores4kids','add_category',{ name:n }); this._newCategoryName=''; }
+	async _promptRenameCategory(cat){ const nn=prompt(this._t('btn.rename'), cat.name); if(!nn || nn===cat.name) return; await this.hass.callService('chores4kids','rename_category',{ category_id: cat.id, new_name: nn }); }
+	async _deleteCategory(cat){ if(!confirm(this._t('btn.delete')+'?')) return; await this.hass.callService('chores4kids','delete_category',{ category_id: cat.id }); }
 
 	_updateAssignSummary(taskId, taskRef){
 		try{
@@ -1144,7 +1400,7 @@ class Chores4KidsCard extends LitElement {
 			}
 		}catch{}
 	}
-	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._persistUntilDone = !!t.persist_until_completed; }
+	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._persistUntilDone = !!t.persist_until_completed; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
 	async _saveEditedTask(){
 		if(!this._editingTask) return;
 		// validate like create
@@ -1157,7 +1413,8 @@ class Chores4KidsCard extends LitElement {
 				points: Number(this._taskPoints),
 				description: this._taskDesc||'',
 				icon: this._taskIcon||'',
-				persist_until_completed: !!this._persistUntilDone
+				persist_until_completed: !!this._persistUntilDone,
+				categories: Array.from(this._taskCategories||[])
 			});
 			// Try to set multi-children (backend may ignore list if unsupported). Fallback: set first only.
 			const _ids = Array.from(this._repeatAssign||[]);
@@ -1171,6 +1428,7 @@ class Chores4KidsCard extends LitElement {
 			this._editingTask=null;
 			this._taskTitle=this._taskPoints=this._taskDesc=this._taskIcon='';
 			this._repeatDays=new Set(); this._repeatAssign=new Set();
+			this._taskCategories=new Set();
 			this._touchedTitle=false; this._touchedPoints=false;
 		}
 	}
