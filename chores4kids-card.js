@@ -18,7 +18,12 @@ const C4K_I18N = {
 		'th.categories':'Categories', 'th.completed':'Completed',
 		'btn.rename': 'Rename', 'btn.delete': 'Delete',
 		'section.new_task': 'Create Task',
-		'ph.title': 'Title', 'ph.points': 'Points', 'ph.description': 'Description (optional)',
+			'ph.title': 'Title', 'ph.points': 'Points', 'ph.description': 'Description (optional)',
+			'ph.due': 'Deadline (date)',
+			'ph.early_bonus_days': 'Early bonus days',
+			'ph.early_bonus_points': 'Early bonus points',
+			'ui.early_bonus_enabled': 'Enable early completion bonus',
+			'warn.repeat_overrides_due': 'Repeat is enabled, so the deadline is based on the selected weekdays instead of this date.',
 			'ph.categories': 'Categories',
 		'select.assign_child': 'Assign child',
 			'select.categories': 'Select categories',
@@ -32,12 +37,14 @@ const C4K_I18N = {
 		'confirm.delete_child': 'Delete {name}?', 'confirm.delete_task': 'Delete task?',
 		'alert.choose_child_first': 'Choose a child first',
 		'ui.auto_recycle': 'Auto recycle approved tasks',
-		'ui.persist_until_done': 'Keep task until approved',
-		'ui.persist_help': 'Task will automatically move to next day if not approved',
+		'ui.quick_complete': 'One-tap completion',
+		'ui.skip_approval': 'Skip parent approval',
+		'ui.persist_until_done': 'Carry unfinished task to next day',
+		'ui.persist_help': 'Unfinished task will automatically move to next day',
 		'ui.toggle_off_on': 'Off/On',
 		'section.tasks': 'Tasks',
 		'form.save': 'Save', 'form.add':'Add', 'form.cancel':'Cancel',
-		'repeat.label': 'Repeat', 'repeat.auto_assign': 'Auto-assign (repeat)', 'repeat.save': 'Save plan',
+		'repeat.label': 'Repeat', 'repeat.enable': 'Repeat task', 'repeat.auto_assign': 'Auto-assign (repeat)', 'repeat.save': 'Save plan',
 		'repeat.days.mon':'Mon','repeat.days.tue':'Tue','repeat.days.wed':'Wed','repeat.days.thu':'Thu','repeat.days.fri':'Fri','repeat.days.sat':'Sat','repeat.days.sun':'Sun',
 		'assign.disabled_auto': 'Disabled: auto-assign (repeat) is active',
 		'assign.auto_to': 'Auto-assigned to {names}',
@@ -53,9 +60,13 @@ const C4K_I18N = {
 		'card.child_title_fallback': 'Chores4Kids – {name}',
 		'msg.child_not_found': 'Child not found. Check the name in card configuration.',
 		'msg.no_tasks': 'No tasks right now.',
-			'btn.done': 'Done', 'btn.start_task': 'Start task', 'btn.complete_task': 'Complete task',
+			'btn.done': 'Done', 'btn.start_task': 'Start task', 'btn.complete_task': 'Complete task', 'btn.task_done': 'Task done',
 			'lbl.awaiting':'Awaiting approval',
 			'lbl.points': 'points',
+			'section.daily_tasks': 'Today',
+			'section.weekly_tasks': 'Weekly tasks',
+			'lbl.deadline': 'Deadline: {date}',
+			'lbl.early_bonus_by': '+{points} bonus points if done on {date} or before',
 			// Editor UI
 			'editor.mode':'Mode', 'editor.mode_admin':'Parents', 'editor.mode_kid':'Kid', 'editor.mode_overview':'Recent tasks',
 			'editor.child_label':'Child', 'editor.child_placeholder':'Child name', 'editor.child_select_prompt':'— Select child —', 'editor.child_hint':'No children found yet — type the name manually.'
@@ -75,7 +86,12 @@ const C4K_I18N = {
 			'th.categories':'Kategorier', 'th.completed':'Fuldført',
 		'btn.rename': 'Omdøb', 'btn.delete': 'Slet',
 		'section.new_task': 'Ny opgave',
-		'ph.title': 'Titel', 'ph.points': 'Point', 'ph.description': 'Beskrivelse (valgfri)',
+			'ph.title': 'Titel', 'ph.points': 'Point', 'ph.description': 'Beskrivelse (valgfri)',
+			'ph.due': 'Deadline (dato)',
+			'ph.early_bonus_days': 'Bonus dage før',
+			'ph.early_bonus_points': 'Bonus point',
+			'ui.early_bonus_enabled': 'Aktivér førtidig bonus',
+			'warn.repeat_overrides_due': 'Gentagelse er slået til, så deadline beregnes ud fra de valgte ugedage i stedet for denne dato.',
 			'ph.categories': 'Kategorier',
 		'select.assign_child': 'Tildel barn',
 			'select.categories': 'Vælg kategorier',
@@ -89,12 +105,14 @@ const C4K_I18N = {
 		'confirm.delete_child': 'Slet {name}?', 'confirm.delete_task': 'Slet opgave?',
 		'alert.choose_child_first': 'Vælg et barn først',
 		'ui.auto_recycle': 'Genopret automatisk efter godkendelse',
-		'ui.persist_until_done': 'Behold opgave til godkendt',
-		'ui.persist_help': 'Opgaven flyttes automatisk til næste dag hvis den ikke godkendes',
+		'ui.quick_complete': 'Ét-tryk færdig',
+		'ui.skip_approval': 'Spring forældre godkendelse over',
+		'ui.persist_until_done': 'Flyt ufærdig opgave til næste dag',
+		'ui.persist_help': 'Ufærdig opgave flyttes automatisk til næste dag',
 		'ui.toggle_off_on': 'Fra/Til',
 		'section.tasks': 'Opgaver',
 		'form.save': 'Gem', 'form.add':'Tilføj', 'form.cancel':'Annullér',
-		'repeat.label': 'Gentagelse', 'repeat.auto_assign': 'Auto-tildel (gentagelse)', 'repeat.save': 'Gem plan',
+		'repeat.label': 'Gentagelse', 'repeat.enable': 'Gentag opgave', 'repeat.auto_assign': 'Auto-tildel (gentagelse)', 'repeat.save': 'Gem plan',
 		'repeat.days.mon':'Man','repeat.days.tue':'Tir','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lør','repeat.days.sun':'Søn',
 		'assign.disabled_auto': 'Deaktiveret: auto-tildeling (gentagelse) er aktiv',
 		'assign.auto_to': 'Auto-tildelt til {names}',
@@ -104,9 +122,13 @@ const C4K_I18N = {
 		'err.title_required':'Titel er påkrævet','err.points_required':'Point skal udfyldes','err.points_number':'Point skal være et tal','err.points_positive':'Point skal være 0 eller mere',
 		'status.assigned':'Tildelt','status.in_progress':'I gang','status.awaiting_approval':'Afventer godkendelse','status.approved':'Godkendt','status.rejected':'Afvist','status.unassigned':'Ikke tildelt',
 		'status.overdue':'Forfalden','overdue.reassign_prompt':'Denne opgave er også planlagt i dag. Tildel den igen?','overdue.yes':'Ja, tildel igen','overdue.no':'Nej tak',
-		'debug.mark_overdue':'[TEST] Markér forfalden',
+		'debug.mark_overdue':'Markér forfalden',
 		'shop.title':'Pointshop','shop.open':'Åbn shop','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Billede','shop.upload':'Upload billede','shop.add_item':'Tilføj vare','shop.history':'Købshistorik','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.advanced':'Avancerede handlinger','shop.entity':'Enhed','shop.operation':'Handling','shop.add_action':'Tilføj handling','shop.add_delay':'Tilføj delay','shop.steps':'Trin','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse','shop.active':'Aktiv','shop.buy':'Køb','shop.clear_history':'Ryd historik','confirm.clear_history':'Ryd hele købshistorikken?',
-			'card.child_title_fallback': 'Chores4Kids – {name}', 'msg.child_not_found': 'Barn ikke fundet. Tjek navn i kort-konfigurationen.', 'msg.no_tasks':'Ingen opgaver lige nu.', 'btn.done':'Fuldført', 'btn.start_task':'Start opgave', 'btn.complete_task':'Opgave klaret', 'lbl.awaiting':'Afventer godkendelse', 'lbl.points': 'point'
+			'card.child_title_fallback': 'Chores4Kids – {name}', 'msg.child_not_found': 'Barn ikke fundet. Tjek navn i kort-konfigurationen.', 'msg.no_tasks':'Ingen opgaver lige nu.', 'btn.done':'Fuldført', 'btn.start_task':'Start opgave', 'btn.complete_task':'Opgave klaret', 'btn.task_done':'Opgave færdig', 'lbl.awaiting':'Afventer godkendelse', 'lbl.points': 'point',
+			'section.daily_tasks': 'Dagens opgaver',
+			'section.weekly_tasks': 'Ugens opgaver',
+			'lbl.deadline': 'Deadline: {date}',
+			'lbl.early_bonus_by': '+{points} bonus point hvis klaret {date} eller før'
 			,
 			// Editor UI
 			'editor.mode':'Tilstand','editor.mode_admin':'Forældre','editor.mode_kid':'Barn','editor.mode_overview':'Seneste opgaver',
@@ -118,12 +140,17 @@ const C4K_I18N = {
 			'input.new_category_name':'Ny kategori — namn','btn.add_category':'Lägg till kategori','section.categories':'Kategorier','th.categories':'Kategorier','ph.categories':'Kategorier','select.categories':'Välj kategorier',
 			'section.children': 'Barn', 'th.name':'Namn','th.points':'Poäng','th.pending':'Väntar','th.actions':'Åtgärder','th.status':'Status','th.assign':'Tilldelad till','th.completed':'Slutförd',
 			'btn.rename':'Byt namn','btn.delete':'Ta bort', 'section.new_task':'Ny uppgift', 'ph.title':'Titel','ph.points':'Poäng','ph.description':'Beskrivning (valfritt)',
+			'ph.due':'Deadline (datum)',
+			'ph.early_bonus_days':'Bonusdagar i förväg',
+			'ph.early_bonus_points':'Bonuspoäng',
+			'ui.early_bonus_enabled':'Aktivera tidig bonus',
+			'warn.repeat_overrides_due':'Upprepa är aktiverat, så deadlinen baseras på valda veckodagar istället för detta datum.',
 			'select.assign_child':'Tilldela barn', 'ph.icon':'Ikon (mdi:...)', 'icon.choose':'Välj ikon','icon.clear':'Rensa ikon','icon.none':'Ingen','icon.search':'Sök ikon',
 			'btn.create_task':'Skapa uppgift','btn.update_task':'Uppdatera uppgift','btn.edit':'Redigera','editor.loaded_task':'Redigerar befintlig uppgift',
 			'section.unassigned':'Otilldelade uppgifter','btn.assign':'Tilldela','section.tasks_per_child':'Uppgifter per barn',
 			'btn.start':'Starta','btn.back':'Tilldela igen','btn.awaiting':'Väntar','btn.approve':'Godkänn','lbl.approved':'Godkänd',
 			'section.scoreboard':'Poängtavla', 'confirm.delete_child':'Ta bort {name}?','confirm.delete_task':'Ta bort uppgift?', 'alert.choose_child_first':'Välj ett barn först',
-			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Behåll uppgift tills godkänd', 'ui.persist_help':'Uppgiften flyttas automatiskt till nästa dag om den inte godkänns',
+			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Flytta ofärdig uppgift till nästa dag', 'ui.persist_help':'Ofärdig uppgift flyttas automatiskt till nästa dag', 'ui.quick_complete':'Klar med ett tryck', 'ui.skip_approval':'Hoppa över föräldragodkännande',
 			'section.tasks':'Uppgifter', 'form.save':'Spara','form.add':'Lägg till','form.cancel':'Avbryt',
 			'repeat.label':'Upprepa','repeat.auto_assign':'Auto-tilldela (upprepa)','repeat.save':'Spara plan',
 			'repeat.days.mon':'Mån','repeat.days.tue':'Tis','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lör','repeat.days.sun':'Sön',
@@ -134,7 +161,11 @@ const C4K_I18N = {
 			'shop.title':'Shop','shop.open':'Öppna shop','shop.item':'Vara','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bild','shop.upload':'Ladda upp bild','shop.add_item':'Lägg till vara','shop.history':'Köphistorik','shop.child':'Barn','shop.when':'Tidpunkt','shop.date':'Datum','shop.time':'Tid','shop.active':'Aktiv','shop.buy':'Köp','shop.clear_history':'Rensa historik','confirm.clear_history':'Rensa all köphistorik?',
 			'shop.advanced':'Avancerade åtgärder','shop.entity':'Enhet','shop.operation':'Åtgärd','shop.add_action':'Lägg till åtgärd','shop.add_delay':'Lägg till fördröjning','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minuter','shop.hours':'Timmar','shop.delay':'Fördröjning',
 			'sort.configure':'Sortering','sort.title':'Välj ordning','sort.categories_order':'Ordning för kategorier','sort.none':'Ingen kategori','sort.save':'Spara','sort.reset':'Återställ',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn hittades inte. Kontrollera namnet i kortets konfiguration.','msg.no_tasks':'Inga uppgifter just nu.', 'btn.done':'Klar','btn.start_task':'Starta uppgift','btn.complete_task':'Uppgift klar','lbl.awaiting':'Väntar på godkännande','lbl.points':'poäng',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn hittades inte. Kontrollera namnet i kortets konfiguration.','msg.no_tasks':'Inga uppgifter just nu.', 'btn.done':'Klar','btn.start_task':'Starta uppgift','btn.complete_task':'Uppgift klar','btn.task_done':'Uppgift klar','lbl.awaiting':'Väntar på godkännande','lbl.points':'poäng',
+			'section.daily_tasks':'Idag',
+			'section.weekly_tasks':'Veckouppgifter',
+			'lbl.deadline':'Deadline: {date}',
+			'lbl.early_bonus_by':'+{points} bonuspoäng om klart {date} eller tidigare',
 			// Editor UI
 			'editor.mode':'Läge','editor.mode_admin':'Förälder','editor.mode_kid':'Barn','editor.mode_overview':'Senaste uppgifter',
 			'editor.child_label':'Barn','editor.child_placeholder':'Barnets namn','editor.child_select_prompt':'— Välj barn —','editor.child_hint':'Inga barn hittades ännu – skriv namnet manuellt.'
@@ -145,12 +176,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Ny kategori — navn','btn.add_category':'Legg til kategori','section.categories':'Kategorier','th.categories':'Kategorier','ph.categories':'Kategorier','select.categories':'Velg kategorier',
 			'section.children':'Barn','th.name':'Navn','th.points':'Poeng','th.pending':'Ventende','th.actions':'Handlinger','th.status':'Status','th.assign':'Tildelt til','th.completed':'Fullført',
 			'btn.rename':'Gi nytt navn','btn.delete':'Slett','section.new_task':'Ny oppgave','ph.title':'Tittel','ph.points':'Poeng','ph.description':'Beskrivelse (valgfritt)',
+			'ph.due':'Frist (dato)',
+			'ph.early_bonus_days':'Bonusdager før',
+			'ph.early_bonus_points':'Bonuspoeng',
+			'ui.early_bonus_enabled':'Aktiver tidlig bonus',
+			'warn.repeat_overrides_due':'Gjentakelse er aktiv, så fristen beregnes ut fra de valgte ukedagene i stedet for denne datoen.',
 			'select.assign_child':'Tildel barn', 'ph.icon':'Ikon (mdi:...)','icon.choose':'Velg ikon','icon.clear':'Fjern ikon','icon.none':'Ingen','icon.search':'Søk ikon',
 			'btn.create_task':'Opprett oppgave','btn.update_task':'Oppdater oppgave','btn.edit':'Rediger','editor.loaded_task':'Redigerer eksisterende oppgave',
 			'section.unassigned':'Ikke tildelte oppgaver','btn.assign':'Tildel','section.tasks_per_child':'Oppgaver per barn',
 			'btn.start':'Start','btn.back':'Tildel på nytt','btn.awaiting':'Avventer','btn.approve':'Godkjenn','lbl.approved':'Godkjent',
 			'section.scoreboard':'Poengtavle','confirm.delete_child':'Slette {name}?','confirm.delete_task':'Slette oppgave?','alert.choose_child_first':'Velg et barn først',
-			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Behold oppgave til godkjent', 'ui.persist_help':'Oppgaven flyttes automatisk til neste dag om den ikke godkjennes',
+			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Flytt uferdig oppgave til neste dag', 'ui.persist_help':'Uferdig oppgave flyttes automatisk til neste dag', 'ui.quick_complete':'Ferdig med ett trykk', 'ui.skip_approval':'Hopp over foreldregodkjenning',
 			'section.tasks':'Oppgaver','form.save':'Lagre','form.add':'Legg til','form.cancel':'Avbryt',
 			'repeat.label':'Gjentakelse','repeat.auto_assign':'Auto-tildel (gjentakelse)','repeat.save':'Lagre plan',
 			'repeat.days.mon':'Man','repeat.days.tue':'Tir','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lør','repeat.days.sun':'Søn',
@@ -161,7 +197,11 @@ const C4K_I18N = {
 			'shop.title':'Butikk','shop.open':'Åpne butikk','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bilde','shop.upload':'Last opp bilde','shop.add_item':'Legg til vare','shop.history':'Kjøpshistorikk','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.active':'Aktiv','shop.buy':'Kjøp','shop.clear_history':'Rydd historikk','confirm.clear_history':'Rydd hele kjøpshistorikken?',
 			'shop.advanced':'Avanserte handlinger','shop.entity':'Enhet','shop.operation':'Handling','shop.add_action':'Legg til handling','shop.add_delay':'Legg til forsinkelse','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse',
 			'sort.configure':'Sortering','sort.title':'Velg rekkefølge','sort.categories_order':'Rekkefølge for kategorier','sort.none':'Ingen kategori','sort.save':'Lagre','sort.reset':'Nullstill',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn ikke funnet. Sjekk navnet i kortkonfigurasjonen.','msg.no_tasks':'Ingen oppgaver nå.', 'btn.done':'Ferdig','btn.start_task':'Start oppgave','btn.complete_task':'Oppgave klar','lbl.awaiting':'Venter på godkjenning','lbl.points':'poeng',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn ikke funnet. Sjekk navnet i kortkonfigurasjonen.','msg.no_tasks':'Ingen oppgaver nå.', 'btn.done':'Ferdig','btn.start_task':'Start oppgave','btn.complete_task':'Oppgave klar','btn.task_done':'Oppgave ferdig','lbl.awaiting':'Venter på godkjenning','lbl.points':'poeng',
+			'section.daily_tasks':'I dag',
+			'section.weekly_tasks':'Ukens oppgaver',
+			'lbl.deadline':'Frist: {date}',
+			'lbl.early_bonus_by':'+{points} bonuspoeng hvis gjort {date} eller før',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Forelder','editor.mode_kid':'Barn','editor.mode_overview':'Siste oppgaver',
 			'editor.child_label':'Barn','editor.child_placeholder':'Barnets navn','editor.child_select_prompt':'— Velg barn —','editor.child_hint':'Ingen barn funnet ennå – skriv inn navnet manuelt.'
@@ -172,12 +212,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Neue Kategorie — Name','btn.add_category':'Kategorie hinzufügen','section.categories':'Kategorien','th.categories':'Kategorien','ph.categories':'Kategorien','select.categories':'Kategorien wählen',
 			'section.children':'Kinder', 'th.name':'Name','th.points':'Punkte','th.pending':'Ausstehend','th.actions':'Aktionen','th.status':'Status','th.assign':'Zugewiesen an','th.completed':'Erledigt',
 			'btn.rename':'Umbenennen','btn.delete':'Löschen','section.new_task':'Neue Aufgabe','ph.title':'Titel','ph.points':'Punkte','ph.description':'Beschreibung (optional)',
+			'ph.due':'Frist (Datum)',
+			'ph.early_bonus_days':'Bonus-Tage vorher',
+			'ph.early_bonus_points':'Bonuspunkte',
+			'ui.early_bonus_enabled':'Frühbonus aktivieren',
+			'warn.repeat_overrides_due':'Wiederholung ist aktiv, daher basiert die Frist auf den ausgewählten Wochentagen statt auf diesem Datum.',
 			'select.assign_child':'Kind zuweisen','ph.icon':'Symbol (mdi:...)','icon.choose':'Symbol wählen','icon.clear':'Symbol entfernen','icon.none':'Keins','icon.search':'Symbol suchen',
 			'btn.create_task':'Aufgabe erstellen','btn.update_task':'Aufgabe aktualisieren','btn.edit':'Bearbeiten','editor.loaded_task':'Vorhandene Aufgabe bearbeiten',
 			'section.unassigned':'Nicht zugewiesene Aufgaben','btn.assign':'Zuweisen','section.tasks_per_child':'Aufgaben pro Kind',
 			'btn.start':'Starten','btn.back':'Neu zuweisen','btn.awaiting':'Wartet','btn.approve':'Genehmigen','lbl.approved':'Genehmigt',
 			'section.scoreboard':'Bestenliste','confirm.delete_child':'{name} löschen?','confirm.delete_task':'Aufgabe löschen?','alert.choose_child_first':'Bitte zuerst ein Kind wählen',
-			'ui.toggle_off_on':'Aus/An', 'ui.persist_until_done':'Aufgabe behalten bis genehmigt', 'ui.persist_help':'Die Aufgabe wird automatisch auf den nächsten Tag verschoben, wenn sie nicht genehmigt wird',
+			'ui.toggle_off_on':'Aus/An', 'ui.persist_until_done':'Unfertige Aufgabe auf den nächsten Tag verschieben', 'ui.persist_help':'Unfertige Aufgabe wird automatisch auf den nächsten Tag verschoben', 'ui.quick_complete':'Mit einem Tip erledigen', 'ui.skip_approval':'Elternbestätigung überspringen',
 			'section.tasks':'Aufgaben','form.save':'Speichern','form.add':'Hinzufügen','form.cancel':'Abbrechen',
 			'repeat.label':'Wiederholen','repeat.auto_assign':'Automatisch zuweisen (Wiederholung)','repeat.save':'Plan speichern',
 			'repeat.days.mon':'Mo','repeat.days.tue':'Di','repeat.days.wed':'Mi','repeat.days.thu':'Do','repeat.days.fri':'Fr','repeat.days.sat':'Sa','repeat.days.sun':'So',
@@ -188,7 +233,11 @@ const C4K_I18N = {
 			'shop.title':'Shop','shop.open':'Shop öffnen','shop.item':'Artikel','shop.price':'Preis','shop.icon':'Symbol','shop.image':'Bild','shop.upload':'Bild hochladen','shop.add_item':'Artikel hinzufügen','shop.history':'Kaufhistorie','shop.child':'Kind','shop.when':'Zeitpunkt','shop.date':'Datum','shop.time':'Uhrzeit','shop.active':'Aktiv','shop.buy':'Kaufen','shop.clear_history':'Historie löschen','confirm.clear_history':'Gesamte Kaufhistorie löschen?',
 			'shop.advanced':'Erweiterte Aktionen','shop.entity':'Entität','shop.operation':'Aktion','shop.add_action':'Aktion hinzufügen','shop.add_delay':'Verzögerung hinzufügen','shop.steps':'Schritte','shop.seconds':'Sekunden','shop.minutes':'Minuten','shop.hours':'Stunden','shop.delay':'Verzögerung',
 			'sort.configure':'Sortierung','sort.title':'Reihenfolge wählen','sort.categories_order':'Reihenfolge der Kategorien','sort.none':'Keine Kategorie','sort.save':'Speichern','sort.reset':'Zurücksetzen',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Kind nicht gefunden. Prüfe den Namen in der Kartenkonfiguration.','msg.no_tasks':'Keine Aufgaben gerade.', 'btn.done':'Fertig','btn.start_task':'Aufgabe starten','btn.complete_task':'Aufgabe erledigt','lbl.awaiting':'Wartet auf Genehmigung','lbl.points':'Punkte',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Kind nicht gefunden. Prüfe den Namen in der Kartenkonfiguration.','msg.no_tasks':'Keine Aufgaben gerade.', 'btn.done':'Fertig','btn.start_task':'Aufgabe starten','btn.complete_task':'Aufgabe erledigt','btn.task_done':'Aufgabe erledigt','lbl.awaiting':'Wartet auf Genehmigung','lbl.points':'Punkte',
+			'section.daily_tasks':'Heute',
+			'section.weekly_tasks':'Wöchentliche Aufgaben',
+			'lbl.deadline':'Frist: {date}',
+			'lbl.early_bonus_by':'+{points} Bonuspunkte, wenn erledigt am {date} oder früher',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Eltern','editor.mode_kid':'Kind','editor.mode_overview':'Aktuelle Aufgaben',
 			'editor.child_label':'Kind','editor.child_placeholder':'Name des Kindes','editor.child_select_prompt':'— Kind auswählen —','editor.child_hint':'Noch keine Kinder gefunden – Namen manuell eingeben.'
@@ -199,12 +248,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Nueva categoría — nombre','btn.add_category':'Añadir categoría','section.categories':'Categorías','th.categories':'Categorías','ph.categories':'Categorías','select.categories':'Seleccionar categorías',
 			'section.children':'Niños','th.name':'Nombre','th.points':'Puntos','th.pending':'Pendiente','th.actions':'Acciones','th.status':'Estado','th.assign':'Asignado a','th.completed':'Completado',
 			'btn.rename':'Renombrar','btn.delete':'Eliminar','section.new_task':'Nueva tarea','ph.title':'Título','ph.points':'Puntos','ph.description':'Descripción (opcional)',
+			'ph.due':'Fecha límite (fecha)',
+			'ph.early_bonus_days':'Días de bono por anticipación',
+			'ph.early_bonus_points':'Puntos de bono',
+			'ui.early_bonus_enabled':'Activar bono por finalizar antes',
+			'warn.repeat_overrides_due':'Repetir está habilitado, así que la fecha límite se basa en los días de la semana seleccionados en lugar de esta fecha.',
 			'select.assign_child':'Asignar niño', 'ph.icon':'Icono (mdi:...)','icon.choose':'Elegir icono','icon.clear':'Quitar icono','icon.none':'Ninguno','icon.search':'Buscar icono',
 			'btn.create_task':'Crear tarea','btn.update_task':'Actualizar tarea','btn.edit':'Editar','editor.loaded_task':'Editando tarea existente',
 			'section.unassigned':'Tareas sin asignar','btn.assign':'Asignar','section.tasks_per_child':'Tareas por niño',
 			'btn.start':'Iniciar','btn.back':'Reasignar','btn.awaiting':'En espera','btn.approve':'Aprobar','lbl.approved':'Aprobada',
 			'section.scoreboard':'Marcador','confirm.delete_child':'¿Eliminar a {name}?','confirm.delete_task':'¿Eliminar tarea?','alert.choose_child_first':'Elige un niño primero',
-			'ui.toggle_off_on':'Apagado/Encendido', 'ui.persist_until_done':'Mantener tarea hasta aprobar', 'ui.persist_help':'La tarea se moverá automáticamente al día siguiente si no se aprueba',
+			'ui.toggle_off_on':'Apagado/Encendido', 'ui.persist_until_done':'Pasar tarea no terminada al día siguiente', 'ui.persist_help':'La tarea no terminada se moverá automáticamente al día siguiente', 'ui.quick_complete':'Completar con un toque', 'ui.skip_approval':'Omitir aprobación de padres',
 			'section.tasks':'Tareas','form.save':'Guardar','form.add':'Añadir','form.cancel':'Cancelar',
 			'repeat.label':'Repetir','repeat.auto_assign':'Auto-asignar (repetir)','repeat.save':'Guardar plan',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mié','repeat.days.thu':'Jue','repeat.days.fri':'Vie','repeat.days.sat':'Sáb','repeat.days.sun':'Dom',
@@ -215,7 +269,11 @@ const C4K_I18N = {
 			'shop.title':'Tienda','shop.open':'Abrir tienda','shop.item':'Artículo','shop.price':'Precio','shop.icon':'Icono','shop.image':'Imagen','shop.upload':'Subir imagen','shop.add_item':'Añadir artículo','shop.history':'Historial de compras','shop.child':'Niño','shop.when':'Fecha y hora','shop.date':'Fecha','shop.time':'Hora','shop.active':'Activo','shop.buy':'Comprar','shop.clear_history':'Limpiar historial','confirm.clear_history':'¿Limpiar todo el historial de compras?',
 			'shop.advanced':'Acciones avanzadas','shop.entity':'Entidad','shop.operation':'Operación','shop.add_action':'Añadir acción','shop.add_delay':'Añadir retraso','shop.steps':'Pasos','shop.seconds':'Segundos','shop.minutes':'Minutos','shop.hours':'Horas','shop.delay':'Retraso',
 			'sort.configure':'Ordenación','sort.title':'Elegir orden','sort.categories_order':'Orden de categorías','sort.none':'Sin categoría','sort.save':'Guardar','sort.reset':'Restablecer',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Niño no encontrado. Revisa el nombre en la configuración de la tarjeta.','msg.no_tasks':'No hay tareas por ahora.', 'btn.done':'Hecho','btn.start_task':'Iniciar tarea','btn.complete_task':'Tarea hecha','lbl.awaiting':'En espera de aprobación','lbl.points':'puntos',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Niño no encontrado. Revisa el nombre en la configuración de la tarjeta.','msg.no_tasks':'No hay tareas por ahora.', 'btn.done':'Hecho','btn.start_task':'Iniciar tarea','btn.complete_task':'Tarea hecha','btn.task_done':'Tarea hecha','lbl.awaiting':'En espera de aprobación','lbl.points':'puntos',
+			'section.daily_tasks':'Hoy',
+			'section.weekly_tasks':'Tareas semanales',
+			'lbl.deadline':'Fecha límite: {date}',
+			'lbl.early_bonus_by':'+{points} puntos de bono si se completa el {date} o antes',
 			// Editor UI
 			'editor.mode':'Modo','editor.mode_admin':'Padres','editor.mode_kid':'Niño','editor.mode_overview':'Tareas recientes',
 			'editor.child_label':'Niño','editor.child_placeholder':'Nombre del niño','editor.child_select_prompt':'— Seleccionar niño —','editor.child_hint':'Aún no se encontraron niños — escribe el nombre manualmente.'
@@ -226,12 +284,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Nouvelle catégorie — nom','btn.add_category':'Ajouter une catégorie','section.categories':'Catégories','th.categories':'Catégories','ph.categories':'Catégories','select.categories':'Sélectionner des catégories',
 			'section.children':'Enfants','th.name':'Nom','th.points':'Points','th.pending':'En attente','th.actions':'Actions','th.status':'Statut','th.assign':'Attribué à','th.completed':'Terminé',
 			'btn.rename':'Renommer','btn.delete':'Supprimer','section.new_task':'Nouvelle tâche','ph.title':'Titre','ph.points':'Points','ph.description':'Description (facultatif)',
+			'ph.due':'Date limite (date)',
+			'ph.early_bonus_days':'Jours de bonus (avance)',
+			'ph.early_bonus_points':'Points de bonus',
+			'ui.early_bonus_enabled':'Activer le bonus d\'avance',
+			'warn.repeat_overrides_due':'La répétition est activée, donc la date limite est basée sur les jours de semaine sélectionnés plutôt que sur cette date.',
 			'select.assign_child':'Attribuer un enfant','ph.icon':'Icône (mdi:...)','icon.choose':'Choisir une icône','icon.clear':'Effacer l’icône','icon.none':'Aucune','icon.search':'Rechercher une icône',
 			'btn.create_task':'Créer la tâche','btn.update_task':'Mettre à jour la tâche','btn.edit':'Modifier','editor.loaded_task':'Modification d’une tâche existante',
 			'section.unassigned':'Tâches non attribuées','btn.assign':'Attribuer','section.tasks_per_child':'Tâches par enfant',
 			'btn.start':'Démarrer','btn.back':'Réattribuer','btn.awaiting':'En attente','btn.approve':'Approuver','lbl.approved':'Approuvée',
 			'section.scoreboard':'Classement','confirm.delete_child':'Supprimer {name} ?','confirm.delete_task':'Supprimer la tâche ?','alert.choose_child_first':'Veuillez d’abord choisir un enfant',
-			'ui.toggle_off_on':'Arrêt/Marche', 'ui.persist_until_done':'Conserver jusqu’à achèvement',
+			'ui.toggle_off_on':'Arrêt/Marche', 'ui.persist_until_done':'Reporter la tâche inachevée au lendemain', 'ui.persist_help':'La tâche inachevée est automatiquement reportée au lendemain', 'ui.quick_complete':'Terminer en un clic', 'ui.skip_approval':'Ignorer l’approbation des parents',
 			'section.tasks':'Tâches','form.save':'Enregistrer','form.add':'Ajouter','form.cancel':'Annuler',
 			'repeat.label':'Répéter','repeat.auto_assign':'Auto-attribuer (répéter)','repeat.save':'Enregistrer le plan',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mer','repeat.days.thu':'Jeu','repeat.days.fri':'Ven','repeat.days.sat':'Sam','repeat.days.sun':'Dim',
@@ -242,7 +305,11 @@ const C4K_I18N = {
 			'shop.title':'Boutique','shop.open':'Ouvrir la boutique','shop.item':'Article','shop.price':'Prix','shop.icon':'Icône','shop.image':'Image','shop.upload':'Téléverser une image','shop.add_item':'Ajouter un article','shop.history':'Historique des achats','shop.child':'Enfant','shop.when':'Date et heure','shop.date':'Date','shop.time':'Heure','shop.active':'Actif','shop.buy':'Acheter','shop.clear_history':'Effacer l`historique','confirm.clear_history':'Effacer tout l`historique des achats?',
 			'shop.advanced':'Actions avancées','shop.entity':'Entité','shop.operation':'Opération','shop.add_action':'Ajouter une action','shop.add_delay':'Ajouter un délai','shop.steps':'Étapes','shop.seconds':'Secondes','shop.minutes':'Minutes','shop.hours':'Heures','shop.delay':'Délai',
 			'sort.configure':'Tri','sort.title':'Choisir l’ordre','sort.categories_order':'Ordre des catégories','sort.none':'Aucune catégorie','sort.save':'Enregistrer','sort.reset':'Réinitialiser',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Enfant introuvable. Vérifiez le nom dans la configuration de la carte.','msg.no_tasks':'Aucune tâche pour le moment.', 'btn.done':'Terminé','btn.start_task':'Démarrer la tâche','btn.complete_task':'Tâche terminée','lbl.awaiting':'En attente d’approbation','lbl.points':'points',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Enfant introuvable. Vérifiez le nom dans la configuration de la carte.','msg.no_tasks':'Aucune tâche pour le moment.', 'btn.done':'Terminé','btn.start_task':'Démarrer la tâche','btn.complete_task':'Tâche terminée','btn.task_done':'Tâche terminée','lbl.awaiting':'En attente d’approbation','lbl.points':'points',
+			'section.daily_tasks':'Aujourd’hui',
+			'section.weekly_tasks':'Tâches hebdomadaires',
+			'lbl.deadline':'Date limite : {date}',
+			'lbl.early_bonus_by':'+{points} points de bonus si terminé le {date} ou avant',
 			// Editor UI
 			'editor.mode':'Mode','editor.mode_admin':'Parents','editor.mode_kid':'Enfant','editor.mode_overview':'Tâches récentes',
 			'editor.child_label':'Enfant','editor.child_placeholder':'Nom de l’enfant','editor.child_select_prompt':'— Sélectionner un enfant —','editor.child_hint':'Aucun enfant trouvé pour l’instant — saisissez le nom manuellement.'
@@ -253,12 +320,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Uusi kategoria — nimi','btn.add_category':'Lisää kategoria','section.categories':'Kategoriat','th.categories':'Kategoriat','ph.categories':'Kategoriat','select.categories':'Valitse kategoriat',
 			'section.children':'Lapset','th.name':'Nimi','th.points':'Pisteet','th.pending':'Odottaa','th.actions':'Toiminnot','th.status':'Tila','th.assign':'Määritetty','th.completed':'Valmis',
 			'btn.rename':'Nimeä uudelleen','btn.delete':'Poista','section.new_task':'Uusi tehtävä','ph.title':'Otsikko','ph.points':'Pisteet','ph.description':'Kuvaus (valinnainen)',
+			'ph.due':'Määräpäivä (päivä)',
+			'ph.early_bonus_days':'Bonuspäiviä ennen',
+			'ph.early_bonus_points':'Bonuspisteet',
+			'ui.early_bonus_enabled':'Ota käyttöön aikaisen valmistumisen bonus',
+			'warn.repeat_overrides_due':'Toisto on käytössä, joten määräpäivä perustuu valittuihin viikonpäiviin tämän päivämäärän sijaan.',
 			'select.assign_child':'Määritä lapsi','ph.icon':'Kuvake (mdi:...)','icon.choose':'Valitse kuvake','icon.clear':'Poista kuvake','icon.none':'Ei mitään','icon.search':'Hae kuvaketta',
 			'btn.create_task':'Luo tehtävä','btn.update_task':'Päivitä tehtävä','btn.edit':'Muokkaa','editor.loaded_task':'Muokataan olemassa olevaa tehtävää',
 			'section.unassigned':'Määrittämättömät tehtävät','btn.assign':'Määritä','section.tasks_per_child':'Tehtävät per lapsi',
 			'btn.start':'Aloita','btn.back':'Määritä uudelleen','btn.awaiting':'Odottaa','btn.approve':'Hyväksy','lbl.approved':'Hyväksytty',
 			'section.scoreboard':'Pistetaulukko','confirm.delete_child':'Poistetaanko {name}?','confirm.delete_task':'Poistetaanko tehtävä?','alert.choose_child_first':'Valitse ensin lapsi',
-			'ui.toggle_off_on':'Pois/Päällä', 'ui.persist_until_done':'Säilytä tehtävä kunnes hyväksytty', 'ui.persist_help':'Tehtävä siirtyy automaattisesti seuraavalle päivälle, jos sitä ei hyväksytä',
+			'ui.toggle_off_on':'Pois/Päällä', 'ui.persist_until_done':'Siirrä keskeneräinen tehtävä seuraavalle päivälle', 'ui.persist_help':'Keskeneräinen tehtävä siirtyy automaattisesti seuraavalle päivälle', 'ui.quick_complete':'Valmis yhdellä painalluksella', 'ui.skip_approval':'Ohita vanhemman hyväksyntä',
 			'section.tasks':'Tehtävät','form.save':'Tallenna','form.add':'Lisää','form.cancel':'Peruuta',
 			'repeat.label':'Toisto','repeat.auto_assign':'Automaattinen määritys (toisto)','repeat.save':'Tallenna suunnitelma',
 			'repeat.days.mon':'Ma','repeat.days.tue':'Ti','repeat.days.wed':'Ke','repeat.days.thu':'To','repeat.days.fri':'Pe','repeat.days.sat':'La','repeat.days.sun':'Su',
@@ -269,7 +341,11 @@ const C4K_I18N = {
 			'shop.title':'Kauppa','shop.open':'Avaa kauppa','shop.item':'Tuote','shop.price':'Hinta','shop.icon':'Kuvake','shop.image':'Kuva','shop.upload':'Lataa kuva','shop.add_item':'Lisää tuote','shop.history':'Ostohistoria','shop.child':'Lapsi','shop.when':'Aika','shop.date':'Päiväys','shop.time':'Aika','shop.active':'Aktiivinen','shop.buy':'Osta','shop.clear_history':'Tyhjennä historia','confirm.clear_history':'Tyhjennä koko ostohistoria?',
 			'shop.advanced':'Edistyneet toiminnot','shop.entity':'Entiteetti','shop.operation':'Toiminto','shop.add_action':'Lisää toiminto','shop.add_delay':'Lisää viive','shop.steps':'Vaiheet','shop.seconds':'Sekuntia','shop.minutes':'Minuuttia','shop.hours':'Tuntia','shop.delay':'Viive',
 			'sort.configure':'Lajittelu','sort.title':'Valitse järjestys','sort.categories_order':'Kategorioiden järjestys','sort.none':'Ei kategoriaa','sort.save':'Tallenna','sort.reset':'Palauta',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Lasta ei löytynyt. Tarkista nimi kortin asetuksista.','msg.no_tasks':'Ei tehtäviä juuri nyt.', 'btn.done':'Valmis','btn.start_task':'Aloita tehtävä','btn.complete_task':'Tehtävä valmis','lbl.awaiting':'Odottaa hyväksyntää','lbl.points':'pistettä',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Lasta ei löytynyt. Tarkista nimi kortin asetuksista.','msg.no_tasks':'Ei tehtäviä juuri nyt.', 'btn.done':'Valmis','btn.start_task':'Aloita tehtävä','btn.complete_task':'Tehtävä valmis','btn.task_done':'Tehtävä valmis','lbl.awaiting':'Odottaa hyväksyntää','lbl.points':'pistettä',
+			'section.daily_tasks':'Tänään',
+			'section.weekly_tasks':'Viikkotehtävät',
+			'lbl.deadline':'Määräpäivä: {date}',
+			'lbl.early_bonus_by':'+{points} bonuspistettä, jos valmis {date} tai aiemmin',
 			// Editor UI
 			'editor.mode':'Tila','editor.mode_admin':'Vanhemmat','editor.mode_kid':'Lapsi','editor.mode_overview':'Viimeisimmät tehtävät',
 			'editor.child_label':'Lapsi','editor.child_placeholder':'Lapsen nimi','editor.child_select_prompt':'— Valitse lapsi —','editor.child_hint':'Lapsia ei vielä löytynyt — kirjoita nimi manuaalisesti.'
@@ -280,12 +356,17 @@ const C4K_I18N = {
 				'input.new_category_name':'Nuova categoria — nome','btn.add_category':'Aggiungi categoria','section.categories':'Categorie','th.categories':'Categorie','ph.categories':'Categorie','select.categories':'Seleziona categorie',
 			'section.children':'Bambini','th.name':'Nome','th.points':'Punti','th.pending':'In sospeso','th.actions':'Azioni','th.status':'Stato','th.assign':'Assegnato a','th.completed':'Completato',
 			'btn.rename':'Rinomina','btn.delete':'Elimina','section.new_task':'Nuova attività','ph.title':'Titolo','ph.points':'Punti','ph.description':'Descrizione (opzionale)',
+			'ph.due':'Scadenza (data)',
+			'ph.early_bonus_days':'Giorni di bonus (anticipo)',
+			'ph.early_bonus_points':'Punti bonus',
+			'ui.early_bonus_enabled':'Attiva bonus per completamento anticipato',
+			'warn.repeat_overrides_due':'La ripetizione è attiva, quindi la scadenza si basa sui giorni della settimana selezionati invece di questa data.',
 			'select.assign_child':'Assegna bambino','ph.icon':'Icona (mdi:...)','icon.choose':'Scegli icona','icon.clear':'Rimuovi icona','icon.none':'Nessuna','icon.search':'Cerca icona',
 			'btn.create_task':'Crea attività','btn.update_task':'Aggiorna attività','btn.edit':'Modifica','editor.loaded_task':'Modifica attività esistente',
 			'section.unassigned':'Attività non assegnate','btn.assign':'Assegna','section.tasks_per_child':'Attività per bambino',
 			'btn.start':'Avvia','btn.back':'Riassegna','btn.awaiting':'In attesa','btn.approve':'Approva','lbl.approved':'Approvato',
 			'section.scoreboard':'Classifica','confirm.delete_child':'Eliminare {name}?','confirm.delete_task':'Eliminare attività?','alert.choose_child_first':'Scegli prima un bambino',
-			'ui.toggle_off_on':'Spento/Acceso', 'ui.persist_until_done':'Mantieni compito fino all\'approvazione', 'ui.persist_help':'Il compito verrà automaticamente spostato al giorno successivo se non viene approvato',
+			'ui.toggle_off_on':'Spento/Acceso', 'ui.persist_until_done':'Sposta l’attività non completata al giorno successivo', 'ui.persist_help':'L’attività non completata verrà spostata automaticamente al giorno successivo', 'ui.quick_complete':'Completa con un tocco', 'ui.skip_approval':'Salta approvazione genitori',
 			'section.tasks':'Attività','form.save':'Salva','form.add':'Aggiungi','form.cancel':'Annulla',
 			'repeat.label':'Ripeti','repeat.auto_assign':'Assegnazione automatica (ripeti)','repeat.save':'Salva piano',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mer','repeat.days.thu':'Gio','repeat.days.fri':'Ven','repeat.days.sat':'Sab','repeat.days.sun':'Dom',
@@ -296,7 +377,11 @@ const C4K_I18N = {
 			'shop.title':'Negozio','shop.open':'Apri negozio','shop.item':'Articolo','shop.price':'Prezzo','shop.icon':'Icona','shop.image':'Immagine','shop.upload':'Carica immagine','shop.add_item':'Aggiungi articolo','shop.history':'Storico acquisti','shop.child':'Bambino','shop.when':'Data e ora','shop.date':'Data','shop.time':'Ora','shop.active':'Attivo','shop.buy':'Compra','shop.clear_history':'Cancella storico','confirm.clear_history':'Cancellare tutto lo storico acquisti?',
 			'shop.advanced':'Azioni avanzate','shop.entity':'Entità','shop.operation':'Operazione','shop.add_action':'Aggiungi azione','shop.add_delay':'Aggiungi ritardo','shop.steps':'Passi','shop.seconds':'Secondi','shop.minutes':'Minuti','shop.hours':'Ore','shop.delay':'Ritardo',
 			'sort.configure':'Ordinamento','sort.title':'Scegli ordine','sort.categories_order':'Ordine categorie','sort.none':'Nessuna categoria','sort.save':'Salva','sort.reset':'Reimposta',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Bambino non trovato. Controlla il nome nella configurazione della scheda.','msg.no_tasks':'Nessuna attività al momento.', 'btn.done':'Fatto','btn.start_task':'Avvia attività','btn.complete_task':'Attività completata','lbl.awaiting':'In attesa di approvazione','lbl.points':'punti',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Bambino non trovato. Controlla il nome nella configurazione della scheda.','msg.no_tasks':'Nessuna attività al momento.', 'btn.done':'Fatto','btn.start_task':'Avvia attività','btn.complete_task':'Attività completata','btn.task_done':'Attività completata','lbl.awaiting':'In attesa di approvazione','lbl.points':'punti',
+			'section.daily_tasks':'Oggi',
+			'section.weekly_tasks':'Attività settimanali',
+			'lbl.deadline':'Scadenza: {date}',
+			'lbl.early_bonus_by':'+{points} punti bonus se completata il {date} o prima',
 			// Editor UI
 			'editor.mode':'Modalità','editor.mode_admin':'Genitori','editor.mode_kid':'Bambino','editor.mode_overview':'Attività recenti',
 			'editor.child_label':'Bambino','editor.child_placeholder':'Nome del bambino','editor.child_select_prompt':'— Seleziona bambino —','editor.child_hint':'Ancora nessun bambino trovato — inserisci il nome manualmente.'
@@ -364,7 +449,7 @@ const C4K_ICON_SET = [
 	{ id:'mdi:bookshelf', label:'Books' },
 ];
 
-class Chores4KidsCard extends LitElement {
+class Chores4KidsDevCard extends LitElement {
 	static get properties(){
 		return {
 			hass: {},
@@ -377,7 +462,7 @@ class Chores4KidsCard extends LitElement {
 			// Admin state
 			_name: { state: true }, _taskTitle: { state: true }, _taskPoints: { state: true }, _taskDesc: { state: true }, _taskIcon: { state: true }, _iconModalOpen: { state: true },
 			_taskCategories: { state: true }, _openCategoriesMenu: { state: true }, _newCategoryName: { state: true },
-			_repeatAssign: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
+			_repeatEnabled: { state: true }, _repeatAssign: { state: true }, _quickComplete: { state: true }, _skipApproval: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
 			_customIconModalOpen: { state: true }, _customIconSearch: { state: true }, _customIconPreview: { state: true }, _customIconLabel: { state: true },
 			_shopModalOpen: { state: true }, _shopTitle: { state: true }, _shopPrice: { state: true }, _shopImage: { state: true }, _editItem: { state: true }, _advItem: { state: true },
 			// UI for nicer multi-assign dropdown
@@ -469,6 +554,13 @@ class Chores4KidsCard extends LitElement {
 		.status-overdue, .task-overdue { background: color-mix(in srgb, var(--error-color, #d32f2f) 18%, transparent); color: var(--error-color, #d32f2f); }
 		.task-overdue .title { color: var(--error-color, #d32f2f); font-weight: 700; }
 		.task-overdue { border-color: var(--error-color, #d32f2f); }
+		.repeat-line{ display:flex; align-items:flex-start; gap:12px; width:fit-content; max-width:100%; flex-wrap:wrap; }
+		.repeat-days{ flex:0 1 auto; min-width:0; }
+		.repeat-assign{ flex:0 0 180px; width:180px; }
+		@media (max-width:700px){
+			.repeat-line{ flex-direction:column; }
+			.repeat-assign{ flex:1 1 auto; width:100%; }
+		}
 		.days{ display:flex; flex-wrap:wrap; gap:6px; }
 		.day{ padding:4px 10px; border-radius:999px; border:1px solid var(--divider-color); cursor:pointer; user-select:none; }
 		.day.on{ background: color-mix(in srgb, var(--primary-color) 18%, transparent); color: var(--primary-color); border-color: transparent; }
@@ -547,6 +639,9 @@ class Chores4KidsCard extends LitElement {
 		.meta{ color: var(--secondary-text-color); font-size: 12px; display:flex; flex-wrap:wrap; gap:10px; }
 		.chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
 		.chip-points{ background: color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent); color: var(--warning-color, #ff9800); }
+		.chip-deadline{ background: color-mix(in srgb, var(--secondary-text-color) 14%, transparent); color: var(--secondary-text-color); }
+		.chip-bonus{ background: color-mix(in srgb, var(--success-color, #43a047) 18%, transparent); color: var(--success-color, #43a047); }
+		.chip-bonus-expired{ background: color-mix(in srgb, var(--error-color, #f44336) 18%, transparent); color: var(--error-color, #f44336); text-decoration: line-through; }
 		.actions{ display:flex; gap:8px; }
 		.img-preview{ width:72px; height:72px; border-radius:10px; border:1px solid var(--divider-color); background: color-mix(in srgb, var(--primary-color) 6%, transparent); object-fit:cover; }
 		.file-hidden{ display:none; }
@@ -615,6 +710,7 @@ class Chores4KidsCard extends LitElement {
 		// Admin
 		this._repeatDays = new Set();
 		this._repeatAssign = new Set();
+		this._repeatEnabled = false;
 		this._editingTask = null;
 		this._taskIcon = '';
 		this._iconModalOpen = false;
@@ -634,6 +730,8 @@ class Chores4KidsCard extends LitElement {
 		this._openAssignMenuFor = null;
 		this._openRepeatMenu = false;
 		this._persistUntilDone = false;
+		this._quickComplete = false;
+		this._skipApproval = false;
 		// Child
 		this._shopOpen = false;
 		// caches
@@ -695,7 +793,18 @@ class Chores4KidsCard extends LitElement {
 		this._childName = this.config.child || '';
 	}
 
-	static getConfigElement(){ return document.createElement('chores4kids-card-editor'); }
+	_toggleRepeat(e){
+		const enabled = !!(e?.target?.checked);
+		this._repeatEnabled = enabled;
+		if (!enabled){
+			this._repeatDays = new Set();
+			this._repeatAssign = new Set();
+			this._openRepeatMenu = false;
+		}
+		this.requestUpdate();
+	}
+
+	static getConfigElement(){ return document.createElement('chores4kids-dev-card-editor'); }
 	static getStubConfig(){ return { mode: 'admin' }; }
 
 	getCardSize(){ return this._mode==='admin'? 8 : 3; }
@@ -705,6 +814,17 @@ class Chores4KidsCard extends LitElement {
 	_statusLabel(s){ return this._t(`status.${s}`) || s; }
 	_autoAssignActive(task){ try{ const d=Array.isArray(task?.repeat_days)? task.repeat_days:[]; const ks = Array.isArray(task?.repeat_child_ids)? task.repeat_child_ids:[]; const k=task?.repeat_child_id; return d.length>0 && (ks.length>0 || !!k); }catch{ return false; } }
 	_isTaskOverdue(task){ try{ if(!task?.carried_over) return false; return task.carried_over === true; }catch{ return false; } }
+	_isFromBeforeToday(task){
+		try{
+			const created = task?.created;
+			if(!created) return false;
+			const ms = new Date(created).getTime();
+			if(!Number.isFinite(ms)) return false;
+			const start = new Date();
+			start.setHours(0,0,0,0);
+			return ms < start.getTime();
+		}catch{ return false; }
+	}
 	_locale(){ return c4kGetLangFromHass(this.hass || navigator.language || 'en'); }
 	_fmtDateTime(ts){
 		try{
@@ -718,6 +838,97 @@ class Chores4KidsCard extends LitElement {
 			const formatted = `${weekday} d. ${day} ${month} ${year} - kl ${time}`;
 			return { formatted };
 		}catch{ return { formatted: String(ts||'—') }; }
+	}
+
+	_parseDueToDate(due){
+		try{
+			if (!due) return null;
+			let d;
+			if (due instanceof Date){
+				d = due;
+			}else if (typeof due === 'string'){
+				if (/^\d{4}-\d{2}-\d{2}$/.test(due)) d = new Date(`${due}T00:00:00`);
+				else d = new Date(due);
+			}else{
+				return null;
+			}
+			if (!d || isNaN(d.getTime())) return null;
+			// Normalize to local date (midnight)
+			const local = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+			local.setHours(0,0,0,0);
+			return local;
+		}catch{ return null; }
+	}
+	_formatDueDate(due){
+		try{
+			const d = this._parseDueToDate(due);
+			if (!d) return '—';
+			const loc = this._locale();
+			return new Intl.DateTimeFormat(loc, { year:'numeric', month:'short', day:'numeric' }).format(d);
+		}catch{ return String(due||'—'); }
+	}
+	_formatDateISO(dateObj){
+		try{
+			const d = dateObj instanceof Date ? new Date(dateObj.getTime()) : null;
+			if (!d || isNaN(d.getTime())) return '';
+			d.setHours(0,0,0,0);
+			const y = d.getFullYear();
+			const m = String(d.getMonth()+1).padStart(2,'0');
+			const day = String(d.getDate()).padStart(2,'0');
+			return `${y}-${m}-${day}`;
+		}catch{ return ''; }
+	}
+	_bonusByDateStr(task){
+		try{
+			const enabledRaw = task?.early_bonus_enabled;
+			if (enabledRaw === false) return null;
+			const days = Number(task?.early_bonus_days || 0);
+			const points = Number(task?.early_bonus_points || 0);
+			const dueDate = this._parseDueToDate(task?.due);
+			const enabled = (enabledRaw === true) || (enabledRaw == null && (days > 0) && (points > 0));
+			if (!enabled || !dueDate || !(days > 0) || !(points > 0)) return null;
+			const by = new Date(dueDate.getTime());
+			by.setDate(by.getDate() - days);
+			return this._formatDueDate(by);
+		}catch{ return null; }
+	}
+	_bonusByDateInfo(task){
+		try{
+			const enabledRaw = task?.early_bonus_enabled;
+			if (enabledRaw === false) return null;
+			const days = Number(task?.early_bonus_days || 0);
+			const points = Number(task?.early_bonus_points || 0);
+			const dueDate = this._parseDueToDate(task?.due);
+			const enabled = (enabledRaw === true) || (enabledRaw == null && (days > 0) && (points > 0));
+			if (!enabled || !dueDate || !(days > 0) || !(points > 0)) return null;
+
+			const by = new Date(dueDate.getTime());
+			by.setDate(by.getDate() - days);
+			by.setHours(0,0,0,0);
+
+			const toLocalDate = (ts)=>{
+				try{
+					if (ts == null) return null;
+					let d;
+					if (ts instanceof Date) d = ts;
+					else if (typeof ts === 'number') d = new Date(ts < 1000000000000 ? ts * 1000 : ts);
+					else d = new Date(ts);
+					if (!d || isNaN(d.getTime())) return null;
+					const local = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+					local.setHours(0,0,0,0);
+					return local;
+				}catch{ return null; }
+			};
+
+			const completedDate = toLocalDate(task?.completed_ts);
+			const compareDate = completedDate || new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+			compareDate.setHours(0,0,0,0);
+
+			return {
+				dateStr: this._formatDueDate(by),
+				expired: compareDate.getTime() > by.getTime(),
+			};
+		}catch{ return null; }
 	}
 
 	// Completed timestamp helpers
@@ -853,11 +1064,11 @@ class Chores4KidsCard extends LitElement {
 					<h3 class="h3-row"><span class="collapsible" @click=${()=>this._toggleSection('newtask')}><ha-icon class="chev ${this._isCollapsed('newtask')?'rot':''}" icon="mdi:chevron-down"></ha-icon>${this._t('section.new_task')}</span></h3>
 					${this._isCollapsed('newtask')? '' : html`<div class="row fields">
 						<div class="form-field title">
-							<input class="${this._showTitleError? 'invalid':''}" placeholder="${this._t('ph.title')}" .value=${this._taskTitle||''} @input=${e=>{this._taskTitle=e.target.value; this.requestUpdate();}} @blur=${()=>{this._touchedTitle=true; this.requestUpdate();}} />
+							<input class="${this._showTitleError? 'invalid':''}" placeholder="${this._t('ph.title')}" .value=${this._taskTitle||''} @input=${e=>{this._taskTitle=e.target.value; this.requestUpdate();}} />
 							<div class="error-space">${this._showTitleError? html`<span class="error-text">${this._t('err.title_required')}</span>`:''}</div>
 						</div>
 						<div class="form-field points">
-							<input class="${this._showPointsError? 'invalid':''}" type="number" placeholder="${this._t('ph.points')}" .value=${this._taskPoints||''} @input=${e=>{this._taskPoints=e.target.value; this.requestUpdate();}} @blur=${()=>{this._touchedPoints=true; this.requestUpdate();}} />
+							<input class="${this._showPointsError? 'invalid':''}" type="number" placeholder="${this._t('ph.points')}" .value=${this._taskPoints||''} @input=${e=>{this._taskPoints=e.target.value; this.requestUpdate();}} />
 							<div class="error-space">${this._pointsErrorKey? html`<span class="error-text">${this._t(this._pointsErrorKey)}</span>`:''}</div>
 						</div>
 					</div>
@@ -879,35 +1090,82 @@ class Chores4KidsCard extends LitElement {
 								` : ''}
 							</div>
 						</div>
-						</div>
-					<div class="row">
-						<div style="flex:2 1 300px;">
-							<label style="display:inline-flex; align-items:center; gap:8px; margin:0 0 6px; font-size:.95rem;">
-								<input type="checkbox" .checked=${!!this._persistUntilDone} @change=${e=>{ this._persistUntilDone = !!e.target.checked; }} />
-								<span style="white-space:nowrap;">${this._t('ui.persist_until_done')}</span>
-							</label>
-							<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.label')}</div>
-							<div class="days">
-								${['mon','tue','wed','thu','fri','sat','sun'].map(k=> html`
-									<span class="day ${this._repeatDays.has(k)?'on':''}" @click=${()=>{ const s=this._repeatDays; s.has(k)?s.delete(k):s.add(k); this.requestUpdate(); }}>${this._t('repeat.days.'+k)}</span>
-								`)}
-							</div>
-						</div>
-						<div style="flex:1 1 220px;">
-							<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.auto_assign')}</div>
-							<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); this._openRepeatMenu = !this._openRepeatMenu; }}>
-								<div class="box">
-									<span class="multi-dd-value ${this._repeatAssign && this._repeatAssign.size ? '' : 'placeholder'}">
-										${(()=>{ const ids=this._repeatAssign||new Set(); const names=children.filter(c=>ids.has(c.id)).map(c=>c.name); return names.length? (names.slice(0,2).join(', ')+(names.length>2?` +${names.length-2}`:'')) : '—'; })()}
-									</span>
-									<ha-icon icon="mdi:chevron-down"></ha-icon>
-								</div>
-								${this._openRepeatMenu ? html`
-									<div class="multi-dd-menu" @click=${e=> e.stopPropagation()}>
-										${children.map(c=> html`<label><input type="checkbox" .checked=${this._repeatAssign?.has?.(c.id)} @change=${(e)=>{ const s=this._repeatAssign instanceof Set? this._repeatAssign : new Set(this._repeatAssign||[]); if(e.target.checked){ s.add(c.id);}else{ s.delete(c.id);} this._repeatAssign=s; this.requestUpdate(); }} /><span>${c.name}</span></label>`)}
+					</div>
+					<div class="row" style="justify-content:flex-start; align-items:flex-start;">
+						<div style="flex:1 1 520px; min-width:260px;">
+							<div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._taskEarlyBonusEnabled} @change=${e=>{ this._taskEarlyBonusEnabled = !!e.target.checked; this.requestUpdate(); }} />
+									<span style="white-space:nowrap;">${this._t('ui.early_bonus_enabled')}</span>
+								</label>
+								${(!!this._taskEarlyBonusEnabled || String(this._taskDue||'').trim()) ? html`
+									<div style="width:100%;">
+										<div class="row fields" style="margin-top:4px;">
+											<div class="form-field">
+												<input type="date" placeholder="${this._t('ph.due')}" ?disabled=${!!this._repeatEnabled && !!this._taskEarlyBonusEnabled} .value=${this._taskDue||''} @input=${e=>{ this._taskDue=e.target.value; this.requestUpdate(); }} />
+												<div class="error-space">${(!!this._repeatEnabled && !!this._taskEarlyBonusEnabled) ? html`<span class="error-text">${this._t('warn.repeat_overrides_due')}</span>` : ''}</div>
+											</div>
+											${this._taskEarlyBonusEnabled ? html`
+												<div class="form-field">
+													<input type="number" min="0" step="1" placeholder="${this._t('ph.early_bonus_days')}" .value=${this._taskEarlyBonusDays||''} @input=${e=>{ this._taskEarlyBonusDays=e.target.value; this.requestUpdate(); }} />
+												</div>
+											` : html`<div class="form-field"></div>`}
+										</div>
+										${this._taskEarlyBonusEnabled ? html`
+											<div class="row fields">
+												<div class="form-field">
+													<input type="number" min="0" step="1" placeholder="${this._t('ph.early_bonus_points')}" .value=${this._taskEarlyBonusPoints||''} @input=${e=>{ this._taskEarlyBonusPoints=e.target.value; this.requestUpdate(); }} />
+												</div>
+												<div class="form-field"></div>
+											</div>
+										` : ''}
 									</div>
 								` : ''}
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._persistUntilDone} @change=${e=>{ this._persistUntilDone = !!e.target.checked; }} />
+									<span style="white-space:nowrap;">${this._t('ui.persist_until_done')}</span>
+								</label>
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._quickComplete} @change=${e=>{ this._quickComplete = !!e.target.checked; }} />
+									<span style="white-space:nowrap;">${this._t('ui.quick_complete')}</span>
+								</label>
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._skipApproval} @change=${e=>{ this._skipApproval = !!e.target.checked; }} />
+									<span style="white-space:nowrap;">${this._t('ui.skip_approval')}</span>
+								</label>
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._repeatEnabled} @change=${this._toggleRepeat} />
+									<span style="white-space:nowrap;">${this._t('repeat.enable')}</span>
+								</label>
 							</div>
+							${this._repeatEnabled ? html`
+								<div class="repeat-line">
+									<div class="repeat-days">
+										<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.label')}</div>
+										<div class="days">
+											${['mon','tue','wed','thu','fri','sat','sun'].map(k=> html`
+												<span class="day ${this._repeatDays.has(k)?'on':''}" @click=${()=>{ const s=this._repeatDays; s.has(k)?s.delete(k):s.add(k); this.requestUpdate(); }}>${this._t('repeat.days.'+k)}</span>
+											`)}
+										</div>
+									</div>
+									<div class="repeat-assign">
+										<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.auto_assign')}</div>
+										<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); this._openRepeatMenu = !this._openRepeatMenu; }}>
+											<div class="box">
+												<span class="multi-dd-value ${this._repeatAssign && this._repeatAssign.size ? '' : 'placeholder'}">
+													${(()=>{ const ids=this._repeatAssign||new Set(); const names=children.filter(c=>ids.has(c.id)).map(c=>c.name); return names.length? (names.slice(0,2).join(', ')+(names.length>2?` +${names.length-2}`:'')) : '—'; })()}
+												</span>
+												<ha-icon icon="mdi:chevron-down"></ha-icon>
+											</div>
+											${this._openRepeatMenu ? html`
+												<div class="multi-dd-menu" @click=${e=> e.stopPropagation()}>
+													${children.map(c=> html`<label><input type="checkbox" .checked=${this._repeatAssign?.has?.(c.id)} @change=${(e)=>{ const s=this._repeatAssign instanceof Set? this._repeatAssign : new Set(this._repeatAssign||[]); if(e.target.checked){ s.add(c.id);}else{ s.delete(c.id);} this._repeatAssign=s; this.requestUpdate(); }} /><span>${c.name}</span></label>`)}
+												</div>
+											` : ''}
+										</div>
+									</div>
+								</div>
+							` : ''}
 						</div>
 					</div>
 					<div class="row">
@@ -985,6 +1243,7 @@ class Chores4KidsCard extends LitElement {
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
 								${t.status==="assigned" ? html`
+									${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}
 									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
 								`: t.status==="in_progress" ? html`
 									<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'awaiting_approval')}>${this._t('btn.awaiting')}</button>
@@ -994,7 +1253,7 @@ class Chores4KidsCard extends LitElement {
 									<button class="btn-primary" @click=${()=>this._approve(t)}>${this._t('btn.approve')}</button>
 									<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'assigned')}>${this._t('btn.back')}</button>
 									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
-								`: html`<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
+								`: html`${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
 							</td>
 						</tr>`;
 						return html`
@@ -1047,6 +1306,7 @@ class Chores4KidsCard extends LitElement {
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
 								${t.status==="assigned" ? html`
+									${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}
 									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
 								` : t.status==="in_progress" ? html`
 									<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'awaiting_approval')}>${this._t('btn.awaiting')}</button>
@@ -1056,7 +1316,7 @@ class Chores4KidsCard extends LitElement {
 									<button class="btn-primary" @click=${()=>this._approve(t)}>${this._t('btn.approve')}</button>
 									<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'assigned')}>${this._t('btn.back')}</button>
 									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
-								` : html`<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
+								` : html`${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
 							</td>
 						</tr>`;
 						return html`
@@ -1108,7 +1368,7 @@ class Chores4KidsCard extends LitElement {
 								<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._completedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
 								<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 								<td data-label="${this._t('th.actions')}">
-									${t.status==="assigned" ? html`<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`
+									${t.status==="assigned" ? html`${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`
 										: t.status==="in_progress" ? html`
 											<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'awaiting_approval')}>${this._t('btn.awaiting')}</button>
 											<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'assigned')}>${this._t('btn.back')}</button>
@@ -1117,7 +1377,7 @@ class Chores4KidsCard extends LitElement {
 											<button class="btn-primary" @click=${()=>this._approve(t)}>${this._t('btn.approve')}</button>
 											<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'assigned')}>${this._t('btn.back')}</button>
 											<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`
-										: html`<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
+										: html`${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`}
 								</td>
 							</tr>`);
 						})()}</tbody>
@@ -1534,10 +1794,62 @@ class Chores4KidsCard extends LitElement {
 		const s = this._findChildSensor();
 		if (!s){ return html`<ha-card header="${this._t('card.child_title_fallback',{name: this._childName||this.config.child||''})}"><div class="card-content">${this._t('msg.child_not_found')}</div></ha-card>`; }
 		const tasks = (s.attributes.tasks||[]).filter(t=> ['assigned','in_progress','awaiting_approval','approved'].includes(t.status));
+		const dailyTasks = tasks.filter(t=> !t?.due);
+		const weeklyTasks = tasks.filter(t=> !!t?.due);
 		// shop items
 		let shopSensor = this._idShop && this.hass.states[this._idShop];
 		if (!shopSensor){ shopSensor = Object.values(this.hass.states).find(st=> st?.entity_id?.includes('chores4kids_shop')); if (shopSensor?.entity_id) this._idShop = shopSensor.entity_id; }
 		const items = this._shopOpen ? (shopSensor?.attributes?.items||[]).filter(i=> i.active!==false) : [];
+		const renderTaskGroups = (taskList)=>{
+			if (taskList.length===0) return html`<i>${this._t('msg.no_tasks')}</i>`;
+			const NONE='__none__';
+			const order = this._catOrderResolved();
+			const cats = this._store.categories||[];
+			const nameFor=(id)=> id===NONE? this._t('sort.none') : (cats.find(c=> c.id===id)?.name || id);
+			// group tasks by primary category (based on order)
+			const groups = new Map();
+			for (const t of taskList){
+				const ids = Array.isArray(t.categories)? t.categories:[];
+				let pid = NONE;
+				for (const cid of order){ if (cid!==NONE && ids.includes(cid)){ pid=cid; break; } }
+				if (!groups.has(pid)) groups.set(pid, []);
+				groups.get(pid).push(t);
+			}
+			const catIdsToShow = order.filter(id=> groups.has(id));
+			return catIdsToShow.map(cid=> html`
+				<div class="cat-section">
+					<div class="cat-title">${nameFor(cid)}</div>
+					${groups.get(cid).map(t=>{
+						const bonusInfo = this._bonusByDateInfo(t);
+						const bonusBy = bonusInfo?.dateStr;
+						const bonusClass = bonusInfo?.expired ? 'chip chip-bonus chip-bonus-expired' : 'chip chip-bonus';
+						return html`
+							<div class="task ${this._isTaskOverdue(t)?'task-overdue':''}">
+								<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
+								<div>
+									<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
+									<div class="meta">
+										<span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span>
+										${t?.due ? html`<span class="chip chip-deadline">${this._t('lbl.deadline',{date: this._formatDueDate(t.due)})}</span>` : ''}
+										${bonusBy ? html`<span class="${bonusClass}">${this._t('lbl.early_bonus_by',{ points: Number(t.early_bonus_points||0), date: bonusBy })}</span>` : ''}
+										${this._isTaskOverdue(t)? html` <span class="chip status-overdue">${this._t('status.overdue')}</span>`:''}
+									</div>
+								</div>
+								<div class="actions" style="display:flex; flex-direction:column; gap:6px;">
+									${t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
+										: t.status==="in_progress" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
+										: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
+										: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
+									${this.config?.debug_mode && !this._isTaskOverdue(t) && t.status!=="approved" ? html`
+										<button class="btn-ghost" style="font-size:0.75rem; padding:4px 8px;" @click=${()=>this._debugMarkOverdue(t)}>${this._t('debug.mark_overdue')}</button>
+									` : ''}
+								</div>
+							</div>
+						`;
+					})}
+				</div>
+			`);
+		};
 		return html`
 			<ha-card header="${s.attributes.name}">
 				<div class="card-content">
@@ -1546,46 +1858,8 @@ class Chores4KidsCard extends LitElement {
 						<button class="btn-primary" @click=${()=>{ this._shopOpen = true; this.requestUpdate(); }}>${this._t('shop.title')}</button>
 					</div>
 					<div class="tasks">
-						${(()=>{
-							if (tasks.length===0) return html`<i>${this._t('msg.no_tasks')}</i>`;
-							const NONE='__none__';
-							const order = this._catOrderResolved();
-							const cats = this._store.categories||[];
-							const nameFor=(id)=> id===NONE? this._t('sort.none') : (cats.find(c=> c.id===id)?.name || id);
-							// group tasks by primary category (based on order)
-							const groups = new Map();
-							for (const t of tasks){
-								const ids = Array.isArray(t.categories)? t.categories:[];
-								let pid = NONE;
-								for (const cid of order){ if (cid!==NONE && ids.includes(cid)){ pid=cid; break; } }
-								if (!groups.has(pid)) groups.set(pid, []);
-								groups.get(pid).push(t);
-							}
-							const catIdsToShow = order.filter(id=> groups.has(id));
-							return catIdsToShow.map(cid=> html`
-								<div class="cat-section">
-									<div class="cat-title">${nameFor(cid)}</div>
-									${groups.get(cid).map(t=> html`
-										<div class="task ${this._isTaskOverdue(t)?'task-overdue':''}">
-											<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
-											<div>
-												<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
-												<div class="meta"><span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span>${this._isTaskOverdue(t)? html` <span class="chip status-overdue">${this._t('status.overdue')}</span>`:''}</div>
-											</div>
-											<div class="actions" style="display:flex; flex-direction:column; gap:6px;">
-												${t.status==="assigned" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`
-													: t.status==="in_progress" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
-													: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
-													: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
-												${this.config?.debug_mode && !this._isTaskOverdue(t) && t.status!=="approved" ? html`
-													<button class="btn-ghost" style="font-size:0.75rem; padding:4px 8px;" @click=${()=>this._debugMarkOverdue(t)}>${this._t('debug.mark_overdue')}</button>
-												` : ''}
-											</div>
-										</div>
-									`)}
-								</div>
-							`);
-						})()}
+						${dailyTasks.length ? html`<div class="section"><h3 style="margin:0 0 8px;">${this._t('section.daily_tasks')}</h3>${renderTaskGroups(dailyTasks)}</div>` : ''}
+						${weeklyTasks.length ? html`<div class="section"><h3 style="margin:0 0 8px;">${this._t('section.weekly_tasks')}</h3>${renderTaskGroups(weeklyTasks)}</div>` : (dailyTasks.length? '' : html`<i>${this._t('msg.no_tasks')}</i>`)}
 					</div>
 					<div class="overlay shop-child-overlay ${this._shopOpen?'open':''}" @click=${e=>{ if(e.target.classList.contains('overlay')) this._shopOpen=false; }}>
 						<div class="modal shop-child-modal" @click=${e=>e.stopPropagation()}>
@@ -1668,23 +1942,34 @@ class Chores4KidsCard extends LitElement {
 	async _createTask(){
 		this._touchedTitle=true; this._touchedPoints=true;
 		if(this._hasFormErrors) return;
-		const _days = Array.from(this._repeatDays||[]);
-		const _ids = Array.from(this._repeatAssign||[]);
+		const repeatOn = !!this._repeatEnabled;
+		const bonusOn = !!this._taskEarlyBonusEnabled;
+		const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
+		const _days = repeatOn ? Array.from(this._repeatDays||[]) : [];
+		const _ids = repeatOn ? Array.from(this._repeatAssign||[]) : [];
 		const _cats = Array.from(this._taskCategories||[]);
 		const _persist = !!this._persistUntilDone;
+		const _quick = !!this._quickComplete;
+		const _skip = !!this._skipApproval;
 		
 		// Check if today is in repeat days - if so, auto-assign immediately
 		const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
 		const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
 		const todayBackend = weekdayMap[today];
-		const assignToday = _days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]);
+		const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
 		
 		if ((_ids||[]).length <= 1){
 			const taskData = {
 				title:this._taskTitle,
 				points:Number(this._taskPoints),
 				description:this._taskDesc||'',
+				due: dueVal,
+				early_bonus_enabled: bonusOn,
+				early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
+				early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
 				icon:this._taskIcon||undefined,
+				quick_complete: _quick,
+				skip_approval: _skip,
 				repeat_days:_days,
 				repeat_child_id: (_ids[0]||'') || undefined,
 				persist_until_completed: _persist,
@@ -1703,7 +1988,13 @@ class Chores4KidsCard extends LitElement {
 					title:this._taskTitle,
 					points:Number(this._taskPoints),
 					description:this._taskDesc||'',
+					due: dueVal,
+					early_bonus_enabled: bonusOn,
+					early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
+					early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
 					icon:this._taskIcon||undefined,
+					quick_complete: _quick,
+					skip_approval: _skip,
 					repeat_days:_days,
 					repeat_child_id: cid,
 					persist_until_completed: _persist,
@@ -1720,13 +2011,127 @@ class Chores4KidsCard extends LitElement {
 		}
 		// Clear form and reset validation state so inputs don't show errors
 		this._taskTitle=this._taskPoints=this._taskDesc=this._taskIcon='';
+		this._taskDue='';
+		this._taskEarlyBonusDays='';
+		this._taskEarlyBonusPoints='';
+		this._taskEarlyBonusEnabled=false;
 		this._repeatDays=new Set();
 		this._repeatAssign=new Set();
+		this._repeatEnabled=false;
 		this._taskCategories=new Set();
 		this._persistUntilDone=false;
+		this._quickComplete=false;
+		this._skipApproval=false;
 		this._touchedTitle=false; this._touchedPoints=false;
 	}
 	async _setStatus(taskId,status){ try{ await this.hass.callService('chores4kids','set_task_status',{ task_id: taskId, status }); } finally { if (status!=='awaiting_approval'){ this._clearCompleted(taskId); } } }
+	_canManualReassign(task){
+		try{
+			// Only show when it matches the same scenario as the approval popup:
+			// the (carry-over) task repeats today, but today's copy is missing.
+			if(!(!!task?.skip_approval && !!task?.persist_until_completed && task?.status === 'approved')) return false;
+			const isCarry = this._isTaskOverdue(task) || this._isFromBeforeToday(task);
+			if(!isCarry) return false;
+			if(!this._autoAssignActive(task)) return false;
+			const today = new Date().getDay(); // 0=Sun
+			const weekdayMap = [6, 0, 1, 2, 3, 4, 5];
+			const todayBackend = weekdayMap[today];
+			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
+			const map = ['mon','tue','wed','thu','fri','sat','sun'];
+			const todayKey = map[todayBackend];
+			if(!(repeatDays.includes(todayBackend) || repeatDays.includes(todayKey))) return false;
+			const targetIds = Array.isArray(task.repeat_child_ids) && task.repeat_child_ids.length
+				? task.repeat_child_ids
+				: (task.repeat_child_id ? [task.repeat_child_id] : [task.assigned_to]);
+			// Show button if at least one target child is missing today's copy
+			for (const childId of targetIds) {
+				if(!childId) continue;
+				const alreadyHasTodays = (this._store.allTasks||[]).some(t =>
+					!!t.assigned_to &&
+					t.assigned_to === childId &&
+					t.title === task.title &&
+					Number(t.points) === Number(task.points) &&
+					!t.carried_over &&
+					['assigned','in_progress','awaiting_approval'].includes(t.status)
+				);
+				if(!alreadyHasTodays) return true;
+			}
+			return false;
+		}catch{ return false; }
+	}
+	async _manualReassign(task){
+		try{
+			if(!task) return;
+			// Only applicable when the task is a carry-over situation AND repeats today.
+			// Note: backend clears carried_over when approving, so also infer carry-over by created < today.
+			const isCarry = this._isTaskOverdue(task) || this._isFromBeforeToday(task);
+			if(!isCarry || !this._autoAssignActive(task)) return;
+			const today = new Date().getDay(); // 0=Sun
+			const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
+			const todayBackend = weekdayMap[today];
+			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
+			const map = ['mon','tue','wed','thu','fri','sat','sun'];
+			const todayKey = map[todayBackend];
+			if(!(repeatDays.includes(todayBackend) || repeatDays.includes(todayKey))) return;
+
+			// Assign today's version to same child(ren)
+			const targetIds = Array.isArray(task.repeat_child_ids) && task.repeat_child_ids.length
+				? task.repeat_child_ids
+				: (task.repeat_child_id ? [task.repeat_child_id] : [task.assigned_to]);
+
+			// Find the unassigned template task once (preferred)
+			const template = (this._store.allTasks||[]).find(t =>
+				!t.assigned_to &&
+				t.title === task.title &&
+				Number(t.points) === Number(task.points)
+			);
+
+			for (const childId of targetIds) {
+				try{
+					if(!childId) continue;
+					// Avoid creating duplicates if today's copy already exists
+					const alreadyHasTodays = (this._store.allTasks||[]).some(t =>
+						!!t.assigned_to &&
+						t.assigned_to === childId &&
+						t.title === task.title &&
+						Number(t.points) === Number(task.points) &&
+						!t.carried_over &&
+						['assigned','in_progress','awaiting_approval'].includes(t.status)
+					);
+					if(alreadyHasTodays) continue;
+
+					if(template?.id){
+						await this.hass.callService('chores4kids','assign_task',{
+							task_id: template.id,
+							child_id: childId
+						});
+					}else{
+						// Fallback: if there's no template (e.g. task was created as assigned), create an assigned copy.
+						await this.hass.callService('chores4kids','add_task',{
+							title: task.title,
+							points: Number(task.points),
+							description: task.description || '',
+							icon: task.icon || undefined,
+							quick_complete: !!task.quick_complete,
+							skip_approval: !!task.skip_approval,
+							persist_until_completed: !!task.persist_until_completed,
+							categories: Array.isArray(task.categories) ? task.categories : [],
+							repeat_days: Array.isArray(task.repeat_days) ? task.repeat_days : [],
+							repeat_child_id: task.repeat_child_id || undefined,
+							child_id: childId,
+						});
+					}
+				}catch(e){
+					console.error('Failed to manually reassign task:', e);
+				}
+			}
+			// Best-effort: ensure assigned copies inherit categories
+			try{ if(template?.id) this._ensureAssignedHasCategories(template, targetIds); }catch{}
+			this.requestUpdate();
+		}catch(e){
+			console.error('Failed to manually reassign task:', e);
+		}
+	}
 	async _approve(task){ 
 		// Check if task is overdue and has auto-assign for today
 		if (this._isTaskOverdue(task) && this._autoAssignActive(task)) {
@@ -1812,25 +2217,34 @@ class Chores4KidsCard extends LitElement {
 			}
 		}catch{}
 	}
-	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._persistUntilDone = !!t.persist_until_completed; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
+	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; this._taskDue = (()=>{ const d=this._parseDueToDate(t?.due); return d? this._formatDateISO(d) : ''; })(); this._taskEarlyBonusDays = (t?.early_bonus_days!=null && Number(t.early_bonus_days)>0)? String(t.early_bonus_days) : ''; this._taskEarlyBonusPoints = (t?.early_bonus_points!=null && Number(t.early_bonus_points)>0)? String(t.early_bonus_points) : ''; this._taskEarlyBonusEnabled = (()=>{ const v=t?.early_bonus_enabled; if (v===true) return true; if (v===false) return false; return (Number(t?.early_bonus_days||0)>0 && Number(t?.early_bonus_points||0)>0); })(); const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._repeatEnabled = !!(fromAttr.length || kids.length); this._persistUntilDone = !!t.persist_until_completed; this._quickComplete = !!t.quick_complete; this._skipApproval = !!t.skip_approval; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
 	async _saveEditedTask(){
 		if(!this._editingTask) return;
 		// validate like create
 		this._touchedTitle = true; this._touchedPoints = true; this.requestUpdate();
 		if (this._hasFormErrors) return;
 		try{
+			const bonusOn = !!this._taskEarlyBonusEnabled;
+			const repeatOn = !!this._repeatEnabled;
+			const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
 			await this.hass.callService('chores4kids','update_task',{
 				task_id: this._editingTask.id,
 				title: this._taskTitle,
 				points: Number(this._taskPoints),
 				description: this._taskDesc||'',
+				due: dueVal,
+				early_bonus_enabled: bonusOn,
+				early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
+				early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
 				icon: this._taskIcon||'',
 				persist_until_completed: !!this._persistUntilDone,
+				quick_complete: !!this._quickComplete,
+				skip_approval: !!this._skipApproval,
 				categories: Array.from(this._taskCategories||[])
 			});
 			// Try to set multi-children (backend may ignore list if unsupported). Fallback: set first only.
-			const _ids = Array.from(this._repeatAssign||[]);
-			const _days = Array.from(this._repeatDays||[]);
+			const _ids = repeatOn ? Array.from(this._repeatAssign||[]) : [];
+			const _days = repeatOn ? Array.from(this._repeatDays||[]) : [];
 			await this.hass.callService('chores4kids','set_task_repeat',{
 				task_id: this._editingTask.id,
 				repeat_days: _days,
@@ -1839,11 +2253,11 @@ class Chores4KidsCard extends LitElement {
 			});
 			
 			// Check if today is in repeat days and task is unassigned template - if so, auto-assign now
-			if (!this._editingTask.assigned_to && _ids.length > 0) {
+			if (!this._editingTask.assigned_to && repeatOn && _ids.length > 0) {
 				const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
 				const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
 				const todayBackend = weekdayMap[today];
-				const assignToday = _days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]);
+				const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
 				
 				if (assignToday) {
 					// Assign to each selected child
@@ -1863,8 +2277,15 @@ class Chores4KidsCard extends LitElement {
 		} finally {
 			this._editingTask=null;
 			this._taskTitle=this._taskPoints=this._taskDesc=this._taskIcon='';
+			this._taskDue='';
+			this._taskEarlyBonusDays='';
+			this._taskEarlyBonusPoints='';
+			this._taskEarlyBonusEnabled=false;
 			this._repeatDays=new Set(); this._repeatAssign=new Set();
+			this._repeatEnabled=false;
 			this._taskCategories=new Set();
+			this._quickComplete=false;
+			this._skipApproval=false;
 			this._touchedTitle=false; this._touchedPoints=false;
 		}
 	}
@@ -1892,6 +2313,18 @@ class Chores4KidsCard extends LitElement {
 	_defaultOpFor(entity_id){ const dom=(entity_id||'').split('.')[0]; const ops=this._opsForDomain(dom); return ops[0]||'turn_on'; }
 	_opsForDomain(dom){ switch(dom){ case 'switch': case 'light': case 'fan': case 'input_boolean': return ['turn_on','turn_off','toggle']; case 'media_player': return ['turn_on','turn_off','media_play','media_pause','toggle']; case 'lock': return ['lock','unlock']; default: return ['turn_on','turn_off']; } }
 	async _saveAdvanced(){ if(!this._advItem) return; const actions=(this._advSteps||[]).map(st=> st.type==='delay'? { type:'delay', seconds: Number(st.seconds||0) } : { type:'entity_service', entity_id: st.entity_id, op: st.op||'turn_on' }); await this.hass.callService('chores4kids','update_shop_item',{ item_id: this._advItem.id, actions }); this._advItem=null; this._advSteps=[]; this.requestUpdate(); }
+	async _completeNow(task){
+		if(!task||!task.id) return;
+		const next = 'awaiting_approval';
+		// Trigger konfetti + record completion timestamp (same behavior as completing via in_progress)
+		console.log('Triggering confetti!');
+		this._triggerConfetti();
+		const ts = Date.now();
+		console.log('Recording completion timestamp:', task.id, ts);
+		this._recordCompleted(task.id, ts);
+		this.requestUpdate();
+		await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next, completed_ts: ts });
+	}
 	async _advance(task){ 
 		if(!task||!task.id) return; 
 		const next=task.status==='assigned'? 'in_progress' : 'awaiting_approval'; 
@@ -1985,11 +2418,14 @@ class Chores4KidsCard extends LitElement {
 	}
 }
 
-customElements.define('chores4kids-card', Chores4KidsCard);
+customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
 // Simple GUI editor
-class Chores4KidsCardEditor extends LitElement{
+class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
-	setConfig(config){ this._config = { mode:'admin', ...config }; this.requestUpdate(); }
+	setConfig(config){
+		this._config = { mode:'admin', ...config };
+		this.requestUpdate();
+	}
 	_t(key, vars){ return c4kLocalize(key, this.hass || navigator.language || 'en', vars); }
 	_emit(){ this.dispatchEvent(new CustomEvent('config-changed',{ detail:{ config: this._config }, bubbles:true, composed:true })); }
 	async _onSoundUpload(e) {
@@ -2027,12 +2463,12 @@ class Chores4KidsCardEditor extends LitElement{
 		render(){ const cfg=this._config||{}; const kids=this._getChildren(); return html`
 		<div class="card-config">
 			<div class="form-field">
-				<label>Developer-tilstand</label>
+				<label>Debug Mode</label>
 				<label style="display:flex;align-items:center;gap:8px;">
 					<span>${this._t('ui.toggle_off_on')}</span>
 					<ha-switch .checked=${cfg.debug_mode === true} @change=${e=>{ this._config={...cfg, debug_mode: !!e.target.checked}; this._emit(); }}></ha-switch>
 				</label>
-				<small style="opacity:.8; margin-top:4px; display:block;">Shows debug controls like manual overdue marking</small>
+				<small style="opacity:.8; margin-top:4px; display:block;">Shows extra controls like manual overdue marking</small>
 			</div>
 			<div class="form-field" style="margin-top:8px;">
 				<label>Completion Sound</label>
@@ -2076,12 +2512,13 @@ class Chores4KidsCardEditor extends LitElement{
 					`}
 				</div>
 			`:''}
-		</div>`; }
+		</div>`;
+		}
 	static get styles(){ return css`.card-config{ display:grid; gap:8px; } label{ display:block; font-weight:600; margin-bottom:4px; } input,select{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); }`; }
 }
-customElements.define('chores4kids-card-editor', Chores4KidsCardEditor);
+customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor);
 
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Parent/Child/Recent)', preview: true, description: 'Combined card – choose Parent, Child, or Recent tasks in the editor' });
+window.customCards.push({ type: 'chores4kids-dev-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
 
