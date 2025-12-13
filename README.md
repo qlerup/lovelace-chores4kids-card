@@ -1,5 +1,9 @@
 # Chores4Kids Card — Feature Guide & How‑To ✨🧹👧👦🧩
 
+If you find this project useful, you can support me on Ko-fi 💙  
+
+[![Buy me some debugging time on Ko-fi](https://img.shields.io/badge/%F0%9F%90%9E_Buy_me_some_debugging_time_on-Ko--fi-2ea44f?style=for-the-badge)](https://ko-fi.com/qlerup)
+
 > **Important:** This card **requires** the [Chores4Kids integration](https://github.com/qlerup/chores4kids-sync) (custom component). Install and configure the integration first (via HACS or by copying `custom_components/chores4kids/`). The card will **not** work without it.
 
 A powerful, family‑friendly Home Assistant card to manage kids’ chores, points, and a reward shop — all in one place. It supports an **Admin view** (for parents) and a **Kid view** (for each child), plus repeat/auto‑assignment and an optional point shop with advanced actions.
