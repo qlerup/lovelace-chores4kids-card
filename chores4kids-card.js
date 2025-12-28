@@ -2814,11 +2814,6 @@ class Chores4KidsDevCard extends LitElement {
 }
 
 customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
-
-// Alias without "dev" for user-visible Lovelace type (keep dev for backwards compatibility)
-if (!customElements.get('chores4kids-card')) {
-	customElements.define('chores4kids-card', Chores4KidsDevCard);
-}
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
@@ -3074,12 +3069,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 }
 customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor);
 
-// Alias editor tag without "dev" (keep dev for backwards compatibility)
-if (!customElements.get('chores4kids-card-editor')) {
-	customElements.define('chores4kids-card-editor', Chores4KidsDevCardEditor);
-}
-
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+window.customCards.push({ type: 'chores4kids-dev-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
 
