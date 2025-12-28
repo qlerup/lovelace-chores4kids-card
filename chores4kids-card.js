@@ -5,8 +5,11 @@ const C4K_I18N = {
 	en: {
 		// Shared/admin
 		'overview.title': 'Assigned tasks',
+		'overview.finished_title': 'Finished tasks',
 		'overview.show_all': 'Show all ({pending} pending)',
+		'overview.none_active': 'No active tasks right now.',
 		'overview.none': 'No tasks yet.',
+		'overview.finished_none': 'No finished tasks yet.',
 		'card.admin_title': 'Chores4Kids – Parents',
 		'input.new_child_name': 'New child — name',
 			'input.new_category_name': 'New category — name',
@@ -39,11 +42,12 @@ const C4K_I18N = {
 		'ui.auto_recycle': 'Auto recycle approved tasks',
 		'ui.quick_complete': 'One-tap completion',
 		'ui.skip_approval': 'Skip parent approval',
+			'ui.fastest_wins': 'Fastest wins (first child claims the task)',
 		'ui.persist_until_done': 'Carry unfinished task to next day',
 		'ui.persist_help': 'Unfinished task will automatically move to next day',
 		'ui.toggle_off_on': 'Off/On',
 		'section.tasks': 'Tasks',
-		'form.save': 'Save', 'form.add':'Add', 'form.cancel':'Cancel',
+		'form.save': 'Save', 'form.add':'Add', 'form.cancel':'Cancel', 'form.close':'Close', 'form.clear':'Clear',
 		'repeat.label': 'Repeat', 'repeat.enable': 'Repeat task', 'repeat.auto_assign': 'Auto-assign (repeat)', 'repeat.save': 'Save plan',
 		'repeat.days.mon':'Mon','repeat.days.tue':'Tue','repeat.days.wed':'Wed','repeat.days.thu':'Thu','repeat.days.fri':'Fri','repeat.days.sat':'Sat','repeat.days.sun':'Sun',
 		'assign.disabled_auto': 'Disabled: auto-assign (repeat) is active',
@@ -52,7 +56,7 @@ const C4K_I18N = {
 			'sort.configure': 'Sorting', 'sort.title': 'Choose order', 'sort.categories_order': 'Categories order', 'sort.none': 'No category', 'sort.save': 'Save', 'sort.reset': 'Reset',
 		'points.title': 'Add points to {name}', 'points.quick':'Quick add', 'points.remove':'Quick remove', 'points.custom':'Custom amount',
 		'err.title_required':'Title is required','err.points_required':'Points are required','err.points_number':'Points must be a number','err.points_positive':'Points must be 0 or more',
-		'status.assigned':'Assigned','status.in_progress':'In progress','status.awaiting_approval':'Awaiting approval','status.approved':'Approved','status.rejected':'Rejected','status.unassigned':'Unassigned',
+		'status.assigned':'Assigned','status.in_progress':'In progress','status.awaiting_approval':'Awaiting approval','status.approved':'Approved','status.rejected':'Rejected','status.unassigned':'Unassigned','status.taken':'Taken',
 		'status.overdue':'Overdue','overdue.reassign_prompt':'This task is also scheduled for today. Assign it again?','overdue.yes':'Yes, assign again','overdue.no':'No thanks',
 		// Shop
 		'shop.title':'Point shop','shop.open':'Open shop','shop.item':'Item','shop.price':'Price','shop.icon':'Icon','shop.image':'Image','shop.upload':'Upload image','shop.add_item':'Add item','shop.history':'Purchase history','shop.child':'Child','shop.when':'When','shop.date':'Date','shop.time':'Time','shop.advanced':'Advanced actions','shop.entity':'Entity','shop.operation':'Operation','shop.add_action':'Add action','shop.add_delay':'Add delay','shop.steps':'Steps','shop.seconds':'Seconds','shop.minutes':'Minutes','shop.hours':'Hours','shop.delay':'Delay','shop.active':'Active','shop.buy':'Buy','shop.clear_history':'Clear history','confirm.clear_history':'Clear all purchase history?',
@@ -62,6 +66,7 @@ const C4K_I18N = {
 		'msg.no_tasks': 'No tasks right now.',
 			'btn.done': 'Done', 'btn.start_task': 'Start task', 'btn.complete_task': 'Complete task', 'btn.task_done': 'Task done',
 			'lbl.awaiting':'Awaiting approval',
+			'lbl.taken_by':'Task taken by {name}',
 			'lbl.points': 'points',
 			'section.daily_tasks': 'Today',
 			'section.weekly_tasks': 'Weekly tasks',
@@ -69,12 +74,37 @@ const C4K_I18N = {
 			'lbl.early_bonus_by': '+{points} bonus points if done on {date} or before',
 			// Editor UI
 			'editor.mode':'Mode', 'editor.mode_admin':'Parents', 'editor.mode_kid':'Kid', 'editor.mode_overview':'Recent tasks',
-			'editor.child_label':'Child', 'editor.child_placeholder':'Child name', 'editor.child_select_prompt':'— Select child —', 'editor.child_hint':'No children found yet — type the name manually.'
+			'editor.child_label':'Child', 'editor.child_placeholder':'Child name', 'editor.child_select_prompt':'— Select child —', 'editor.child_hint':'No children found yet — type the name manually.',
+			'editor.developer_mode':'Developer Mode',
+			'editor.developer_mode_help':'Shows debug controls like manual overdue marking',
+			'editor.enable_points':'Points',
+			'editor.enable_points_help':'Show points, point shop, and point actions',
+			'editor.completion_sound':'Completion Sound',
+			'editor.completion_sound_help':'Saved as /local/chores4kids/completion.<ext> and used across dashboards',
+			'editor.colors':'Colors',
+			'editor.color_field_bg':'Background',
+			'editor.color_field_text':'Text',
+			'editor.color_group_start':'Start task button',
+			'editor.color_group_complete':'Complete task button',
+			'editor.color_group_kid_points':'Kids Total Points',
+			'editor.color_group_task_points':'Task points',
+			'editor.color_start_bg':'Start task button (background)',
+			'editor.color_start_text':'Start task button (text)',
+			'editor.color_complete_bg':'Complete task button (background)',
+			'editor.color_complete_text':'Complete task button (text)',
+			'editor.color_kid_points_bg':'Kids Total Points (background)',
+			'editor.color_kid_points_text':'Kids Total Points (text)',
+			'editor.color_task_points_bg':'Task points (background)',
+			'editor.color_task_points_text':'Task points (text)',
+			'editor.color_empty_default':'Empty = default'
 	},
 	da: {
 		'overview.title': 'Tildelte opgaver',
+		'overview.finished_title': 'Færdige opgaver',
 		'overview.show_all': 'Vis alle ({pending} afventer)',
+		'overview.none_active': 'Ingen aktive opgaver lige nu.',
 		'overview.none': 'Ingen opgaver endnu.',
+		'overview.finished_none': 'Ingen færdige opgaver endnu.',
 		'card.admin_title': 'Chores4Kids – Forældre',
 		'input.new_child_name': 'Nyt barn – navn',
 			'input.new_category_name': 'Ny kategori – navn',
@@ -107,11 +137,12 @@ const C4K_I18N = {
 		'ui.auto_recycle': 'Genopret automatisk efter godkendelse',
 		'ui.quick_complete': 'Ét-tryk færdig',
 		'ui.skip_approval': 'Spring forældre godkendelse over',
+			'ui.fastest_wins': 'Hurtigst vinder (første barn tager opgaven)',
 		'ui.persist_until_done': 'Flyt ufærdig opgave til næste dag',
 		'ui.persist_help': 'Ufærdig opgave flyttes automatisk til næste dag',
 		'ui.toggle_off_on': 'Fra/Til',
 		'section.tasks': 'Opgaver',
-		'form.save': 'Gem', 'form.add':'Tilføj', 'form.cancel':'Annullér',
+		'form.save': 'Gem', 'form.add':'Tilføj', 'form.cancel':'Annullér', 'form.close':'Luk', 'form.clear':'Ryd',
 		'repeat.label': 'Gentagelse', 'repeat.enable': 'Gentag opgave', 'repeat.auto_assign': 'Auto-tildel (gentagelse)', 'repeat.save': 'Gem plan',
 		'repeat.days.mon':'Man','repeat.days.tue':'Tir','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lør','repeat.days.sun':'Søn',
 		'assign.disabled_auto': 'Deaktiveret: auto-tildeling (gentagelse) er aktiv',
@@ -120,11 +151,11 @@ const C4K_I18N = {
 			'sort.configure': 'Sortering', 'sort.title': 'Vælg rækkefølge', 'sort.categories_order': 'Rækkefølge for kategorier', 'sort.none': 'Ingen kategori', 'sort.save': 'Gem', 'sort.reset': 'Nulstil',
 		'points.title': 'Tilføj point til {name}', 'points.quick':'Hurtig tilføj', 'points.remove':'Hurtig fratræk', 'points.custom':'Valgfrit antal',
 		'err.title_required':'Titel er påkrævet','err.points_required':'Point skal udfyldes','err.points_number':'Point skal være et tal','err.points_positive':'Point skal være 0 eller mere',
-		'status.assigned':'Tildelt','status.in_progress':'I gang','status.awaiting_approval':'Afventer godkendelse','status.approved':'Godkendt','status.rejected':'Afvist','status.unassigned':'Ikke tildelt',
+		'status.assigned':'Tildelt','status.in_progress':'I gang','status.awaiting_approval':'Afventer godkendelse','status.approved':'Godkendt','status.rejected':'Afvist','status.unassigned':'Ikke tildelt','status.taken':'Taget',
 		'status.overdue':'Forfalden','overdue.reassign_prompt':'Denne opgave er også planlagt i dag. Tildel den igen?','overdue.yes':'Ja, tildel igen','overdue.no':'Nej tak',
-		'debug.mark_overdue':'Markér forfalden',
+		'debug.mark_overdue':'[TEST] Markér forfalden',
 		'shop.title':'Pointshop','shop.open':'Åbn shop','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Billede','shop.upload':'Upload billede','shop.add_item':'Tilføj vare','shop.history':'Købshistorik','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.advanced':'Avancerede handlinger','shop.entity':'Enhed','shop.operation':'Handling','shop.add_action':'Tilføj handling','shop.add_delay':'Tilføj delay','shop.steps':'Trin','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse','shop.active':'Aktiv','shop.buy':'Køb','shop.clear_history':'Ryd historik','confirm.clear_history':'Ryd hele købshistorikken?',
-			'card.child_title_fallback': 'Chores4Kids – {name}', 'msg.child_not_found': 'Barn ikke fundet. Tjek navn i kort-konfigurationen.', 'msg.no_tasks':'Ingen opgaver lige nu.', 'btn.done':'Fuldført', 'btn.start_task':'Start opgave', 'btn.complete_task':'Opgave klaret', 'btn.task_done':'Opgave færdig', 'lbl.awaiting':'Afventer godkendelse', 'lbl.points': 'point',
+			'card.child_title_fallback': 'Chores4Kids – {name}', 'msg.child_not_found': 'Barn ikke fundet. Tjek navn i kort-konfigurationen.', 'msg.no_tasks':'Ingen opgaver lige nu.', 'btn.done':'Fuldført', 'btn.start_task':'Start opgave', 'btn.complete_task':'Opgave klaret', 'btn.task_done':'Opgave færdig', 'lbl.awaiting':'Afventer godkendelse', 'lbl.taken_by':'Opgave taget af {name}', 'lbl.points': 'point',
 			'section.daily_tasks': 'Dagens opgaver',
 			'section.weekly_tasks': 'Ugens opgaver',
 			'lbl.deadline': 'Deadline: {date}',
@@ -132,9 +163,31 @@ const C4K_I18N = {
 			,
 			// Editor UI
 			'editor.mode':'Tilstand','editor.mode_admin':'Forældre','editor.mode_kid':'Barn','editor.mode_overview':'Seneste opgaver',
-			'editor.child_label':'Barn','editor.child_placeholder':'Navn på barn','editor.child_select_prompt':'— Vælg barn —','editor.child_hint':'Ingen børn fundet endnu – skriv navnet manuelt.'
+			'editor.child_label':'Barn','editor.child_placeholder':'Navn på barn','editor.child_select_prompt':'— Vælg barn —','editor.child_hint':'Ingen børn fundet endnu – skriv navnet manuelt.',
+			'editor.developer_mode':'Developer Mode',
+			'editor.developer_mode_help':'Viser debug-kontroller som manuel forfaldsmarkering',
+			'editor.enable_points':'Point',
+			'editor.enable_points_help':'Vis point, pointshop og point-handlinger',
+			'editor.completion_sound':'Completion Sound',
+			'editor.completion_sound_help':'Gemmes som /local/chores4kids/completion.<ext> og bruges på tværs af dashboards',
+			'editor.colors':'Farver',
+			'editor.color_field_bg':'Baggrund',
+			'editor.color_field_text':'Tekst',
+			'editor.color_group_start':'Start opgave knap',
+			'editor.color_group_complete':'Opgave klaret knap',
+			'editor.color_group_kid_points':'Børnenes samlede point',
+			'editor.color_group_task_points':'Opgavepoint',
+			'editor.color_start_bg':'Start opgave (knap – baggrund)',
+			'editor.color_start_text':'Start opgave (knap – tekst)',
+			'editor.color_complete_bg':'Opgave klaret (knap – baggrund)',
+			'editor.color_complete_text':'Opgave klaret (knap – tekst)',
+			'editor.color_kid_points_bg':'Børnenes samlede point (baggrund)',
+			'editor.color_kid_points_text':'Børnenes samlede point (tekst)',
+			'editor.color_task_points_bg':'Opgavepoint (baggrund)',
+			'editor.color_task_points_text':'Opgavepoint (tekst)',
+			'editor.color_empty_default':'Tom = standard'
 		},
-		sv: {
+			sv: {
 			'overview.title': 'Tilldelade uppgifter', 'overview.show_all': 'Visa alla ({pending} väntar)', 'overview.none': 'Inga uppgifter ännu.',
 			'card.admin_title': 'Chores4Kids – Förälder', 'input.new_child_name': 'Nytt barn — namn', 'btn.add_child': 'Lägg till barn',
 			'input.new_category_name':'Ny kategori — namn','btn.add_category':'Lägg till kategori','section.categories':'Kategorier','th.categories':'Kategorier','ph.categories':'Kategorier','select.categories':'Välj kategorier',
@@ -151,24 +204,44 @@ const C4K_I18N = {
 			'btn.start':'Starta','btn.back':'Tilldela igen','btn.awaiting':'Väntar','btn.approve':'Godkänn','lbl.approved':'Godkänd',
 			'section.scoreboard':'Poängtavla', 'confirm.delete_child':'Ta bort {name}?','confirm.delete_task':'Ta bort uppgift?', 'alert.choose_child_first':'Välj ett barn först',
 			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Flytta ofärdig uppgift till nästa dag', 'ui.persist_help':'Ofärdig uppgift flyttas automatiskt till nästa dag', 'ui.quick_complete':'Klar med ett tryck', 'ui.skip_approval':'Hoppa över föräldragodkännande',
-			'section.tasks':'Uppgifter', 'form.save':'Spara','form.add':'Lägg till','form.cancel':'Avbryt',
+			'section.tasks':'Uppgifter', 'form.save':'Spara','form.add':'Lägg till','form.cancel':'Avbryt','form.close':'Stäng','form.clear':'Rensa',
 			'repeat.label':'Upprepa','repeat.auto_assign':'Auto-tilldela (upprepa)','repeat.save':'Spara plan',
 			'repeat.days.mon':'Mån','repeat.days.tue':'Tis','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lör','repeat.days.sun':'Sön',
 			'assign.disabled_auto':'Inaktiverad: auto-tilldelning (upprepning) är aktiv', 'assign.auto_to':'Auto-tilldelad till {names}',
 			'btn.add_points':'Lägg till poäng','btn.reset_points':'Återställ poäng', 'points.title':'Lägg till poäng till {name}','points.quick':'Snabbtillägg','points.remove':'Snabb borttagning','points.custom':'Anpassat antal',
 			'err.title_required':'Titel krävs','err.points_required':'Poäng krävs','err.points_number':'Poäng måste vara ett tal','err.points_positive':'Poängen måste vara 0 eller mer',
-			'status.assigned':'Tilldelad','status.in_progress':'Pågår','status.awaiting_approval':'Väntar på godkännande','status.approved':'Godkänd','status.rejected':'Avvisad','status.unassigned':'Ej tilldelad',
+			'status.assigned':'Tilldelad','status.in_progress':'Pågår','status.awaiting_approval':'Väntar på godkännande','status.approved':'Godkänd','status.rejected':'Avvisad','status.unassigned':'Ej tilldelad','status.taken':'Tagen',
 			'shop.title':'Shop','shop.open':'Öppna shop','shop.item':'Vara','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bild','shop.upload':'Ladda upp bild','shop.add_item':'Lägg till vara','shop.history':'Köphistorik','shop.child':'Barn','shop.when':'Tidpunkt','shop.date':'Datum','shop.time':'Tid','shop.active':'Aktiv','shop.buy':'Köp','shop.clear_history':'Rensa historik','confirm.clear_history':'Rensa all köphistorik?',
 			'shop.advanced':'Avancerade åtgärder','shop.entity':'Enhet','shop.operation':'Åtgärd','shop.add_action':'Lägg till åtgärd','shop.add_delay':'Lägg till fördröjning','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minuter','shop.hours':'Timmar','shop.delay':'Fördröjning',
 			'sort.configure':'Sortering','sort.title':'Välj ordning','sort.categories_order':'Ordning för kategorier','sort.none':'Ingen kategori','sort.save':'Spara','sort.reset':'Återställ',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn hittades inte. Kontrollera namnet i kortets konfiguration.','msg.no_tasks':'Inga uppgifter just nu.', 'btn.done':'Klar','btn.start_task':'Starta uppgift','btn.complete_task':'Uppgift klar','btn.task_done':'Uppgift klar','lbl.awaiting':'Väntar på godkännande','lbl.points':'poäng',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn hittades inte. Kontrollera namnet i kortets konfiguration.','msg.no_tasks':'Inga uppgifter just nu.', 'btn.done':'Klar','btn.start_task':'Starta uppgift','btn.complete_task':'Uppgift klar','btn.task_done':'Uppgift klar','lbl.awaiting':'Väntar på godkännande','lbl.taken_by':'Uppgiften är tagen av {name}','lbl.points':'poäng',
 			'section.daily_tasks':'Idag',
 			'section.weekly_tasks':'Veckouppgifter',
 			'lbl.deadline':'Deadline: {date}',
 			'lbl.early_bonus_by':'+{points} bonuspoäng om klart {date} eller tidigare',
 			// Editor UI
 			'editor.mode':'Läge','editor.mode_admin':'Förälder','editor.mode_kid':'Barn','editor.mode_overview':'Senaste uppgifter',
-			'editor.child_label':'Barn','editor.child_placeholder':'Barnets namn','editor.child_select_prompt':'— Välj barn —','editor.child_hint':'Inga barn hittades ännu – skriv namnet manuellt.'
+			'editor.child_label':'Barn','editor.child_placeholder':'Barnets namn','editor.child_select_prompt':'— Välj barn —','editor.child_hint':'Inga barn hittades ännu – skriv namnet manuellt.',
+			'editor.developer_mode':'Utvecklarläge',
+			'editor.developer_mode_help':'Visar debug-kontroller som manuell förseningsmarkering',
+			'editor.completion_sound':'Klar-ljud',
+			'editor.completion_sound_help':'Sparas som /local/chores4kids/completion.<ext> och används på alla dashboards',
+			'editor.colors':'Färger',
+			'editor.color_field_bg':'Bakgrund',
+			'editor.color_field_text':'Text',
+			'editor.color_group_start':'Starta uppgift-knapp',
+			'editor.color_group_complete':'Uppgift klar-knapp',
+			'editor.color_group_kid_points':'Barnens totalpoäng',
+			'editor.color_group_task_points':'Uppgiftspoäng',
+			'editor.color_start_bg':'Starta uppgift-knapp (bakgrund)',
+			'editor.color_start_text':'Starta uppgift-knapp (text)',
+			'editor.color_complete_bg':'Uppgift klar-knapp (bakgrund)',
+			'editor.color_complete_text':'Uppgift klar-knapp (text)',
+			'editor.color_kid_points_bg':'Barnens totalpoäng (bakgrund)',
+			'editor.color_kid_points_text':'Barnens totalpoäng (text)',
+			'editor.color_task_points_bg':'Uppgiftspoäng (bakgrund)',
+			'editor.color_task_points_text':'Uppgiftspoäng (text)',
+			'editor.color_empty_default':'Tomt = standard'
 		},
 			nb: {
 				'overview.title':'Tildelte oppgaver','overview.show_all':'Vis alle ({pending} venter)','overview.none':'Ingen oppgaver ennå.',
@@ -187,24 +260,44 @@ const C4K_I18N = {
 			'btn.start':'Start','btn.back':'Tildel på nytt','btn.awaiting':'Avventer','btn.approve':'Godkjenn','lbl.approved':'Godkjent',
 			'section.scoreboard':'Poengtavle','confirm.delete_child':'Slette {name}?','confirm.delete_task':'Slette oppgave?','alert.choose_child_first':'Velg et barn først',
 			'ui.toggle_off_on':'Av/På', 'ui.persist_until_done':'Flytt uferdig oppgave til neste dag', 'ui.persist_help':'Uferdig oppgave flyttes automatisk til neste dag', 'ui.quick_complete':'Ferdig med ett trykk', 'ui.skip_approval':'Hopp over foreldregodkjenning',
-			'section.tasks':'Oppgaver','form.save':'Lagre','form.add':'Legg til','form.cancel':'Avbryt',
+			'section.tasks':'Oppgaver','form.save':'Lagre','form.add':'Legg til','form.cancel':'Avbryt','form.close':'Lukk','form.clear':'Tøm',
 			'repeat.label':'Gjentakelse','repeat.auto_assign':'Auto-tildel (gjentakelse)','repeat.save':'Lagre plan',
 			'repeat.days.mon':'Man','repeat.days.tue':'Tir','repeat.days.wed':'Ons','repeat.days.thu':'Tor','repeat.days.fri':'Fre','repeat.days.sat':'Lør','repeat.days.sun':'Søn',
 			'assign.disabled_auto':'Deaktivert: auto-tildeling (gjentakelse) er aktiv', 'assign.auto_to':'Auto-tildelt til {names}',
 			'btn.add_points':'Legg til poeng','btn.reset_points':'Nullstill poeng', 'points.title':'Legg til poeng til {name}','points.quick':'Hurtig legg til','points.remove':'Hurtig trekk fra','points.custom':'Valgfritt antall',
 			'err.title_required':'Tittel er påkrevd','err.points_required':'Poeng må fylles ut','err.points_number':'Poeng må være et tall','err.points_positive':'Poeng må være 0 eller mer',
-			'status.assigned':'Tildelt','status.in_progress':'Pågår','status.awaiting_approval':'Avventer godkjenning','status.approved':'Godkjent','status.rejected':'Avvist','status.unassigned':'Ikke tildelt',
+			'status.assigned':'Tildelt','status.in_progress':'Pågår','status.awaiting_approval':'Avventer godkjenning','status.approved':'Godkjent','status.rejected':'Avvist','status.unassigned':'Ikke tildelt','status.taken':'Tatt',
 			'shop.title':'Butikk','shop.open':'Åpne butikk','shop.item':'Vare','shop.price':'Pris','shop.icon':'Ikon','shop.image':'Bilde','shop.upload':'Last opp bilde','shop.add_item':'Legg til vare','shop.history':'Kjøpshistorikk','shop.child':'Barn','shop.when':'Tidspunkt','shop.date':'Dato','shop.time':'Tidspunkt','shop.active':'Aktiv','shop.buy':'Kjøp','shop.clear_history':'Rydd historikk','confirm.clear_history':'Rydd hele kjøpshistorikken?',
 			'shop.advanced':'Avanserte handlinger','shop.entity':'Enhet','shop.operation':'Handling','shop.add_action':'Legg til handling','shop.add_delay':'Legg til forsinkelse','shop.steps':'Steg','shop.seconds':'Sekunder','shop.minutes':'Minutter','shop.hours':'Timer','shop.delay':'Forsinkelse',
 			'sort.configure':'Sortering','sort.title':'Velg rekkefølge','sort.categories_order':'Rekkefølge for kategorier','sort.none':'Ingen kategori','sort.save':'Lagre','sort.reset':'Nullstill',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn ikke funnet. Sjekk navnet i kortkonfigurasjonen.','msg.no_tasks':'Ingen oppgaver nå.', 'btn.done':'Ferdig','btn.start_task':'Start oppgave','btn.complete_task':'Oppgave klar','btn.task_done':'Oppgave ferdig','lbl.awaiting':'Venter på godkjenning','lbl.points':'poeng',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Barn ikke funnet. Sjekk navnet i kortkonfigurasjonen.','msg.no_tasks':'Ingen oppgaver nå.', 'btn.done':'Ferdig','btn.start_task':'Start oppgave','btn.complete_task':'Oppgave klar','btn.task_done':'Oppgave ferdig','lbl.awaiting':'Venter på godkjenning','lbl.taken_by':'Oppgave tatt av {name}','lbl.points':'poeng',
 			'section.daily_tasks':'I dag',
 			'section.weekly_tasks':'Ukens oppgaver',
 			'lbl.deadline':'Frist: {date}',
 			'lbl.early_bonus_by':'+{points} bonuspoeng hvis gjort {date} eller før',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Forelder','editor.mode_kid':'Barn','editor.mode_overview':'Siste oppgaver',
-			'editor.child_label':'Barn','editor.child_placeholder':'Barnets navn','editor.child_select_prompt':'— Velg barn —','editor.child_hint':'Ingen barn funnet ennå – skriv inn navnet manuelt.'
+			'editor.child_label':'Barn','editor.child_placeholder':'Barnets navn','editor.child_select_prompt':'— Velg barn —','editor.child_hint':'Ingen barn funnet ennå – skriv inn navnet manuelt.',
+			'editor.developer_mode':'Utviklermodus',
+			'editor.developer_mode_help':'Viser debug-kontroller som manuell forfallsmarkering',
+			'editor.completion_sound':'Fullføringslyd',
+			'editor.completion_sound_help':'Lagres som /local/chores4kids/completion.<ext> og brukes på tvers av dashboards',
+			'editor.colors':'Farger',
+			'editor.color_field_bg':'Bakgrunn',
+			'editor.color_field_text':'Tekst',
+			'editor.color_group_start':'Start oppgave-knapp',
+			'editor.color_group_complete':'Oppgave klar-knapp',
+			'editor.color_group_kid_points':'Barnas totalpoeng',
+			'editor.color_group_task_points':'Oppgavepoeng',
+			'editor.color_start_bg':'Start oppgave-knapp (bakgrunn)',
+			'editor.color_start_text':'Start oppgave-knapp (tekst)',
+			'editor.color_complete_bg':'Oppgave klar-knapp (bakgrunn)',
+			'editor.color_complete_text':'Oppgave klar-knapp (tekst)',
+			'editor.color_kid_points_bg':'Barnas totalpoeng (bakgrunn)',
+			'editor.color_kid_points_text':'Barnas totalpoeng (tekst)',
+			'editor.color_task_points_bg':'Oppgavepoeng (bakgrunn)',
+			'editor.color_task_points_text':'Oppgavepoeng (tekst)',
+			'editor.color_empty_default':'Tom = standard'
 		},
 			de: {
 				'overview.title':'Zugewiesene Aufgaben','overview.show_all':'Alle anzeigen ({pending} ausstehend)','overview.none':'Noch keine Aufgaben.',
@@ -223,24 +316,44 @@ const C4K_I18N = {
 			'btn.start':'Starten','btn.back':'Neu zuweisen','btn.awaiting':'Wartet','btn.approve':'Genehmigen','lbl.approved':'Genehmigt',
 			'section.scoreboard':'Bestenliste','confirm.delete_child':'{name} löschen?','confirm.delete_task':'Aufgabe löschen?','alert.choose_child_first':'Bitte zuerst ein Kind wählen',
 			'ui.toggle_off_on':'Aus/An', 'ui.persist_until_done':'Unfertige Aufgabe auf den nächsten Tag verschieben', 'ui.persist_help':'Unfertige Aufgabe wird automatisch auf den nächsten Tag verschoben', 'ui.quick_complete':'Mit einem Tip erledigen', 'ui.skip_approval':'Elternbestätigung überspringen',
-			'section.tasks':'Aufgaben','form.save':'Speichern','form.add':'Hinzufügen','form.cancel':'Abbrechen',
+			'section.tasks':'Aufgaben','form.save':'Speichern','form.add':'Hinzufügen','form.cancel':'Abbrechen','form.clear':'Leeren',
 			'repeat.label':'Wiederholen','repeat.auto_assign':'Automatisch zuweisen (Wiederholung)','repeat.save':'Plan speichern',
 			'repeat.days.mon':'Mo','repeat.days.tue':'Di','repeat.days.wed':'Mi','repeat.days.thu':'Do','repeat.days.fri':'Fr','repeat.days.sat':'Sa','repeat.days.sun':'So',
 			'assign.disabled_auto':'Deaktiviert: automatische Zuweisung (Wiederholung) aktiv', 'assign.auto_to':'Automatisch zugewiesen an {names}',
 			'btn.add_points':'Punkte hinzufügen','btn.reset_points':'Punkte zurücksetzen','points.title':'Punkte hinzufügen für {name}','points.quick':'Schnell hinzufügen','points.remove':'Schnell abziehen','points.custom':'Eigene Anzahl',
 			'err.title_required':'Titel ist erforderlich','err.points_required':'Punkte sind erforderlich','err.points_number':'Punkte müssen eine Zahl sein','err.points_positive':'Punkte müssen 0 oder mehr sein',
-			'status.assigned':'Zugewiesen','status.in_progress':'In Arbeit','status.awaiting_approval':'Wartet auf Genehmigung','status.approved':'Genehmigt','status.rejected':'Abgelehnt','status.unassigned':'Nicht zugewiesen',
+			'status.assigned':'Zugewiesen','status.in_progress':'In Arbeit','status.awaiting_approval':'Wartet auf Genehmigung','status.approved':'Genehmigt','status.rejected':'Abgelehnt','status.unassigned':'Nicht zugewiesen','status.taken':'Vergeben',
 			'shop.title':'Shop','shop.open':'Shop öffnen','shop.item':'Artikel','shop.price':'Preis','shop.icon':'Symbol','shop.image':'Bild','shop.upload':'Bild hochladen','shop.add_item':'Artikel hinzufügen','shop.history':'Kaufhistorie','shop.child':'Kind','shop.when':'Zeitpunkt','shop.date':'Datum','shop.time':'Uhrzeit','shop.active':'Aktiv','shop.buy':'Kaufen','shop.clear_history':'Historie löschen','confirm.clear_history':'Gesamte Kaufhistorie löschen?',
 			'shop.advanced':'Erweiterte Aktionen','shop.entity':'Entität','shop.operation':'Aktion','shop.add_action':'Aktion hinzufügen','shop.add_delay':'Verzögerung hinzufügen','shop.steps':'Schritte','shop.seconds':'Sekunden','shop.minutes':'Minuten','shop.hours':'Stunden','shop.delay':'Verzögerung',
 			'sort.configure':'Sortierung','sort.title':'Reihenfolge wählen','sort.categories_order':'Reihenfolge der Kategorien','sort.none':'Keine Kategorie','sort.save':'Speichern','sort.reset':'Zurücksetzen',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Kind nicht gefunden. Prüfe den Namen in der Kartenkonfiguration.','msg.no_tasks':'Keine Aufgaben gerade.', 'btn.done':'Fertig','btn.start_task':'Aufgabe starten','btn.complete_task':'Aufgabe erledigt','btn.task_done':'Aufgabe erledigt','lbl.awaiting':'Wartet auf Genehmigung','lbl.points':'Punkte',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Kind nicht gefunden. Prüfe den Namen in der Kartenkonfiguration.','msg.no_tasks':'Keine Aufgaben gerade.', 'btn.done':'Fertig','btn.start_task':'Aufgabe starten','btn.complete_task':'Aufgabe erledigt','btn.task_done':'Aufgabe erledigt','lbl.awaiting':'Wartet auf Genehmigung','lbl.taken_by':'Aufgabe übernommen von {name}','lbl.points':'Punkte',
 			'section.daily_tasks':'Heute',
 			'section.weekly_tasks':'Wöchentliche Aufgaben',
 			'lbl.deadline':'Frist: {date}',
 			'lbl.early_bonus_by':'+{points} Bonuspunkte, wenn erledigt am {date} oder früher',
 			// Editor UI
 			'editor.mode':'Modus','editor.mode_admin':'Eltern','editor.mode_kid':'Kind','editor.mode_overview':'Aktuelle Aufgaben',
-			'editor.child_label':'Kind','editor.child_placeholder':'Name des Kindes','editor.child_select_prompt':'— Kind auswählen —','editor.child_hint':'Noch keine Kinder gefunden – Namen manuell eingeben.'
+			'editor.child_label':'Kind','editor.child_placeholder':'Name des Kindes','editor.child_select_prompt':'— Kind auswählen —','editor.child_hint':'Noch keine Kinder gefunden – Namen manuell eingeben.',
+			'editor.developer_mode':'Entwicklermodus',
+			'editor.developer_mode_help':'Zeigt Debug-Steuerungen wie manuelles Überfällig-Markieren',
+			'editor.completion_sound':'Abschluss-Sound',
+			'editor.completion_sound_help':'Wird als /local/chores4kids/completion.<ext> gespeichert und auf allen Dashboards verwendet',
+			'editor.colors':'Farben',
+			'editor.color_field_bg':'Hintergrund',
+			'editor.color_field_text':'Text',
+			'editor.color_group_start':'"Aufgabe starten"-Button',
+			'editor.color_group_complete':'"Aufgabe erledigt"-Button',
+			'editor.color_group_kid_points':'Gesamtpunkte der Kinder',
+			'editor.color_group_task_points':'Aufgabenpunkte',
+			'editor.color_start_bg':'"Aufgabe starten"-Button (Hintergrund)',
+			'editor.color_start_text':'"Aufgabe starten"-Button (Text)',
+			'editor.color_complete_bg':'"Aufgabe erledigt"-Button (Hintergrund)',
+			'editor.color_complete_text':'"Aufgabe erledigt"-Button (Text)',
+			'editor.color_kid_points_bg':'Gesamtpunkte der Kinder (Hintergrund)',
+			'editor.color_kid_points_text':'Gesamtpunkte der Kinder (Text)',
+			'editor.color_task_points_bg':'Aufgabenpunkte (Hintergrund)',
+			'editor.color_task_points_text':'Aufgabenpunkte (Text)',
+			'editor.color_empty_default':'Leer = Standard'
 		},
 			es: {
 				'overview.title':'Tareas asignadas','overview.show_all':'Ver todas ({pending} pendientes)','overview.none':'Aún no hay tareas.',
@@ -259,24 +372,44 @@ const C4K_I18N = {
 			'btn.start':'Iniciar','btn.back':'Reasignar','btn.awaiting':'En espera','btn.approve':'Aprobar','lbl.approved':'Aprobada',
 			'section.scoreboard':'Marcador','confirm.delete_child':'¿Eliminar a {name}?','confirm.delete_task':'¿Eliminar tarea?','alert.choose_child_first':'Elige un niño primero',
 			'ui.toggle_off_on':'Apagado/Encendido', 'ui.persist_until_done':'Pasar tarea no terminada al día siguiente', 'ui.persist_help':'La tarea no terminada se moverá automáticamente al día siguiente', 'ui.quick_complete':'Completar con un toque', 'ui.skip_approval':'Omitir aprobación de padres',
-			'section.tasks':'Tareas','form.save':'Guardar','form.add':'Añadir','form.cancel':'Cancelar',
+			'section.tasks':'Tareas','form.save':'Guardar','form.add':'Añadir','form.cancel':'Cancelar','form.clear':'Borrar',
 			'repeat.label':'Repetir','repeat.auto_assign':'Auto-asignar (repetir)','repeat.save':'Guardar plan',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mié','repeat.days.thu':'Jue','repeat.days.fri':'Vie','repeat.days.sat':'Sáb','repeat.days.sun':'Dom',
 			'assign.disabled_auto':'Deshabilitado: auto-asignación (repetición) activa', 'assign.auto_to':'Autoasignada a {names}',
 			'btn.add_points':'Añadir puntos','btn.reset_points':'Reiniciar puntos','points.title':'Añadir puntos a {name}','points.quick':'Añadir rápido','points.remove':'Quitar rápido','points.custom':'Cantidad personalizada',
 			'err.title_required':'El título es obligatorio','err.points_required':'Los puntos son obligatorios','err.points_number':'Los puntos deben ser un número','err.points_positive':'Los puntos deben ser 0 o más',
-			'status.assigned':'Asignada','status.in_progress':'En curso','status.awaiting_approval':'En espera de aprobación','status.approved':'Aprobada','status.rejected':'Rechazada','status.unassigned':'Sin asignar',
+			'status.assigned':'Asignada','status.in_progress':'En curso','status.awaiting_approval':'En espera de aprobación','status.approved':'Aprobada','status.rejected':'Rechazada','status.unassigned':'Sin asignar','status.taken':'Tomada',
 			'shop.title':'Tienda','shop.open':'Abrir tienda','shop.item':'Artículo','shop.price':'Precio','shop.icon':'Icono','shop.image':'Imagen','shop.upload':'Subir imagen','shop.add_item':'Añadir artículo','shop.history':'Historial de compras','shop.child':'Niño','shop.when':'Fecha y hora','shop.date':'Fecha','shop.time':'Hora','shop.active':'Activo','shop.buy':'Comprar','shop.clear_history':'Limpiar historial','confirm.clear_history':'¿Limpiar todo el historial de compras?',
 			'shop.advanced':'Acciones avanzadas','shop.entity':'Entidad','shop.operation':'Operación','shop.add_action':'Añadir acción','shop.add_delay':'Añadir retraso','shop.steps':'Pasos','shop.seconds':'Segundos','shop.minutes':'Minutos','shop.hours':'Horas','shop.delay':'Retraso',
 			'sort.configure':'Ordenación','sort.title':'Elegir orden','sort.categories_order':'Orden de categorías','sort.none':'Sin categoría','sort.save':'Guardar','sort.reset':'Restablecer',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Niño no encontrado. Revisa el nombre en la configuración de la tarjeta.','msg.no_tasks':'No hay tareas por ahora.', 'btn.done':'Hecho','btn.start_task':'Iniciar tarea','btn.complete_task':'Tarea hecha','btn.task_done':'Tarea hecha','lbl.awaiting':'En espera de aprobación','lbl.points':'puntos',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Niño no encontrado. Revisa el nombre en la configuración de la tarjeta.','msg.no_tasks':'No hay tareas por ahora.', 'btn.done':'Hecho','btn.start_task':'Iniciar tarea','btn.complete_task':'Tarea hecha','btn.task_done':'Tarea hecha','lbl.awaiting':'En espera de aprobación','lbl.taken_by':'Tarea tomada por {name}','lbl.points':'puntos',
 			'section.daily_tasks':'Hoy',
 			'section.weekly_tasks':'Tareas semanales',
 			'lbl.deadline':'Fecha límite: {date}',
 			'lbl.early_bonus_by':'+{points} puntos de bono si se completa el {date} o antes',
 			// Editor UI
 			'editor.mode':'Modo','editor.mode_admin':'Padres','editor.mode_kid':'Niño','editor.mode_overview':'Tareas recientes',
-			'editor.child_label':'Niño','editor.child_placeholder':'Nombre del niño','editor.child_select_prompt':'— Seleccionar niño —','editor.child_hint':'Aún no se encontraron niños — escribe el nombre manualmente.'
+			'editor.child_label':'Niño','editor.child_placeholder':'Nombre del niño','editor.child_select_prompt':'— Seleccionar niño —','editor.child_hint':'Aún no se encontraron niños — escribe el nombre manualmente.',
+			'editor.developer_mode':'Modo desarrollador',
+			'editor.developer_mode_help':'Muestra controles de depuración como marcar vencido manualmente',
+			'editor.completion_sound':'Sonido de finalización',
+			'editor.completion_sound_help':'Se guarda como /local/chores4kids/completion.<ext> y se usa en todos los paneles',
+			'editor.colors':'Colores',
+			'editor.color_field_bg':'Fondo',
+			'editor.color_field_text':'Texto',
+			'editor.color_group_start':'Botón "Empezar tarea"',
+			'editor.color_group_complete':'Botón "Completar tarea"',
+			'editor.color_group_kid_points':'Puntos totales de los niños',
+			'editor.color_group_task_points':'Puntos de tarea',
+			'editor.color_start_bg':'Botón "Empezar tarea" (fondo)',
+			'editor.color_start_text':'Botón "Empezar tarea" (texto)',
+			'editor.color_complete_bg':'Botón "Completar tarea" (fondo)',
+			'editor.color_complete_text':'Botón "Completar tarea" (texto)',
+			'editor.color_kid_points_bg':'Puntos totales de los niños (fondo)',
+			'editor.color_kid_points_text':'Puntos totales de los niños (texto)',
+			'editor.color_task_points_bg':'Puntos de tarea (fondo)',
+			'editor.color_task_points_text':'Puntos de tarea (texto)',
+			'editor.color_empty_default':'Vacío = predeterminado'
 		},
 			fr: {
 				'overview.title':'Tâches assignées','overview.show_all':'Tout afficher ({pending} en attente)','overview.none':'Aucune tâche pour le moment.',
@@ -295,24 +428,44 @@ const C4K_I18N = {
 			'btn.start':'Démarrer','btn.back':'Réattribuer','btn.awaiting':'En attente','btn.approve':'Approuver','lbl.approved':'Approuvée',
 			'section.scoreboard':'Classement','confirm.delete_child':'Supprimer {name} ?','confirm.delete_task':'Supprimer la tâche ?','alert.choose_child_first':'Veuillez d’abord choisir un enfant',
 			'ui.toggle_off_on':'Arrêt/Marche', 'ui.persist_until_done':'Reporter la tâche inachevée au lendemain', 'ui.persist_help':'La tâche inachevée est automatiquement reportée au lendemain', 'ui.quick_complete':'Terminer en un clic', 'ui.skip_approval':'Ignorer l’approbation des parents',
-			'section.tasks':'Tâches','form.save':'Enregistrer','form.add':'Ajouter','form.cancel':'Annuler',
+			'section.tasks':'Tâches','form.save':'Enregistrer','form.add':'Ajouter','form.cancel':'Annuler','form.clear':'Effacer',
 			'repeat.label':'Répéter','repeat.auto_assign':'Auto-attribuer (répéter)','repeat.save':'Enregistrer le plan',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mer','repeat.days.thu':'Jeu','repeat.days.fri':'Ven','repeat.days.sat':'Sam','repeat.days.sun':'Dim',
 			'assign.disabled_auto':'Désactivé : auto-attribution (répétition) active', 'assign.auto_to':'Attribuée automatiquement à {names}',
 			'btn.add_points':'Ajouter des points','btn.reset_points':'Réinitialiser les points','points.title':'Ajouter des points à {name}','points.quick':'Ajout rapide','points.remove':'Retrait rapide','points.custom':'Montant personnalisé',
 			'err.title_required':'Le titre est requis','err.points_required':'Les points sont requis','err.points_number':'Les points doivent être un nombre','err.points_positive':'Les points doivent être 0 ou plus',
-			'status.assigned':'Attribuée','status.in_progress':'En cours','status.awaiting_approval':'En attente d’approbation','status.approved':'Approuvée','status.rejected':'Rejetée','status.unassigned':'Non attribuée',
+			'status.assigned':'Attribuée','status.in_progress':'En cours','status.awaiting_approval':'En attente d’approbation','status.approved':'Approuvée','status.rejected':'Rejetée','status.unassigned':'Non attribuée','status.taken':'Prise',
 			'shop.title':'Boutique','shop.open':'Ouvrir la boutique','shop.item':'Article','shop.price':'Prix','shop.icon':'Icône','shop.image':'Image','shop.upload':'Téléverser une image','shop.add_item':'Ajouter un article','shop.history':'Historique des achats','shop.child':'Enfant','shop.when':'Date et heure','shop.date':'Date','shop.time':'Heure','shop.active':'Actif','shop.buy':'Acheter','shop.clear_history':'Effacer l`historique','confirm.clear_history':'Effacer tout l`historique des achats?',
 			'shop.advanced':'Actions avancées','shop.entity':'Entité','shop.operation':'Opération','shop.add_action':'Ajouter une action','shop.add_delay':'Ajouter un délai','shop.steps':'Étapes','shop.seconds':'Secondes','shop.minutes':'Minutes','shop.hours':'Heures','shop.delay':'Délai',
 			'sort.configure':'Tri','sort.title':'Choisir l’ordre','sort.categories_order':'Ordre des catégories','sort.none':'Aucune catégorie','sort.save':'Enregistrer','sort.reset':'Réinitialiser',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Enfant introuvable. Vérifiez le nom dans la configuration de la carte.','msg.no_tasks':'Aucune tâche pour le moment.', 'btn.done':'Terminé','btn.start_task':'Démarrer la tâche','btn.complete_task':'Tâche terminée','btn.task_done':'Tâche terminée','lbl.awaiting':'En attente d’approbation','lbl.points':'points',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Enfant introuvable. Vérifiez le nom dans la configuration de la carte.','msg.no_tasks':'Aucune tâche pour le moment.', 'btn.done':'Terminé','btn.start_task':'Démarrer la tâche','btn.complete_task':'Tâche terminée','btn.task_done':'Tâche terminée','lbl.awaiting':'En attente d’approbation','lbl.taken_by':'Tâche prise par {name}','lbl.points':'points',
 			'section.daily_tasks':'Aujourd’hui',
 			'section.weekly_tasks':'Tâches hebdomadaires',
 			'lbl.deadline':'Date limite : {date}',
 			'lbl.early_bonus_by':'+{points} points de bonus si terminé le {date} ou avant',
 			// Editor UI
 			'editor.mode':'Mode','editor.mode_admin':'Parents','editor.mode_kid':'Enfant','editor.mode_overview':'Tâches récentes',
-			'editor.child_label':'Enfant','editor.child_placeholder':'Nom de l’enfant','editor.child_select_prompt':'— Sélectionner un enfant —','editor.child_hint':'Aucun enfant trouvé pour l’instant — saisissez le nom manuellement.'
+			'editor.child_label':'Enfant','editor.child_placeholder':'Nom de l’enfant','editor.child_select_prompt':'— Sélectionner un enfant —','editor.child_hint':'Aucun enfant trouvé pour l’instant — saisissez le nom manuellement.',
+			'editor.developer_mode':'Mode développeur',
+			'editor.developer_mode_help':'Affiche des contrôles de débogage comme marquer en retard manuellement',
+			'editor.completion_sound':'Son de fin',
+			'editor.completion_sound_help':'Enregistré sous /local/chores4kids/completion.<ext> et utilisé sur tous les tableaux de bord',
+			'editor.colors':'Couleurs',
+			'editor.color_field_bg':'Fond',
+			'editor.color_field_text':'Texte',
+			'editor.color_group_start':'Bouton "Démarrer"',
+			'editor.color_group_complete':'Bouton "Terminer"',
+			'editor.color_group_kid_points':'Points totaux des enfants',
+			'editor.color_group_task_points':'Points de tâche',
+			'editor.color_start_bg':'Bouton "Démarrer" (fond)',
+			'editor.color_start_text':'Bouton "Démarrer" (texte)',
+			'editor.color_complete_bg':'Bouton "Terminer" (fond)',
+			'editor.color_complete_text':'Bouton "Terminer" (texte)',
+			'editor.color_kid_points_bg':'Points totaux des enfants (fond)',
+			'editor.color_kid_points_text':'Points totaux des enfants (texte)',
+			'editor.color_task_points_bg':'Points de tâche (fond)',
+			'editor.color_task_points_text':'Points de tâche (texte)',
+			'editor.color_empty_default':'Vide = par défaut'
 		},
 			fi: {
 				'overview.title':'Määritetyt tehtävät','overview.show_all':'Näytä kaikki ({pending} odottaa)','overview.none':'Ei vielä tehtäviä.',
@@ -331,24 +484,44 @@ const C4K_I18N = {
 			'btn.start':'Aloita','btn.back':'Määritä uudelleen','btn.awaiting':'Odottaa','btn.approve':'Hyväksy','lbl.approved':'Hyväksytty',
 			'section.scoreboard':'Pistetaulukko','confirm.delete_child':'Poistetaanko {name}?','confirm.delete_task':'Poistetaanko tehtävä?','alert.choose_child_first':'Valitse ensin lapsi',
 			'ui.toggle_off_on':'Pois/Päällä', 'ui.persist_until_done':'Siirrä keskeneräinen tehtävä seuraavalle päivälle', 'ui.persist_help':'Keskeneräinen tehtävä siirtyy automaattisesti seuraavalle päivälle', 'ui.quick_complete':'Valmis yhdellä painalluksella', 'ui.skip_approval':'Ohita vanhemman hyväksyntä',
-			'section.tasks':'Tehtävät','form.save':'Tallenna','form.add':'Lisää','form.cancel':'Peruuta',
+			'section.tasks':'Tehtävät','form.save':'Tallenna','form.add':'Lisää','form.cancel':'Peruuta','form.clear':'Tyhjennä',
 			'repeat.label':'Toisto','repeat.auto_assign':'Automaattinen määritys (toisto)','repeat.save':'Tallenna suunnitelma',
 			'repeat.days.mon':'Ma','repeat.days.tue':'Ti','repeat.days.wed':'Ke','repeat.days.thu':'To','repeat.days.fri':'Pe','repeat.days.sat':'La','repeat.days.sun':'Su',
 			'assign.disabled_auto':'Pois käytöstä: automaattinen määritys (toisto) käytössä', 'assign.auto_to':'Automaattisesti määritetty: {names}',
 			'btn.add_points':'Lisää pisteitä','btn.reset_points':'Nollaa pisteet','points.title':'Lisää pisteitä: {name}','points.quick':'Pikalisäys','points.remove':'Pikavähennys','points.custom':'Mukautettu määrä',
 			'err.title_required':'Otsikko on pakollinen','err.points_required':'Pisteet ovat pakolliset','err.points_number':'Pisteiden on oltava numero','err.points_positive':'Pisteiden on oltava 0 tai enemmän',
-			'status.assigned':'Määritetty','status.in_progress':'Käynnissä','status.awaiting_approval':'Odottaa hyväksyntää','status.approved':'Hyväksytty','status.rejected':'Hylätty','status.unassigned':'Ei määritetty',
+			'status.assigned':'Määritetty','status.in_progress':'Käynnissä','status.awaiting_approval':'Odottaa hyväksyntää','status.approved':'Hyväksytty','status.rejected':'Hylätty','status.unassigned':'Ei määritetty','status.taken':'Varattu',
 			'shop.title':'Kauppa','shop.open':'Avaa kauppa','shop.item':'Tuote','shop.price':'Hinta','shop.icon':'Kuvake','shop.image':'Kuva','shop.upload':'Lataa kuva','shop.add_item':'Lisää tuote','shop.history':'Ostohistoria','shop.child':'Lapsi','shop.when':'Aika','shop.date':'Päiväys','shop.time':'Aika','shop.active':'Aktiivinen','shop.buy':'Osta','shop.clear_history':'Tyhjennä historia','confirm.clear_history':'Tyhjennä koko ostohistoria?',
 			'shop.advanced':'Edistyneet toiminnot','shop.entity':'Entiteetti','shop.operation':'Toiminto','shop.add_action':'Lisää toiminto','shop.add_delay':'Lisää viive','shop.steps':'Vaiheet','shop.seconds':'Sekuntia','shop.minutes':'Minuuttia','shop.hours':'Tuntia','shop.delay':'Viive',
 			'sort.configure':'Lajittelu','sort.title':'Valitse järjestys','sort.categories_order':'Kategorioiden järjestys','sort.none':'Ei kategoriaa','sort.save':'Tallenna','sort.reset':'Palauta',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Lasta ei löytynyt. Tarkista nimi kortin asetuksista.','msg.no_tasks':'Ei tehtäviä juuri nyt.', 'btn.done':'Valmis','btn.start_task':'Aloita tehtävä','btn.complete_task':'Tehtävä valmis','btn.task_done':'Tehtävä valmis','lbl.awaiting':'Odottaa hyväksyntää','lbl.points':'pistettä',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Lasta ei löytynyt. Tarkista nimi kortin asetuksista.','msg.no_tasks':'Ei tehtäviä juuri nyt.', 'btn.done':'Valmis','btn.start_task':'Aloita tehtävä','btn.complete_task':'Tehtävä valmis','btn.task_done':'Tehtävä valmis','lbl.awaiting':'Odottaa hyväksyntää','lbl.taken_by':'Tehtävän otti {name}','lbl.points':'pistettä',
 			'section.daily_tasks':'Tänään',
 			'section.weekly_tasks':'Viikkotehtävät',
 			'lbl.deadline':'Määräpäivä: {date}',
 			'lbl.early_bonus_by':'+{points} bonuspistettä, jos valmis {date} tai aiemmin',
 			// Editor UI
 			'editor.mode':'Tila','editor.mode_admin':'Vanhemmat','editor.mode_kid':'Lapsi','editor.mode_overview':'Viimeisimmät tehtävät',
-			'editor.child_label':'Lapsi','editor.child_placeholder':'Lapsen nimi','editor.child_select_prompt':'— Valitse lapsi —','editor.child_hint':'Lapsia ei vielä löytynyt — kirjoita nimi manuaalisesti.'
+			'editor.child_label':'Lapsi','editor.child_placeholder':'Lapsen nimi','editor.child_select_prompt':'— Valitse lapsi —','editor.child_hint':'Lapsia ei vielä löytynyt — kirjoita nimi manuaalisesti.',
+			'editor.developer_mode':'Kehittäjätila',
+			'editor.developer_mode_help':'Näyttää debug-ohjaimet, kuten manuaalisen myöhässä-merkinnän',
+			'editor.completion_sound':'Valmistumisääni',
+			'editor.completion_sound_help':'Tallennetaan muotoon /local/chores4kids/completion.<ext> ja käytetään kaikilla näkymillä',
+			'editor.colors':'Värit',
+			'editor.color_field_bg':'Tausta',
+			'editor.color_field_text':'Teksti',
+			'editor.color_group_start':'Aloita tehtävä -painike',
+			'editor.color_group_complete':'Suorita tehtävä -painike',
+			'editor.color_group_kid_points':'Lasten kokonaispisteet',
+			'editor.color_group_task_points':'Tehtäväpisteet',
+			'editor.color_start_bg':'Aloita tehtävä -painike (tausta)',
+			'editor.color_start_text':'Aloita tehtävä -painike (teksti)',
+			'editor.color_complete_bg':'Suorita tehtävä -painike (tausta)',
+			'editor.color_complete_text':'Suorita tehtävä -painike (teksti)',
+			'editor.color_kid_points_bg':'Lasten kokonaispisteet (tausta)',
+			'editor.color_kid_points_text':'Lasten kokonaispisteet (teksti)',
+			'editor.color_task_points_bg':'Tehtäväpisteet (tausta)',
+			'editor.color_task_points_text':'Tehtäväpisteet (teksti)',
+			'editor.color_empty_default':'Tyhjä = oletus'
 		},
 			it: {
 				'overview.title':'Attività assegnate','overview.show_all':'Mostra tutto ({pending} in attesa)','overview.none':'Nessuna attività.',
@@ -367,24 +540,44 @@ const C4K_I18N = {
 			'btn.start':'Avvia','btn.back':'Riassegna','btn.awaiting':'In attesa','btn.approve':'Approva','lbl.approved':'Approvato',
 			'section.scoreboard':'Classifica','confirm.delete_child':'Eliminare {name}?','confirm.delete_task':'Eliminare attività?','alert.choose_child_first':'Scegli prima un bambino',
 			'ui.toggle_off_on':'Spento/Acceso', 'ui.persist_until_done':'Sposta l’attività non completata al giorno successivo', 'ui.persist_help':'L’attività non completata verrà spostata automaticamente al giorno successivo', 'ui.quick_complete':'Completa con un tocco', 'ui.skip_approval':'Salta approvazione genitori',
-			'section.tasks':'Attività','form.save':'Salva','form.add':'Aggiungi','form.cancel':'Annulla',
+			'section.tasks':'Attività','form.save':'Salva','form.add':'Aggiungi','form.cancel':'Annulla','form.clear':'Cancella',
 			'repeat.label':'Ripeti','repeat.auto_assign':'Assegnazione automatica (ripeti)','repeat.save':'Salva piano',
 			'repeat.days.mon':'Lun','repeat.days.tue':'Mar','repeat.days.wed':'Mer','repeat.days.thu':'Gio','repeat.days.fri':'Ven','repeat.days.sat':'Sab','repeat.days.sun':'Dom',
 			'assign.disabled_auto':'Disabilitato: assegnazione automatica (ripetizione) attiva', 'assign.auto_to':'Assegnata automaticamente a {names}',
 			'btn.add_points':'Aggiungi punti','btn.reset_points':'Azzera punti','points.title':'Aggiungi punti a {name}','points.quick':'Aggiunta rapida','points.remove':'Rimozione rapida','points.custom':'Quantità personalizzata',
 			'err.title_required':'Titolo obbligatorio','err.points_required':'Punti obbligatori','err.points_number':'I punti devono essere un numero','err.points_positive':'I punti devono essere 0 o più',
-			'status.assigned':'Assegnata','status.in_progress':'In corso','status.awaiting_approval':'In attesa di approvazione','status.approved':'Approvata','status.rejected':'Rifiutata','status.unassigned':'Non assegnata',
+			'status.assigned':'Assegnata','status.in_progress':'In corso','status.awaiting_approval':'In attesa di approvazione','status.approved':'Approvata','status.rejected':'Rifiutata','status.unassigned':'Non assegnata','status.taken':'Presa',
 			'shop.title':'Negozio','shop.open':'Apri negozio','shop.item':'Articolo','shop.price':'Prezzo','shop.icon':'Icona','shop.image':'Immagine','shop.upload':'Carica immagine','shop.add_item':'Aggiungi articolo','shop.history':'Storico acquisti','shop.child':'Bambino','shop.when':'Data e ora','shop.date':'Data','shop.time':'Ora','shop.active':'Attivo','shop.buy':'Compra','shop.clear_history':'Cancella storico','confirm.clear_history':'Cancellare tutto lo storico acquisti?',
 			'shop.advanced':'Azioni avanzate','shop.entity':'Entità','shop.operation':'Operazione','shop.add_action':'Aggiungi azione','shop.add_delay':'Aggiungi ritardo','shop.steps':'Passi','shop.seconds':'Secondi','shop.minutes':'Minuti','shop.hours':'Ore','shop.delay':'Ritardo',
 			'sort.configure':'Ordinamento','sort.title':'Scegli ordine','sort.categories_order':'Ordine categorie','sort.none':'Nessuna categoria','sort.save':'Salva','sort.reset':'Reimposta',
-			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Bambino non trovato. Controlla il nome nella configurazione della scheda.','msg.no_tasks':'Nessuna attività al momento.', 'btn.done':'Fatto','btn.start_task':'Avvia attività','btn.complete_task':'Attività completata','btn.task_done':'Attività completata','lbl.awaiting':'In attesa di approvazione','lbl.points':'punti',
+			'card.child_title_fallback':'Chores4Kids – {name}','msg.child_not_found':'Bambino non trovato. Controlla il nome nella configurazione della scheda.','msg.no_tasks':'Nessuna attività al momento.', 'btn.done':'Fatto','btn.start_task':'Avvia attività','btn.complete_task':'Attività completata','btn.task_done':'Attività completata','lbl.awaiting':'In attesa di approvazione','lbl.taken_by':'Attività presa da {name}','lbl.points':'punti',
 			'section.daily_tasks':'Oggi',
 			'section.weekly_tasks':'Attività settimanali',
 			'lbl.deadline':'Scadenza: {date}',
 			'lbl.early_bonus_by':'+{points} punti bonus se completata il {date} o prima',
 			// Editor UI
 			'editor.mode':'Modalità','editor.mode_admin':'Genitori','editor.mode_kid':'Bambino','editor.mode_overview':'Attività recenti',
-			'editor.child_label':'Bambino','editor.child_placeholder':'Nome del bambino','editor.child_select_prompt':'— Seleziona bambino —','editor.child_hint':'Ancora nessun bambino trovato — inserisci il nome manualmente.'
+			'editor.child_label':'Bambino','editor.child_placeholder':'Nome del bambino','editor.child_select_prompt':'— Seleziona bambino —','editor.child_hint':'Ancora nessun bambino trovato — inserisci il nome manualmente.',
+			'editor.developer_mode':'Modalità sviluppatore',
+			'editor.developer_mode_help':'Mostra controlli di debug come segnare scaduto manualmente',
+			'editor.completion_sound':'Suono di completamento',
+			'editor.completion_sound_help':'Salvato come /local/chores4kids/completion.<ext> e usato su tutte le dashboard',
+			'editor.colors':'Colori',
+			'editor.color_field_bg':'Sfondo',
+			'editor.color_field_text':'Testo',
+			'editor.color_group_start':'Pulsante "Avvia"',
+			'editor.color_group_complete':'Pulsante "Completa"',
+			'editor.color_group_kid_points':'Punti totali dei bambini',
+			'editor.color_group_task_points':'Punti attività',
+			'editor.color_start_bg':'Pulsante "Avvia" (sfondo)',
+			'editor.color_start_text':'Pulsante "Avvia" (testo)',
+			'editor.color_complete_bg':'Pulsante "Completa" (sfondo)',
+			'editor.color_complete_text':'Pulsante "Completa" (testo)',
+			'editor.color_kid_points_bg':'Punti totali dei bambini (sfondo)',
+			'editor.color_kid_points_text':'Punti totali dei bambini (testo)',
+			'editor.color_task_points_bg':'Punti attività (sfondo)',
+			'editor.color_task_points_text':'Punti attività (testo)',
+			'editor.color_empty_default':'Vuoto = predefinito'
 		}
 };
 const C4K_LANG_ALIAS = { no: 'nb' };
@@ -462,7 +655,7 @@ class Chores4KidsDevCard extends LitElement {
 			// Admin state
 			_name: { state: true }, _taskTitle: { state: true }, _taskPoints: { state: true }, _taskDesc: { state: true }, _taskIcon: { state: true }, _iconModalOpen: { state: true },
 			_taskCategories: { state: true }, _openCategoriesMenu: { state: true }, _newCategoryName: { state: true },
-			_repeatEnabled: { state: true }, _repeatAssign: { state: true }, _quickComplete: { state: true }, _skipApproval: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
+			_repeatEnabled: { state: true }, _repeatAssign: { state: true }, _quickComplete: { state: true }, _skipApproval: { state: true }, _fastestWins: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
 			_customIconModalOpen: { state: true }, _customIconSearch: { state: true }, _customIconPreview: { state: true }, _customIconLabel: { state: true },
 			_shopModalOpen: { state: true }, _shopTitle: { state: true }, _shopPrice: { state: true }, _shopImage: { state: true }, _editItem: { state: true }, _advItem: { state: true },
 			// UI for nicer multi-assign dropdown
@@ -490,6 +683,8 @@ class Chores4KidsDevCard extends LitElement {
 		button { padding:8px 14px; border-radius:10px; border:1px solid var(--divider-color); background: var(--secondary-background-color); color: var(--primary-text-color); cursor:pointer; }
 		button:hover { filter: brightness(1.05); }
 		.btn-primary { background: var(--primary-color); color: var(--text-primary-color, #fff); border-color: transparent; }
+		.btn-primary.start-task{ background: var(--c4k-start-task-bg, var(--primary-color)); color: var(--c4k-start-task-text, var(--text-primary-color, #fff)); }
+		.btn-primary.complete-task{ background: var(--c4k-complete-task-bg, var(--primary-color)); color: var(--c4k-complete-task-text, var(--text-primary-color, #fff)); }
 		.btn-danger { background: var(--error-color, #d32f2f); color:#fff; border-color: transparent; }
 		.btn-ghost { background: transparent; }
 		.icon-btn{ padding:4px 6px; border-radius:8px; min-height:auto; }
@@ -520,6 +715,7 @@ class Chores4KidsDevCard extends LitElement {
 		/* Ensure wide tables can scroll horizontally instead of bleeding out */
 		.table-wrap { width:100%; max-width:100%; overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling: touch; }
 		table{ width:100%; border-collapse: collapse; border-radius:14px; }
+		.table-fixed{ table-layout: fixed; }
 		/* (Reverted: no scoped fixed widths to avoid affecting other tables) */
 		/* (Reverted fixed widths for tables to avoid affecting other sections) */
 		/* Centering helper for specific tables (applied on desktop widths) */
@@ -551,6 +747,7 @@ class Chores4KidsDevCard extends LitElement {
 		.status-awaiting_approval { background: color-mix(in srgb, var(--info-color, #03a9f4) 18%, transparent); color: var(--info-color, #03a9f4); }
 		.status-approved { background: color-mix(in srgb, var(--success-color, #43a047) 18%, transparent); color: var(--success-color, #43a047); }
 		.status-unassigned { background: color-mix(in srgb, var(--secondary-text-color) 18%, transparent); color: var(--secondary-text-color); }
+		.status-taken { background: color-mix(in srgb, var(--secondary-text-color) 18%, transparent); color: var(--secondary-text-color); }
 		.status-overdue, .task-overdue { background: color-mix(in srgb, var(--error-color, #d32f2f) 18%, transparent); color: var(--error-color, #d32f2f); }
 		.task-overdue .title { color: var(--error-color, #d32f2f); font-weight: 700; }
 		.task-overdue { border-color: var(--error-color, #d32f2f); }
@@ -627,7 +824,7 @@ class Chores4KidsDevCard extends LitElement {
 		@media (max-width:700px){ .shop-modal .shop-add-left{ flex:0 1 auto !important; } }
 		/* Child view */
 		.header-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-		.header-points{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; border-radius:999px; background: color-mix(in srgb, var(--primary-color) 18%, transparent); color: var(--primary-color); font-weight:600; }
+		.header-points{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; border-radius:999px; background: var(--c4k-kid-points-bg, color-mix(in srgb, var(--primary-color) 18%, transparent)); color: var(--c4k-kid-points-text, var(--primary-color)); font-weight:600; }
 		.tasks{ display:grid; gap:12px; }
 		.cat-title{ font-weight:700; color: var(--secondary-text-color); margin: 6px 0 2px; padding-left:2px; }
 		.task{ display:grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items:center; padding: 12px; border: 1px solid var(--divider-color); border-radius: 14px; background: var(--card-background-color); }
@@ -638,7 +835,7 @@ class Chores4KidsDevCard extends LitElement {
 		.title.completed{ text-decoration: line-through; }
 		.meta{ color: var(--secondary-text-color); font-size: 12px; display:flex; flex-wrap:wrap; gap:10px; }
 		.chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
-		.chip-points{ background: color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent); color: var(--warning-color, #ff9800); }
+		.chip-points{ background: var(--c4k-task-points-bg, color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent)); color: var(--c4k-task-points-text, var(--warning-color, #ff9800)); }
 		.chip-deadline{ background: color-mix(in srgb, var(--secondary-text-color) 14%, transparent); color: var(--secondary-text-color); }
 		.chip-bonus{ background: color-mix(in srgb, var(--success-color, #43a047) 18%, transparent); color: var(--success-color, #43a047); }
 		.chip-bonus-expired{ background: color-mix(in srgb, var(--error-color, #f44336) 18%, transparent); color: var(--error-color, #f44336); text-decoration: line-through; }
@@ -732,6 +929,7 @@ class Chores4KidsDevCard extends LitElement {
 		this._persistUntilDone = false;
 		this._quickComplete = false;
 		this._skipApproval = false;
+		this._fastestWins = false;
 		// Child
 		this._shopOpen = false;
 		// caches
@@ -786,11 +984,76 @@ class Chores4KidsDevCard extends LitElement {
 		}
 	}
 
+	updated(changedProps){
+		// Ensure CSS variables follow both config changes and backend state updates.
+		if (changedProps?.has?.('hass') || changedProps?.has?.('config')){
+			this._applyColorVars();
+		}
+	}
+
 	setConfig(config){
 		// config: { mode: 'admin' | 'kid', child?: 'Name' }
 		this.config = config || {};
 		this._mode = this.config.mode || 'admin';
 		this._childName = this.config.child || '';
+		this._applyColorVars();
+	}
+
+	_pointsEnabled(){
+		try{
+			const global = this._getBackendUiColors?.() || {};
+			if (typeof global.enable_points === 'boolean') return global.enable_points;
+		}catch{ /* ignore */ }
+		return this.config?.enable_points !== false;
+	}
+
+	_getBackendUiColors(){
+		try{
+			const states = this.hass?.states || {};
+			let s = states['sensor.chores4kids_ui'];
+			if (!s){
+				s = Object.values(states).find(st=>{
+					try{
+						if (!st?.entity_id?.startsWith('sensor.')) return false;
+						const a = st.attributes || {};
+						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
+							|| ('task_points_bg' in a) || ('task_points_text' in a);
+					}catch{ return false; }
+				});
+			}
+			const a = s?.attributes || {};
+			const out = {
+				start_task_bg: a.start_task_bg,
+				complete_task_bg: a.complete_task_bg,
+				kid_points_bg: a.kid_points_bg,
+				start_task_text: a.start_task_text,
+				complete_task_text: a.complete_task_text,
+				kid_points_text: a.kid_points_text,
+				task_points_bg: a.task_points_bg,
+				task_points_text: a.task_points_text,
+			};
+			if (typeof a.enable_points === 'boolean') out.enable_points = a.enable_points;
+			return out;
+		}catch{ return {}; }
+	}
+
+	_applyColorVars(){
+		try{
+			const setVar = (name, value)=>{
+				if (value) this.style.setProperty(name, String(value));
+				else this.style.removeProperty(name);
+			};
+			const global = this._getBackendUiColors();
+			setVar('--c4k-start-task-bg', this.config?.start_task_bg || global.start_task_bg);
+			setVar('--c4k-complete-task-bg', this.config?.complete_task_bg || global.complete_task_bg);
+			setVar('--c4k-kid-points-bg', this.config?.kid_points_bg || global.kid_points_bg);
+			setVar('--c4k-start-task-text', this.config?.start_task_text || global.start_task_text);
+			setVar('--c4k-complete-task-text', this.config?.complete_task_text || global.complete_task_text);
+			setVar('--c4k-kid-points-text', this.config?.kid_points_text || global.kid_points_text);
+			setVar('--c4k-task-points-bg', this.config?.task_points_bg || global.task_points_bg);
+			setVar('--c4k-task-points-text', this.config?.task_points_text || global.task_points_text);
+		}catch{ /* ignore */ }
 	}
 
 	_toggleRepeat(e){
@@ -812,6 +1075,24 @@ class Chores4KidsDevCard extends LitElement {
 	// Helpers
 	_t(key, vars){ return c4kLocalize(key, this.hass || navigator.language || 'en', vars); }
 	_statusLabel(s){ return this._t(`status.${s}`) || s; }
+	_effectiveStatus(t){
+		try{
+			if (!t) return t?.status;
+			if (!t?.fastest_wins) return t?.status;
+			const claimedBy = t?.fastest_wins_claimed_by_child_id;
+			const assignedTo = t?.assigned_to;
+			if (claimedBy && assignedTo && claimedBy !== assignedTo) return 'taken';
+			return t?.status;
+		}catch{
+			return t?.status;
+		}
+	}
+	_renderStatusBadge(t){
+		const st = this._effectiveStatus(t);
+		const claimedByName = t?.fastest_wins_claimed_by_child_name || t?.fastest_wins_claimed_by_child_id;
+		const tip = st==='taken' ? this._t('lbl.taken_by',{name: claimedByName||'—'}) : '';
+		return html`<span class="badge status-${st}" title="${tip}">${this._statusLabel(st)}</span>${this._isTaskOverdue(t)? html` <span class="badge status-overdue">${this._t('status.overdue')}</span>`:''}`;
+	}
 	_autoAssignActive(task){ try{ const d=Array.isArray(task?.repeat_days)? task.repeat_days:[]; const ks = Array.isArray(task?.repeat_child_ids)? task.repeat_child_ids:[]; const k=task?.repeat_child_id; return d.length>0 && (ks.length>0 || !!k); }catch{ return false; } }
 	_isTaskOverdue(task){ try{ if(!task?.carried_over) return false; return task.carried_over === true; }catch{ return false; } }
 	_isFromBeforeToday(task){
@@ -828,16 +1109,21 @@ class Chores4KidsDevCard extends LitElement {
 	_locale(){ return c4kGetLangFromHass(this.hass || navigator.language || 'en'); }
 	_fmtDateTime(ts){
 		try{
-			const d = ts ? new Date(ts) : null; if (!d || isNaN(d.getTime())) return { formatted:'—' };
+			const d = ts ? new Date(ts) : null;
+			if (!d || isNaN(d.getTime())) return { formatted:'—', date:'—', time:'—' };
 			const loc = this._locale();
 			const weekday = new Intl.DateTimeFormat(loc, { weekday: 'short' }).format(d);
 			const day = new Intl.DateTimeFormat(loc, { day: 'numeric' }).format(d);
 			const month = new Intl.DateTimeFormat(loc, { month: 'short' }).format(d);
 			const year = new Intl.DateTimeFormat(loc, { year: 'numeric' }).format(d);
 			const time = new Intl.DateTimeFormat(loc, { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: false }).format(d);
+			const date = new Intl.DateTimeFormat(loc, { year:'numeric', month:'2-digit', day:'2-digit' }).format(d);
 			const formatted = `${weekday} d. ${day} ${month} ${year} - kl ${time}`;
-			return { formatted };
-		}catch{ return { formatted: String(ts||'—') }; }
+			return { formatted, date, time };
+		}catch{
+			const fallback = String(ts||'—');
+			return { formatted: fallback, date: fallback, time: '—' };
+		}
 	}
 
 	_parseDueToDate(due){
@@ -942,6 +1228,12 @@ class Chores4KidsDevCard extends LitElement {
 			return ts;
 		}catch{ return undefined; } 
 	}
+	_takenTsFor(task){ try{ return task?.fastest_wins_claimed_ts; }catch{ return undefined; } }
+	_displayedTsFor(task){
+		try{
+			return this._effectiveStatus(task)==='taken' ? (this._takenTsFor(task) || undefined) : this._completedTsFor(task);
+		}catch{ return this._completedTsFor(task); }
+	}
 	_recordCompleted(taskId, ts){ try{ const map={...(this._completed||{})}; map[String(taskId)]=ts; this._completed=map; localStorage.setItem('c4k_completed_ts', JSON.stringify(map)); }catch{} }
 	_clearCompleted(taskId){ try{ const map={...(this._completed||{})}; delete map[String(taskId)]; this._completed=map; localStorage.setItem('c4k_completed_ts', JSON.stringify(map)); }catch{} }
 
@@ -999,14 +1291,15 @@ class Chores4KidsDevCard extends LitElement {
 	// ------- ADMIN VIEW -------
 	_renderAdmin(){
 		const { children } = this._store; const totalKids = children.length;
-		const showScoreboard = this.config?.show_scoreboard !== false;
+		const pointsEnabled = this._pointsEnabled();
+		const showScoreboard = pointsEnabled && (this.config?.show_scoreboard !== false);
 		return html`
 			<ha-card header="${this._t('card.admin_title')}">
 				<div class="card-content">
 					<div class="row">
 						<input placeholder="${this._t('input.new_child_name')}" .value=${this._name||''} @input=${(e)=>this._name=e.target.value} />
 						<button class="btn-primary" @click=${this._addChild}>${this._t('btn.add_child')}</button>
-						<button class="btn-ghost" style="margin-left:auto; min-height:40px;" @click=${()=>this._shopModalOpen=true}>${this._t('shop.open')}</button>
+						${pointsEnabled ? html`<button class="btn-ghost" style="margin-left:auto; min-height:40px;" @click=${()=>this._shopModalOpen=true}>${this._t('shop.open')}</button>` : ''}
 					</div>
 
 					<div class="list section">
@@ -1014,17 +1307,17 @@ class Chores4KidsDevCard extends LitElement {
 							<span class="collapsible" @click=${()=>this._toggleSection('children')}><ha-icon class="chev ${this._isCollapsed('children')?'rot':''}" icon="mdi:chevron-down"></ha-icon>${this._t('section.children')} (${totalKids})</span>
 						</h3>
 						${this._isCollapsed('children')? '' : html`<div class="table-wrap"><table class="table-center">
-							<thead><tr><th>${this._t('th.name')}</th><th>${this._t('th.points')}</th><th>${this._t('th.pending')}</th><th>${this._t('th.actions')}</th></tr></thead>
+							<thead><tr><th>${this._t('th.name')}</th>${pointsEnabled ? html`<th>${this._t('th.points')}</th>`:''}<th>${this._t('th.pending')}</th><th>${this._t('th.actions')}</th></tr></thead>
 							<tbody>
 								${children.map((c)=> html`
 									<tr>
 										<td data-label="${this._t('th.name')}">${c.name}</td>
-										<td data-label="${this._t('th.points')}"><b>${c.points}</b></td>
+										${pointsEnabled ? html`<td data-label="${this._t('th.points')}"><b>${c.points}</b></td>`:''}
 										<td data-label="${this._t('th.pending')}"><span class="badge status-awaiting_approval">${(c.tasks||[]).filter(t=>t.status==="awaiting_approval").length}</span></td>
 										<td data-label="${this._t('th.actions')}">
 											<button class="btn-ghost" @click=${()=>this._promptRename(c)}>${this._t('btn.rename')}</button>
-											<button class="btn-ghost" @click=${()=>this._openPoints(c)}>${this._t('btn.add_points')}</button>
-											<button class="btn-ghost" @click=${()=>this._resetPoints(c)}>${this._t('btn.reset_points')}</button>
+											${pointsEnabled ? html`<button class="btn-ghost" @click=${()=>this._openPoints(c)}>${this._t('btn.add_points')}</button>`:''}
+											${pointsEnabled ? html`<button class="btn-ghost" @click=${()=>this._resetPoints(c)}>${this._t('btn.reset_points')}</button>`:''}
 											<button class="btn-danger" @click=${()=>this._removeChild(c)}>${this._t('btn.delete')}</button>
 										</td>
 									</tr>
@@ -1067,10 +1360,12 @@ class Chores4KidsDevCard extends LitElement {
 							<input class="${this._showTitleError? 'invalid':''}" placeholder="${this._t('ph.title')}" .value=${this._taskTitle||''} @input=${e=>{this._taskTitle=e.target.value; this.requestUpdate();}} />
 							<div class="error-space">${this._showTitleError? html`<span class="error-text">${this._t('err.title_required')}</span>`:''}</div>
 						</div>
-						<div class="form-field points">
-							<input class="${this._showPointsError? 'invalid':''}" type="number" placeholder="${this._t('ph.points')}" .value=${this._taskPoints||''} @input=${e=>{this._taskPoints=e.target.value; this.requestUpdate();}} />
-							<div class="error-space">${this._pointsErrorKey? html`<span class="error-text">${this._t(this._pointsErrorKey)}</span>`:''}</div>
-						</div>
+						${pointsEnabled ? html`
+							<div class="form-field points">
+								<input class="${this._showPointsError? 'invalid':''}" type="number" placeholder="${this._t('ph.points')}" .value=${this._taskPoints||''} @input=${e=>{this._taskPoints=e.target.value; this.requestUpdate();}} />
+								<div class="error-space">${this._pointsErrorKey? html`<span class="error-text">${this._t(this._pointsErrorKey)}</span>`:''}</div>
+							</div>
+						` : ''}
 					</div>
 					<div class="row"><textarea rows="2" placeholder="${this._t('ph.description')}" .value=${this._taskDesc||''} @input=${e=>this._taskDesc=e.target.value}></textarea></div>
 					<div class="row">
@@ -1094,15 +1389,16 @@ class Chores4KidsDevCard extends LitElement {
 					<div class="row" style="justify-content:flex-start; align-items:flex-start;">
 						<div style="flex:1 1 520px; min-width:260px;">
 							<div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
-								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
-									<input style="margin:0;" type="checkbox" .checked=${!!this._taskEarlyBonusEnabled} @change=${e=>{ this._taskEarlyBonusEnabled = !!e.target.checked; this.requestUpdate(); }} />
-									<span style="white-space:nowrap;">${this._t('ui.early_bonus_enabled')}</span>
-								</label>
-								${(!!this._taskEarlyBonusEnabled || String(this._taskDue||'').trim()) ? html`
-									<div style="width:100%;">
-										<div class="row fields" style="margin-top:4px;">
-											<div class="form-field">
-												<input type="date" placeholder="${this._t('ph.due')}" ?disabled=${!!this._repeatEnabled && !!this._taskEarlyBonusEnabled} .value=${this._taskDue||''} @input=${e=>{ this._taskDue=e.target.value; this.requestUpdate(); }} />
+								${pointsEnabled ? html`
+									<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+										<input style="margin:0;" type="checkbox" .checked=${!!this._taskEarlyBonusEnabled} @change=${e=>{ this._taskEarlyBonusEnabled = !!e.target.checked; this.requestUpdate(); }} />
+										<span style="white-space:nowrap;">${this._t('ui.early_bonus_enabled')}</span>
+									</label>
+									${(!!this._taskEarlyBonusEnabled || String(this._taskDue||'').trim()) ? html`
+										<div style="width:100%;">
+											<div class="row fields" style="margin-top:4px;">
+												<div class="form-field">
+													<input type="date" placeholder="${this._t('ph.due')}" ?disabled=${!!this._repeatEnabled && !!this._taskEarlyBonusEnabled} .value=${this._taskDue||''} @input=${e=>{ this._taskDue=e.target.value; this.requestUpdate(); }} />
 												<div class="error-space">${(!!this._repeatEnabled && !!this._taskEarlyBonusEnabled) ? html`<span class="error-text">${this._t('warn.repeat_overrides_due')}</span>` : ''}</div>
 											</div>
 											${this._taskEarlyBonusEnabled ? html`
@@ -1119,8 +1415,9 @@ class Chores4KidsDevCard extends LitElement {
 												<div class="form-field"></div>
 											</div>
 										` : ''}
-									</div>
+										</div>
 								` : ''}
+							` : ''}
 								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
 									<input style="margin:0;" type="checkbox" .checked=${!!this._persistUntilDone} @change=${e=>{ this._persistUntilDone = !!e.target.checked; }} />
 									<span style="white-space:nowrap;">${this._t('ui.persist_until_done')}</span>
@@ -1132,6 +1429,10 @@ class Chores4KidsDevCard extends LitElement {
 								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
 									<input style="margin:0;" type="checkbox" .checked=${!!this._skipApproval} @change=${e=>{ this._skipApproval = !!e.target.checked; }} />
 									<span style="white-space:nowrap;">${this._t('ui.skip_approval')}</span>
+								</label>
+								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+									<input style="margin:0;" type="checkbox" .checked=${!!this._fastestWins} @change=${e=>{ this._fastestWins = !!e.target.checked; }} />
+									<span style="white-space:nowrap;">${this._t('ui.fastest_wins')}</span>
 								</label>
 								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
 									<input style="margin:0;" type="checkbox" .checked=${!!this._repeatEnabled} @change=${this._toggleRepeat} />
@@ -1185,12 +1486,12 @@ class Chores4KidsDevCard extends LitElement {
 						<button class="btn-ghost icon-btn" title="${this._t('sort.configure')}" @click=${()=> this._sortModalOpen = true}><ha-icon icon="mdi:sort-variant"></ha-icon></button>
 					</h3>
 					${this._isCollapsed('tasks')? '' : html`<div class="table-wrap"><table class="table-center">
-						<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+						<thead><tr><th>${this._t('ph.title')}</th>${pointsEnabled ? html`<th>${this._t('ph.points')}</th>`:''}<th>${this._t('th.categories')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 						<tbody @click=${()=>{ this._openAssignMenuFor = null; this._assignMenuStyle=''; }}>
 										${this._sortTasks(this._store.allTasks.filter(t=>!t.assigned_to), false).map(t=> html`
 								<tr data-task="${t.id}">
 									<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
-									<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+								${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
 									<td data-label="${this._t('th.categories')}">
 										${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class="chip">${n}</span>`): html`—`; })()}
 									</td>
@@ -1230,16 +1531,17 @@ class Chores4KidsDevCard extends LitElement {
 						<button class="btn-ghost icon-btn" title="${this._t('sort.configure')}" @click=${()=> this._sortModalOpen = true}><ha-icon icon="mdi:sort-variant"></ha-icon></button>
 					</h3>
 					${this._isCollapsed('overview')? '' : (()=>{
-						const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to); if(!all.length) return html`<i>${this._t('overview.none')}</i>`;
-						const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
-						const sorted=this._sortTasks(all, true);
-						const top=sorted.slice(0,3); const pending=all.filter(t=>t.status==='awaiting_approval').length;
+						const allAssigned=(this._store.allTasks||[]).filter(t=>!!t.assigned_to);
+						const active=allAssigned.filter(t=>!['approved','awaiting_approval','taken'].includes(this._effectiveStatus(t)));
+						if(!active.length) return html`<i>${this._t('overview.none_active')}</i>`;
+						const sorted=this._sortTasks(active, true);
+						const top=sorted.slice(0,3); const pending=allAssigned.filter(t=>t.status==='awaiting_approval').length;
 						const row=(t)=> html`<tr>
 							<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
-							<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+							${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
 							<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
-							<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span>${this._isTaskOverdue(t)? html` <span class="badge status-overdue">${this._t('status.overdue')}</span>`:''}</td>
-							<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._completedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
+							<td data-label="${this._t('th.status')}">${this._renderStatusBadge(t)}</td>
+							<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._displayedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
 								${t.status==="assigned" ? html`
@@ -1257,11 +1559,45 @@ class Chores4KidsDevCard extends LitElement {
 							</td>
 						</tr>`;
 						return html`
-							<div class="table-wrap"><table class="table-center">
-								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+							<div class="table-wrap"><table class="table-center table-fixed">${this._renderAssignedFinishedColgroup()}
+								<thead><tr><th>${this._t('ph.title')}</th>${pointsEnabled ? html`<th>${this._t('ph.points')}</th>`:''}<th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 								<tbody>${top.map(row)}</tbody>
 							</table></div>
-							<div class="row" style="justify-content:flex-end;">${all.length>3? html`<button class="btn-primary" @click=${()=>this._tasksModalOpen=true}>${this._t('overview.show_all',{pending})}</button>`:''}</div>
+							<div class="row" style="justify-content:flex-end;">${active.length>3? html`<button class="btn-primary" @click=${()=>this._tasksModalOpen=true}>${this._t('overview.show_all',{pending})}</button>`:''}</div>
+						`;
+					})()}
+
+					<h3 class="h3-row">
+						<span class="collapsible" @click=${()=>this._toggleSection('finished')}><ha-icon class="chev ${this._isCollapsed('finished')?'rot':''}" icon="mdi:chevron-down"></ha-icon>${this._t('overview.finished_title')}</span>
+					</h3>
+					${this._isCollapsed('finished')? '' : (()=>{
+						const allAssigned=(this._store.allTasks||[]).filter(t=>!!t.assigned_to);
+						const finished=allAssigned.filter(t=>['approved','awaiting_approval','taken'].includes(this._effectiveStatus(t)));
+						if(!finished.length) return html`<i>${this._t('overview.finished_none')}</i>`;
+						const sorted=this._sortTasks(finished, true);
+						const row=(t)=> html`<tr>
+							<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
+							${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
+							<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
+								<td data-label="${this._t('th.status')}">${this._renderStatusBadge(t)}</td>
+							<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._displayedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
+							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
+							<td data-label="${this._t('th.actions')}">
+								${t.status==="awaiting_approval" ? html`
+									<button class="btn-primary" @click=${()=>this._approve(t)}>${this._t('btn.approve')}</button>
+									<button class="btn-ghost" @click=${()=>this._setStatus(t.id,'assigned')}>${this._t('btn.back')}</button>
+									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
+								` : html`
+									${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}
+									<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>
+								`}
+							</td>
+						</tr>`;
+						return html`
+							<div class="table-wrap"><table class="table-center table-fixed">${this._renderAssignedFinishedColgroup()}
+								<thead><tr><th>${this._t('ph.title')}</th>${pointsEnabled ? html`<th>${this._t('ph.points')}</th>`:''}<th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+								<tbody>${sorted.map(row)}</tbody>
+							</table></div>
 						`;
 					})()}
 
@@ -1278,9 +1614,9 @@ class Chores4KidsDevCard extends LitElement {
 				` : ''}
 				</div>
 
-				${this._renderPointsModal()}
+				${pointsEnabled ? this._renderPointsModal() : ''}
 				${this._renderAllTasksModal()}
-				${this._renderShopModal()}
+				${pointsEnabled ? this._renderShopModal() : ''}
 			${this._renderAdvancedModal()}
 			${this._renderSortModal()}
 				${this._renderReassignModal()}
@@ -1290,7 +1626,8 @@ class Chores4KidsDevCard extends LitElement {
 	`;
 }	// ------- OVERVIEW-ONLY VIEW -------
 	_renderOverviewOnly(){
-		const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to);
+		const pointsEnabled = this._pointsEnabled();
+		const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to && !['approved','awaiting_approval','taken'].includes(this._effectiveStatus(t)));
 		return html`
 			<ha-card header="${this._t('overview.title')}">
 				<div class="card-content">
@@ -1300,9 +1637,9 @@ class Chores4KidsDevCard extends LitElement {
 						const top=sorted.slice(0,3); const pending=all.filter(t=>t.status==='awaiting_approval').length;
 						const row=(t)=> html`<tr>
 							<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
-							<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+							${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
 							<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=(this._store.categories||[]).filter(c=> ids.includes(c.id)).map(c=> c.name); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
-							<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span>${this._isTaskOverdue(t)? html` <span class="badge status-overdue">${this._t('status.overdue')}</span>`:''}</td>
+							<td data-label="${this._t('th.status')}">${this._renderStatusBadge(t)}</td>
 							<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 							<td data-label="${this._t('th.actions')}">
 								${t.status==="assigned" ? html`
@@ -1321,7 +1658,7 @@ class Chores4KidsDevCard extends LitElement {
 						</tr>`;
 						return html`
 							<div class="table-wrap"><table class="table-center">
-								<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+								<thead><tr><th>${this._t('ph.title')}</th>${pointsEnabled ? html`<th>${this._t('ph.points')}</th>`:''}<th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 								<tbody>${top.map(row)}</tbody>
 							</table></div>
 							<div class="row" style="justify-content:flex-end;">${all.length>3? html`<button class="btn-primary" @click=${()=>this._tasksModalOpen=true}>${this._t('overview.show_all',{pending})}</button>`:''}</div>
@@ -1350,22 +1687,23 @@ class Chores4KidsDevCard extends LitElement {
 		</div>`;
 	}
 	_renderAllTasksModal(){
+		const pointsEnabled = this._pointsEnabled();
 		return html`<div class="overlay ${this._tasksModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._tasksModalOpen=false; }}>
 			${this._tasksModalOpen ? html`<div class="modal" style="max-width: 820px; width: min(95vw, 820px);" @click=${e=>e.stopPropagation()}>
 				<h3>${this._t('overview.title')}</h3>
 				<div style="max-height:60vh; overflow:visible;">
-						<div class="table-wrap"><table class="table-center">
-							<thead><tr><th>${this._t('ph.title')}</th><th>${this._t('ph.points')}</th><th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
+						<div class="table-wrap"><table class="table-center table-fixed">${this._renderAssignedFinishedColgroup()}
+							<thead><tr><th>${this._t('ph.title')}</th>${pointsEnabled ? html`<th>${this._t('ph.points')}</th>`:''}<th>${this._t('th.categories')}</th><th>${this._t('th.status')}</th><th>${this._t('th.completed')}</th><th>${this._t('th.assign')}</th><th>${this._t('th.actions')}</th></tr></thead>
 						<tbody>${(()=>{
-							const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to);
+							const all=(this._store.allTasks||[]).filter(t=>!!t.assigned_to && !['approved','awaiting_approval','taken'].includes(this._effectiveStatus(t)));
 							const parse=(x)=>{ try{ return x? new Date(x).getTime():0; }catch{return 0;} };
 							const sorted=this._sortTasks(all, true);
 							return sorted.map((t)=> html`<tr>
 								<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
-								<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>
+								${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
 								<td data-label="${this._t('th.categories')}">${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class='chip'>${n}</span>`): html`—`; })()}</td>
-								<td data-label="${this._t('th.status')}"><span class="badge status-${t.status}">${this._statusLabel(t.status)}</span>${this._isTaskOverdue(t)? html` <span class="badge status-overdue">${this._t('status.overdue')}</span>`:''}</td>
-								<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._completedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
+								<td data-label="${this._t('th.status')}">${this._renderStatusBadge(t)}</td>
+								<td data-label="${this._t('th.completed')}">${(()=>{ const ts=this._displayedTsFor(t); if(!ts) return html`—`; const dt=this._fmtDateTime(ts); return html`${dt.formatted}`; })()}</td>
 								<td data-label="${this._t('th.assign')}">${t.assigned_to_name || this._t('status.unassigned')}</td>
 								<td data-label="${this._t('th.actions')}">
 									${t.status==="assigned" ? html`${this._canManualReassign(t) ? html`<button class="btn-ghost" @click=${()=>this._manualReassign(t)}>${this._t('btn.back')}</button>`:''}<button class="btn-danger" @click=${()=>this._deleteTask(t.id)}>${this._t('btn.delete')}</button>`
@@ -1387,7 +1725,30 @@ class Chores4KidsDevCard extends LitElement {
 			</div>`: ''}
 		</div>`;
 	}
+
+		_renderAssignedFinishedColgroup(){
+			const pointsEnabled = this._pointsEnabled();
+			// Keep Assigned/Finished tables aligned by forcing identical column widths.
+			// Uses percentages so it scales with the available width.
+			return pointsEnabled ? html`<colgroup>
+				<col style="width:22%;" />
+				<col style="width:8%;" />
+				<col style="width:16%;" />
+				<col style="width:12%;" />
+				<col style="width:22%;" />
+				<col style="width:10%;" />
+				<col style="width:10%;" />
+			</colgroup>` : html`<colgroup>
+				<col style="width:24%;" />
+				<col style="width:18%;" />
+				<col style="width:12%;" />
+				<col style="width:24%;" />
+				<col style="width:12%;" />
+				<col style="width:10%;" />
+			</colgroup>`;
+		}
 	_renderShopModal(){
+		if (!this._pointsEnabled()) return '';
 		return html`<div class="overlay shop-admin-overlay ${this._shopModalOpen?'open':''}" @click=${e=>{ if (e.target.classList.contains('overlay')) this._shopModalOpen=false; }}>
 			<div class="modal shop-modal shop-admin-modal" @click=${e=>e.stopPropagation()}>
                 <h3>${this._t('shop.title')}</h3>
@@ -1475,7 +1836,7 @@ class Chores4KidsDevCard extends LitElement {
 											<div class="kv"><b>${this._t('shop.price')}</b><b>${p.price}</b></div>
 										</div>`; })}
 								</div>
-				<div class="row" style="justify-content:flex-end; margin-top:8px;"><button class="btn-ghost" @click=${()=>this._shopModalOpen=false}>${this._t('form.cancel')}</button></div>
+				<div class="row" style="justify-content:flex-end; margin-top:8px;"><button class="btn-ghost" @click=${()=>this._shopModalOpen=false}>${this._t('form.close')}</button></div>
 			</div>
 		</div>`;
 	}
@@ -1791,15 +2152,17 @@ class Chores4KidsDevCard extends LitElement {
 		if (found?.entity_id) this._idChild = found.entity_id; return found;
 	}
 	_renderChild(){
+		const pointsEnabled = this._pointsEnabled();
 		const s = this._findChildSensor();
 		if (!s){ return html`<ha-card header="${this._t('card.child_title_fallback',{name: this._childName||this.config.child||''})}"><div class="card-content">${this._t('msg.child_not_found')}</div></ha-card>`; }
+		const myChildId = s?.attributes?.child_id;
 		const tasks = (s.attributes.tasks||[]).filter(t=> ['assigned','in_progress','awaiting_approval','approved'].includes(t.status));
 		const dailyTasks = tasks.filter(t=> !t?.due);
 		const weeklyTasks = tasks.filter(t=> !!t?.due);
 		// shop items
 		let shopSensor = this._idShop && this.hass.states[this._idShop];
 		if (!shopSensor){ shopSensor = Object.values(this.hass.states).find(st=> st?.entity_id?.includes('chores4kids_shop')); if (shopSensor?.entity_id) this._idShop = shopSensor.entity_id; }
-		const items = this._shopOpen ? (shopSensor?.attributes?.items||[]).filter(i=> i.active!==false) : [];
+		const items = (pointsEnabled && this._shopOpen) ? (shopSensor?.attributes?.items||[]).filter(i=> i.active!==false) : [];
 		const renderTaskGroups = (taskList)=>{
 			if (taskList.length===0) return html`<i>${this._t('msg.no_tasks')}</i>`;
 			const NONE='__none__';
@@ -1823,21 +2186,26 @@ class Chores4KidsDevCard extends LitElement {
 						const bonusInfo = this._bonusByDateInfo(t);
 						const bonusBy = bonusInfo?.dateStr;
 						const bonusClass = bonusInfo?.expired ? 'chip chip-bonus chip-bonus-expired' : 'chip chip-bonus';
+						const claimedById = t?.fastest_wins_claimed_by_child_id;
+						const claimedByName = t?.fastest_wins_claimed_by_child_name || claimedById;
+						const isTakenByOther = !!t?.fastest_wins && !!claimedById && !!myChildId && claimedById !== myChildId;
 						return html`
 							<div class="task ${this._isTaskOverdue(t)?'task-overdue':''}">
 								<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
 								<div>
 									<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
 									<div class="meta">
-										<span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span>
+										${pointsEnabled ? html`<span class="chip chip-points">${t.points} ${this._t('lbl.points')}</span>`:''}
 										${t?.due ? html`<span class="chip chip-deadline">${this._t('lbl.deadline',{date: this._formatDueDate(t.due)})}</span>` : ''}
-										${bonusBy ? html`<span class="${bonusClass}">${this._t('lbl.early_bonus_by',{ points: Number(t.early_bonus_points||0), date: bonusBy })}</span>` : ''}
+										${(pointsEnabled && bonusBy) ? html`<span class="${bonusClass}">${this._t('lbl.early_bonus_by',{ points: Number(t.early_bonus_points||0), date: bonusBy })}</span>` : ''}
+										${isTakenByOther ? html`<span class="chip chip-deadline">${this._t('lbl.taken_by',{name: claimedByName||'—'})}</span>` : ''}
 										${this._isTaskOverdue(t)? html` <span class="chip status-overdue">${this._t('status.overdue')}</span>`:''}
 									</div>
 								</div>
 								<div class="actions" style="display:flex; flex-direction:column; gap:6px;">
-									${t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
-										: t.status==="in_progress" ? html`<button class="btn-primary" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
+									${isTakenByOther ? html`<button class="btn" disabled>${this._t('lbl.taken_by',{name: claimedByName||'—'})}</button>`
+										: t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary start-task" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
+										: t.status==="in_progress" ? html`<button class="btn-primary complete-task" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
 										: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
 										: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
 									${this.config?.debug_mode && !this._isTaskOverdue(t) && t.status!=="approved" ? html`
@@ -1854,14 +2222,14 @@ class Chores4KidsDevCard extends LitElement {
 			<ha-card header="${s.attributes.name}">
 				<div class="card-content">
 					<div class="header-row">
-						<span class="header-points">${s.state} ${this._t('lbl.points')}</span>
-						<button class="btn-primary" @click=${()=>{ this._shopOpen = true; this.requestUpdate(); }}>${this._t('shop.title')}</button>
+						${pointsEnabled ? html`<span class="header-points">${s.state} ${this._t('lbl.points')}</span>`:''}
+						${pointsEnabled ? html`<button class="btn-primary" @click=${()=>{ this._shopOpen = true; this.requestUpdate(); }}>${this._t('shop.title')}</button>`:''}
 					</div>
 					<div class="tasks">
 						${dailyTasks.length ? html`<div class="section"><h3 style="margin:0 0 8px;">${this._t('section.daily_tasks')}</h3>${renderTaskGroups(dailyTasks)}</div>` : ''}
 						${weeklyTasks.length ? html`<div class="section"><h3 style="margin:0 0 8px;">${this._t('section.weekly_tasks')}</h3>${renderTaskGroups(weeklyTasks)}</div>` : (dailyTasks.length? '' : html`<i>${this._t('msg.no_tasks')}</i>`)}
 					</div>
-					<div class="overlay shop-child-overlay ${this._shopOpen?'open':''}" @click=${e=>{ if(e.target.classList.contains('overlay')) this._shopOpen=false; }}>
+					${pointsEnabled ? html`<div class="overlay shop-child-overlay ${this._shopOpen?'open':''}" @click=${e=>{ if(e.target.classList.contains('overlay')) this._shopOpen=false; }}>
 						<div class="modal shop-child-modal" @click=${e=>e.stopPropagation()}>
 							<h3 style="margin:0 0 8px;">${this._t('shop.title')}</h3>
 							<div class="shop-grid">
@@ -1880,7 +2248,7 @@ class Chores4KidsDevCard extends LitElement {
 								<button class="btn-ghost" @click=${()=>this._shopOpen=false}>${this._t('form.cancel')}</button>
 							</div>
 						</div>
-					</div>
+					</div>` : ''}
 				</div>
 			</ha-card>`;
 	}
@@ -1888,15 +2256,15 @@ class Chores4KidsDevCard extends LitElement {
 	// ===== Actions (admin + child) =====
 	async _addChild(){ if(!this._name) return; await this.hass.callService('chores4kids','add_child',{ name: this._name }); this._name=''; }
 	async _removeChild(c){ if(!confirm(this._t('confirm.delete_child',{name:c.name}))) return; await this.hass.callService('chores4kids','remove_child',{ child_id: c.id }); }
-	_openPoints(c){ this._pointsChild=c; this._pointsValue=5; this.requestUpdate(); }
+	_openPoints(c){ if(!this._pointsEnabled()) return; this._pointsChild=c; this._pointsValue=5; this.requestUpdate(); }
 	_closePoints=()=>{ this._pointsChild=null; this.requestUpdate(); }
-	async _addPointsQuick(n){ if(!this._pointsChild) return; const pts=Number(n||0); if(!Number.isFinite(pts)||pts===0) return; await this.hass.callService('chores4kids','add_points',{ child_id: this._pointsChild.id, points: pts }); this._closePoints(); }
-	async _resetPoints(c){ if(!confirm(this._t('btn.reset_points')+'?')) return; await this.hass.callService('chores4kids','reset_points',{ child_id: c.id }); }
+	async _addPointsQuick(n){ if(!this._pointsEnabled()) return; if(!this._pointsChild) return; const pts=Number(n||0); if(!Number.isFinite(pts)||pts===0) return; await this.hass.callService('chores4kids','add_points',{ child_id: this._pointsChild.id, points: pts }); this._closePoints(); }
+	async _resetPoints(c){ if(!this._pointsEnabled()) return; if(!confirm(this._t('btn.reset_points')+'?')) return; await this.hass.callService('chores4kids','reset_points',{ child_id: c.id }); }
 	async _promptRename(c){ const nn=prompt(this._t('btn.rename'), c.name); if(!nn || nn===c.name) return; await this.hass.callService('chores4kids','rename_child',{ child_id:c.id, new_name: nn }); }
 	get _showTitleError(){ return (this._touchedTitle && !(String(this._taskTitle||'').trim().length>0)); }
-	get _pointsErrorKey(){ if(!this._touchedPoints) return null; const raw=String(this._taskPoints??'').trim(); if(raw==='') return 'err.points_required'; const n=Number(raw); if(!Number.isFinite(n)) return 'err.points_number'; if(n<0) return 'err.points_positive'; return null; }
+	get _pointsErrorKey(){ if(!this._pointsEnabled()) return null; if(!this._touchedPoints) return null; const raw=String(this._taskPoints??'').trim(); if(raw==='') return 'err.points_required'; const n=Number(raw); if(!Number.isFinite(n)) return 'err.points_number'; if(n<0) return 'err.points_positive'; return null; }
 	get _showPointsError(){ return !!this._pointsErrorKey; }
-	get _hasFormErrors(){ return this._showTitleError || this._showPointsError; }
+	get _hasFormErrors(){ return this._showTitleError || (this._pointsEnabled() && this._showPointsError); }
 	_pickIcon(id){ this._taskIcon=id; try{ const arr=Array.isArray(this._iconRecents)? [...this._iconRecents]:[]; const next=[id,...arr.filter(x=>x!==id)].slice(0,12); this._iconRecents=next; localStorage.setItem('c4k_icn_recent', JSON.stringify(next)); }catch{} this._iconModalOpen=false; this.requestUpdate(); }
 	_openCustomIconModal(){ this._customIconModalOpen = true; this._customIconSearch = ''; this._customIconPreview = ''; this._customIconLabel = ''; this._iconDisplayLimit = 200; this._iconModalOpen = false; if(!this._availableIcons || !this._availableIcons.length) this._fetchAvailableIcons(); this.requestUpdate(); }
 	_closeCustomIconModal(){ this._customIconModalOpen = false; this._customIconSearch = ''; this._customIconPreview = ''; this._customIconLabel = ''; this._iconDisplayLimit = 200; this.requestUpdate(); }
@@ -1939,11 +2307,34 @@ class Chores4KidsDevCard extends LitElement {
 	}
 	_saveCustomIcon(){ const icon = String(this._customIconPreview||'').trim(); const label = String(this._customIconLabel||'').trim(); if(!icon || !label) return; const customs = Array.isArray(this._customIcons)? [...this._customIcons]:[]; const exists = customs.find(c=> c.id === icon); if(!exists){ customs.push({ id: icon, label }); try{ localStorage.setItem('c4k_custom_icons', JSON.stringify(customs)); }catch{} this._customIcons = customs; } this._pickIcon(icon); this._closeCustomIconModal(); }
 	_deleteCustomIcon(iconId){ const customs = Array.isArray(this._customIcons)? [...this._customIcons]:[]; const filtered = customs.filter(c=> c.id !== iconId); try{ localStorage.setItem('c4k_custom_icons', JSON.stringify(filtered)); }catch{} this._customIcons = filtered; this.requestUpdate(); }
+	async _waitForNewTemplateTask(beforeUnassignedIds, sig, timeoutMs=6000){
+		const start = Date.now();
+		const sleep = (ms)=> new Promise(r=> setTimeout(r, ms));
+		const wantTitle = String(sig?.title||'').trim();
+		const wantPoints = Number(sig?.points||0);
+		while ((Date.now() - start) < (Number(timeoutMs)||6000)){
+			try{
+				const candidates = (this._store.allTasks||[])
+					.filter(t=> !t.assigned_to && !(beforeUnassignedIds?.has?.(t.id)))
+					.filter(t=> String(t.title||'').trim()===wantTitle && Number(t.points||0)===wantPoints);
+				if (candidates.length){
+					// Prefer the most recently created
+					candidates.sort((a,b)=>{ try{ return new Date(b.created).getTime() - new Date(a.created).getTime(); }catch{ return 0; } });
+					return candidates[0];
+				}
+			}catch{ /* ignore */ }
+			await sleep(150);
+		}
+		return null;
+	}
 	async _createTask(){
-		this._touchedTitle=true; this._touchedPoints=true;
+		const pointsEnabled = this._pointsEnabled();
+		this._touchedTitle=true;
+		this._touchedPoints = pointsEnabled;
 		if(this._hasFormErrors) return;
+		const beforeUnassignedIds = new Set((this._store.allTasks||[]).filter(t=>!t.assigned_to).map(t=>t.id));
 		const repeatOn = !!this._repeatEnabled;
-		const bonusOn = !!this._taskEarlyBonusEnabled;
+		const bonusOn = pointsEnabled ? !!this._taskEarlyBonusEnabled : false;
 		const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
 		const _days = repeatOn ? Array.from(this._repeatDays||[]) : [];
 		const _ids = repeatOn ? Array.from(this._repeatAssign||[]) : [];
@@ -1951,6 +2342,7 @@ class Chores4KidsDevCard extends LitElement {
 		const _persist = !!this._persistUntilDone;
 		const _quick = !!this._quickComplete;
 		const _skip = !!this._skipApproval;
+		const _fastest = !!this._fastestWins;
 		
 		// Check if today is in repeat days - if so, auto-assign immediately
 		const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
@@ -1958,57 +2350,48 @@ class Chores4KidsDevCard extends LitElement {
 		const todayBackend = weekdayMap[today];
 		const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
 		
-		if ((_ids||[]).length <= 1){
-			const taskData = {
-				title:this._taskTitle,
-				points:Number(this._taskPoints),
-				description:this._taskDesc||'',
-				due: dueVal,
-				early_bonus_enabled: bonusOn,
-				early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
-				early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
-				icon:this._taskIcon||undefined,
-				quick_complete: _quick,
-				skip_approval: _skip,
-				repeat_days:_days,
-				repeat_child_id: (_ids[0]||'') || undefined,
-				persist_until_completed: _persist,
-				categories: _cats
-			};
-			
-			// If today is in repeat_days and we have a child assigned, create as assigned task
-			if (assignToday && _ids[0]) {
-				taskData.child_id = _ids[0];
-			}
-			
-			await this.hass.callService('chores4kids','add_task', taskData);
-		}else{
-			for (const cid of _ids){
-				const taskData = {
-					title:this._taskTitle,
-					points:Number(this._taskPoints),
-					description:this._taskDesc||'',
-					due: dueVal,
-					early_bonus_enabled: bonusOn,
-					early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
-					early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
-					icon:this._taskIcon||undefined,
-					quick_complete: _quick,
-					skip_approval: _skip,
-					repeat_days:_days,
-					repeat_child_id: cid,
-					persist_until_completed: _persist,
-					categories: _cats
-				};
-				
-				// If today is in repeat_days, create as assigned task
-				if (assignToday) {
-					taskData.child_id = cid;
+		// Always create a reusable unassigned template task.
+		// If today is included in repeat_days, we then assign today's copies from the template
+		// so the task stays editable under "Tasks" and assigned tasks remain linked.
+		const taskData = {
+			title:this._taskTitle,
+			points: pointsEnabled ? Number(this._taskPoints) : 0,
+			description:this._taskDesc||'',
+			due: dueVal,
+			early_bonus_enabled: bonusOn,
+			early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
+			early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
+			icon:this._taskIcon||undefined,
+			quick_complete: _quick,
+			skip_approval: _skip,
+			fastest_wins: _fastest,
+			repeat_days:_days,
+			repeat_child_id: repeatOn ? ((_ids[0]||'') || undefined) : undefined,
+			repeat_child_ids: repeatOn ? (_ids.length ? _ids : undefined) : undefined,
+			persist_until_completed: _persist,
+			categories: _cats
+		};
+		await this.hass.callService('chores4kids','add_task', taskData);
+
+		if (assignToday && _ids.length){
+			const tpl = await this._waitForNewTemplateTask(beforeUnassignedIds, { title: this._taskTitle, points: pointsEnabled ? Number(this._taskPoints) : 0 });
+			if (tpl?.id){
+				for (const cid of _ids){
+					if(!cid) continue;
+					await this.hass.callService('chores4kids','assign_task', { task_id: tpl.id, child_id: cid });
 				}
-				
-				await this.hass.callService('chores4kids','add_task', taskData);
 			}
 		}
+
+		// Ensure Tasks section is visible after creating a task
+		try{
+			if (this._collapsed?.tasks){
+				const next = { ...(this._collapsed||{}) };
+				next.tasks = false;
+				this._collapsed = next;
+				localStorage.setItem('c4k_admin_collapsed', JSON.stringify(next));
+			}
+		}catch{}
 		// Clear form and reset validation state so inputs don't show errors
 		this._taskTitle=this._taskPoints=this._taskDesc=this._taskIcon='';
 		this._taskDue='';
@@ -2022,6 +2405,7 @@ class Chores4KidsDevCard extends LitElement {
 		this._persistUntilDone=false;
 		this._quickComplete=false;
 		this._skipApproval=false;
+		this._fastestWins=false;
 		this._touchedTitle=false; this._touchedPoints=false;
 	}
 	async _setStatus(taskId,status){ try{ await this.hass.callService('chores4kids','set_task_status',{ task_id: taskId, status }); } finally { if (status!=='awaiting_approval'){ this._clearCompleted(taskId); } } }
@@ -2217,20 +2601,21 @@ class Chores4KidsDevCard extends LitElement {
 			}
 		}catch{}
 	}
-	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; this._taskDue = (()=>{ const d=this._parseDueToDate(t?.due); return d? this._formatDateISO(d) : ''; })(); this._taskEarlyBonusDays = (t?.early_bonus_days!=null && Number(t.early_bonus_days)>0)? String(t.early_bonus_days) : ''; this._taskEarlyBonusPoints = (t?.early_bonus_points!=null && Number(t.early_bonus_points)>0)? String(t.early_bonus_points) : ''; this._taskEarlyBonusEnabled = (()=>{ const v=t?.early_bonus_enabled; if (v===true) return true; if (v===false) return false; return (Number(t?.early_bonus_days||0)>0 && Number(t?.early_bonus_points||0)>0); })(); const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._repeatEnabled = !!(fromAttr.length || kids.length); this._persistUntilDone = !!t.persist_until_completed; this._quickComplete = !!t.quick_complete; this._skipApproval = !!t.skip_approval; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
+	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; this._taskDue = (()=>{ const d=this._parseDueToDate(t?.due); return d? this._formatDateISO(d) : ''; })(); this._taskEarlyBonusDays = (t?.early_bonus_days!=null && Number(t.early_bonus_days)>0)? String(t.early_bonus_days) : ''; this._taskEarlyBonusPoints = (t?.early_bonus_points!=null && Number(t.early_bonus_points)>0)? String(t.early_bonus_points) : ''; this._taskEarlyBonusEnabled = (()=>{ const v=t?.early_bonus_enabled; if (v===true) return true; if (v===false) return false; return (Number(t?.early_bonus_days||0)>0 && Number(t?.early_bonus_points||0)>0); })(); const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._repeatEnabled = !!(fromAttr.length || kids.length); this._persistUntilDone = !!t.persist_until_completed; this._quickComplete = !!t.quick_complete; this._skipApproval = !!t.skip_approval; this._fastestWins = !!t.fastest_wins; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
 	async _saveEditedTask(){
 		if(!this._editingTask) return;
 		// validate like create
-		this._touchedTitle = true; this._touchedPoints = true; this.requestUpdate();
+		const pointsEnabled = this._pointsEnabled();
+		this._touchedTitle = true; this._touchedPoints = pointsEnabled; this.requestUpdate();
 		if (this._hasFormErrors) return;
 		try{
-			const bonusOn = !!this._taskEarlyBonusEnabled;
+			const bonusOn = pointsEnabled ? !!this._taskEarlyBonusEnabled : false;
 			const repeatOn = !!this._repeatEnabled;
 			const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
 			await this.hass.callService('chores4kids','update_task',{
 				task_id: this._editingTask.id,
 				title: this._taskTitle,
-				points: Number(this._taskPoints),
+				points: pointsEnabled ? Number(this._taskPoints) : 0,
 				description: this._taskDesc||'',
 				due: dueVal,
 				early_bonus_enabled: bonusOn,
@@ -2240,6 +2625,7 @@ class Chores4KidsDevCard extends LitElement {
 				persist_until_completed: !!this._persistUntilDone,
 				quick_complete: !!this._quickComplete,
 				skip_approval: !!this._skipApproval,
+				fastest_wins: !!this._fastestWins,
 				categories: Array.from(this._taskCategories||[])
 			});
 			// Try to set multi-children (backend may ignore list if unsupported). Fallback: set first only.
@@ -2260,16 +2646,24 @@ class Chores4KidsDevCard extends LitElement {
 				const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
 				
 				if (assignToday) {
-					// Assign to each selected child
+					// Assign only for children missing a today's active instance (avoid duplicates)
 					for (const cid of _ids) {
 						try {
+							if(!cid) continue;
+							const alreadyHasTodays = (this._store.allTasks||[]).some(t =>
+								!!t.assigned_to &&
+								t.assigned_to === cid &&
+								String(t.repeat_template_id||'') === String(this._editingTask.id||'') &&
+								['assigned','in_progress','awaiting_approval'].includes(String(t.status||'')) &&
+								!this._isFromBeforeToday(t)
+							);
+							if (alreadyHasTodays) continue;
 							await this.hass.callService('chores4kids','assign_task',{ 
 								task_id: this._editingTask.id, 
 								child_id: cid 
 							});
 						} catch(e) {
-							// If first assign succeeds, subsequent ones will create copies
-							console.log('Task assigned or copied');
+							// Best-effort: ignore assign errors (e.g. backend rejects invalid child)
 						}
 					}
 				}
@@ -2290,9 +2684,10 @@ class Chores4KidsDevCard extends LitElement {
 		}
 	}
 	async _deleteTask(taskId){ if(!confirm(this._t('confirm.delete_task'))) return; await this.hass.callService('chores4kids','delete_task',{ task_id: taskId }); this._clearCompleted(taskId); }
-	async _addShopItem(){ const title=String(this._shopTitle||'').trim(); const price=Number(this._shopPrice||0); if(!title || !Number.isFinite(price)) return; await this.hass.callService('chores4kids','add_shop_item',{ title, price, image: this._shopImage||undefined }); this._shopTitle=this._shopPrice=this._shopImage=''; try{ const el=this.shadowRoot.getElementById('c4k-shop-file'); if(el) el.value=''; }catch{} }
-	async _deleteShopItem(id){ if(!id) return; await this.hass.callService('chores4kids','delete_shop_item',{ item_id: id }); }
+	async _addShopItem(){ if(!this._pointsEnabled()) return; const title=String(this._shopTitle||'').trim(); const price=Number(this._shopPrice||0); if(!title || !Number.isFinite(price)) return; await this.hass.callService('chores4kids','add_shop_item',{ title, price, image: this._shopImage||undefined }); this._shopTitle=this._shopPrice=this._shopImage=''; try{ const el=this.shadowRoot.getElementById('c4k-shop-file'); if(el) el.value=''; }catch{} }
+	async _deleteShopItem(id){ if(!this._pointsEnabled()) return; if(!id) return; await this.hass.callService('chores4kids','delete_shop_item',{ item_id: id }); }
 	async _clearShopHistory(){
+		if(!this._pointsEnabled()) return;
 		if(!confirm(this._t('confirm.clear_history'))) return;
 		try{
 			await this.hass.callService('chores4kids','clear_shop_history',{});
@@ -2304,15 +2699,15 @@ class Chores4KidsDevCard extends LitElement {
 			}
 		}
 	}
-	async _onPickImage(e){ const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ try{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._shopImage=`/local/chores4kids/${name}`; } finally { this.requestUpdate(); } }; reader.readAsDataURL(f); }
+	async _onPickImage(e){ if(!this._pointsEnabled()) return; const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ try{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._shopImage=`/local/chores4kids/${name}`; } finally { this.requestUpdate(); } }; reader.readAsDataURL(f); }
 	_startEditItem(i){ this._editItem={ id:i.id, title:i.title, price:i.price, image:i.image||'', active:i.active!==false }; this.requestUpdate(); }
-	async _onPickEditImage(e){ const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._editItem={ ...this._editItem, image:`/local/chores4kids/${name}` }; this.requestUpdate(); }; reader.readAsDataURL(f); }
-	async _saveEditItem(){ const it=this._editItem; if(!it) return; await this.hass.callService('chores4kids','update_shop_item',{ item_id: it.id, title:String(it.title||'').trim(), price:Number(it.price||0), image: it.image||'', active: !!it.active }); this._editItem=null; this.requestUpdate(); }
-	async _toggleItemActive(i,e){ const active=!!e.target.checked; await this.hass.callService('chores4kids','update_shop_item',{ item_id: i.id, active }); }
-	_openAdvanced(i){ try{ const shop=Object.values(this.hass.states).find(s=> s?.entity_id?.includes('chores4kids_shop')); const latest=shop?.attributes?.items?.find?.((x)=> x.id===i.id); this._advItem=latest||i; }catch{ this._advItem=i; } const steps=Array.isArray(this._advItem.actions)? JSON.parse(JSON.stringify(this._advItem.actions)) : []; this._advSteps=steps.map(st=>{ const t=String(st?.type||'').toLowerCase(); if(t==='service'){ const ent=st.entity_id || st.data?.entity_id || ''; const op=st.service || st.op; return { type:'entity_service', entity_id: ent, op }; } if(t==='entity_service'){ return { type:'entity_service', entity_id: st.entity_id||'', op: st.op||st.service }; } if(t==='delay'){ return { type:'delay', seconds: Number(st.seconds||st.secs||0) }; } return st; }); this.requestUpdate(); }
+	async _onPickEditImage(e){ if(!this._pointsEnabled()) return; const f=e.target?.files?.[0]; if(!f) return; const reader=new FileReader(); reader.onload= async ()=>{ const dataUrl=reader.result; const ext=(f.name.split('.').pop()||'jpg').toLowerCase(); const name=`c4k_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`; await this.hass.callService('chores4kids','upload_shop_image',{ filename:name, data:String(dataUrl) }); this._editItem={ ...this._editItem, image:`/local/chores4kids/${name}` }; this.requestUpdate(); }; reader.readAsDataURL(f); }
+	async _saveEditItem(){ if(!this._pointsEnabled()) return; const it=this._editItem; if(!it) return; await this.hass.callService('chores4kids','update_shop_item',{ item_id: it.id, title:String(it.title||'').trim(), price:Number(it.price||0), image: it.image||'', active: !!it.active }); this._editItem=null; this.requestUpdate(); }
+	async _toggleItemActive(i,e){ if(!this._pointsEnabled()) return; const active=!!e.target.checked; await this.hass.callService('chores4kids','update_shop_item',{ item_id: i.id, active }); }
+	_openAdvanced(i){ if(!this._pointsEnabled()) return; try{ const shop=Object.values(this.hass.states).find(s=> s?.entity_id?.includes('chores4kids_shop')); const latest=shop?.attributes?.items?.find?.((x)=> x.id===i.id); this._advItem=latest||i; }catch{ this._advItem=i; } const steps=Array.isArray(this._advItem.actions)? JSON.parse(JSON.stringify(this._advItem.actions)) : []; this._advSteps=steps.map(st=>{ const t=String(st?.type||'').toLowerCase(); if(t==='service'){ const ent=st.entity_id || st.data?.entity_id || ''; const op=st.service || st.op; return { type:'entity_service', entity_id: ent, op }; } if(t==='entity_service'){ return { type:'entity_service', entity_id: st.entity_id||'', op: st.op||st.service }; } if(t==='delay'){ return { type:'delay', seconds: Number(st.seconds||st.secs||0) }; } return st; }); this.requestUpdate(); }
 	_defaultOpFor(entity_id){ const dom=(entity_id||'').split('.')[0]; const ops=this._opsForDomain(dom); return ops[0]||'turn_on'; }
 	_opsForDomain(dom){ switch(dom){ case 'switch': case 'light': case 'fan': case 'input_boolean': return ['turn_on','turn_off','toggle']; case 'media_player': return ['turn_on','turn_off','media_play','media_pause','toggle']; case 'lock': return ['lock','unlock']; default: return ['turn_on','turn_off']; } }
-	async _saveAdvanced(){ if(!this._advItem) return; const actions=(this._advSteps||[]).map(st=> st.type==='delay'? { type:'delay', seconds: Number(st.seconds||0) } : { type:'entity_service', entity_id: st.entity_id, op: st.op||'turn_on' }); await this.hass.callService('chores4kids','update_shop_item',{ item_id: this._advItem.id, actions }); this._advItem=null; this._advSteps=[]; this.requestUpdate(); }
+	async _saveAdvanced(){ if(!this._pointsEnabled()) return; if(!this._advItem) return; const actions=(this._advSteps||[]).map(st=> st.type==='delay'? { type:'delay', seconds: Number(st.seconds||0) } : { type:'entity_service', entity_id: st.entity_id, op: st.op||'turn_on' }); await this.hass.callService('chores4kids','update_shop_item',{ item_id: this._advItem.id, actions }); this._advItem=null; this._advSteps=[]; this.requestUpdate(); }
 	async _completeNow(task){
 		if(!task||!task.id) return;
 		const next = 'awaiting_approval';
@@ -2404,7 +2799,7 @@ class Chores4KidsDevCard extends LitElement {
 			console.log('No playable completion sound found');
 		}catch(e){ console.log('Sound playback error:', e); }
 	}
-	async _buy(item, childId){ if(!item?.id || !childId) return; await this.hass.callService('chores4kids','buy_shop_item',{ child_id: childId, item_id: item.id }); }
+	async _buy(item, childId){ if(!this._pointsEnabled()) return; if(!item?.id || !childId) return; await this.hass.callService('chores4kids','buy_shop_item',{ child_id: childId, item_id: item.id }); }
 	
 	// DEBUG: Mark task as overdue for testing
 	async _debugMarkOverdue(task) {
@@ -2419,12 +2814,71 @@ class Chores4KidsDevCard extends LitElement {
 }
 
 customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
+
+// Alias without "dev" for user-visible Lovelace type (keep dev for backwards compatibility)
+if (!customElements.get('chores4kids-card')) {
+	customElements.define('chores4kids-card', Chores4KidsDevCard);
+}
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
 	setConfig(config){
 		this._config = { mode:'admin', ...config };
 		this.requestUpdate();
+	}
+	_getGlobalEnablePoints(){
+		try{
+			const states = this.hass?.states || {};
+			let s = states['sensor.chores4kids_ui'];
+			if (!s){
+				s = Object.values(states).find(st=>{
+					try{
+						if (!st?.entity_id?.startsWith('sensor.')) return false;
+						const a = st.attributes || {};
+						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
+							|| ('task_points_bg' in a) || ('task_points_text' in a);
+					}catch{ return false; }
+				});
+			}
+			const a = s?.attributes || {};
+			if (typeof a.enable_points === 'boolean') return a.enable_points;
+		}catch{ /* ignore */ }
+		return true;
+	}
+	async _saveGlobalEnablePoints(enabled){
+		try{
+			if (!this.hass) return;
+			await this.hass.callService('chores4kids','set_ui_colors',{ enable_points: !!enabled });
+		}catch(e){
+			console.warn('Failed to save enable_points', e);
+		}
+	}
+	_saveGlobalColors(cfg){
+		// Persist globally in HA backend so it syncs across users/devices.
+		try{
+			if (!this.hass) return;
+			const payload = {
+				start_task_bg: cfg?.start_task_bg || '',
+				complete_task_bg: cfg?.complete_task_bg || '',
+				kid_points_bg: cfg?.kid_points_bg || '',
+				start_task_text: cfg?.start_task_text || '',
+				complete_task_text: cfg?.complete_task_text || '',
+				kid_points_text: cfg?.kid_points_text || '',
+				task_points_bg: cfg?.task_points_bg || '',
+				task_points_text: cfg?.task_points_text || '',
+			};
+			// debounce service calls while typing
+			this._pendingUiColors = payload;
+			if (this._uiColorSaveTimer) clearTimeout(this._uiColorSaveTimer);
+			this._uiColorSaveTimer = setTimeout(async ()=>{
+				try{
+					await this.hass.callService('chores4kids','set_ui_colors', this._pendingUiColors || payload);
+				}catch(e){
+					console.warn('Failed to save UI colors', e);
+				}
+			}, 250);
+		}catch{ /* ignore */ }
 	}
 	_t(key, vars){ return c4kLocalize(key, this.hass || navigator.language || 'en', vars); }
 	_emit(){ this.dispatchEvent(new CustomEvent('config-changed',{ detail:{ config: this._config }, bubbles:true, composed:true })); }
@@ -2463,23 +2917,12 @@ class Chores4KidsDevCardEditor extends LitElement{
 		render(){ const cfg=this._config||{}; const kids=this._getChildren(); return html`
 		<div class="card-config">
 			<div class="form-field">
-				<label>Debug Mode</label>
+				<label>${this._t('editor.developer_mode')}</label>
 				<label style="display:flex;align-items:center;gap:8px;">
 					<span>${this._t('ui.toggle_off_on')}</span>
 					<ha-switch .checked=${cfg.debug_mode === true} @change=${e=>{ this._config={...cfg, debug_mode: !!e.target.checked}; this._emit(); }}></ha-switch>
 				</label>
-				<small style="opacity:.8; margin-top:4px; display:block;">Shows extra controls like manual overdue marking</small>
-			</div>
-			<div class="form-field" style="margin-top:8px;">
-				<label>Completion Sound</label>
-				<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="margin-bottom:4px;" />
-				${cfg.completion_sound ? html`
-					<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
-						<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound}</small>
-						<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">Clear</button>
-					</div>
-				` : ''}
-				<small style="opacity:.8; margin-top:4px; display:block;">Saved as /local/chores4kids/completion.&lt;ext&gt; and used across dashboards</small>
+				<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.developer_mode_help')}</small>
 			</div>
 			<div class="form-field" style="margin-top:8px;"><label>${this._t('editor.mode')}</label>
 				<select .value=${cfg.mode||'admin'} @change=${e=>{ this._config={...cfg, mode:e.target.value}; this._emit(); }}>
@@ -2488,23 +2931,136 @@ class Chores4KidsDevCardEditor extends LitElement{
 					<option value="overview">${this._t('editor.mode_overview')}</option>
 				</select>
 			</div>
+			${cfg.mode !== 'kid' ? html`
+				<div class="form-field" style="margin-top:8px;">
+					<label>${this._t('editor.completion_sound')}</label>
+					<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="margin-bottom:4px;" />
+					${cfg.completion_sound ? html`
+						<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+							<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound}</small>
+							<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">${this._t('form.clear')}</button>
+						</div>
+					` : ''}
+					<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.completion_sound_help')}</small>
+				</div>
+			` : ''}
 			${cfg.mode==='admin' ? html`
+				<div class="form-field" style="margin-top:8px;">
+					<label>${this._t('editor.enable_points')}</label>
+					<label style="display:flex;align-items:center;gap:8px;">
+						<span>${this._t('ui.toggle_off_on')}</span>
+						<ha-switch .checked=${this._getGlobalEnablePoints()} @change=${async e=>{ const enabled=!!e.target.checked; await this._saveGlobalEnablePoints(enabled); this._config={...cfg, enable_points: enabled}; this._emit(); }}></ha-switch>
+					</label>
+					<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.enable_points_help')}</small>
+				</div>
 				<div class="form-field" style="margin-top:8px;">
 					<label>${this._t('section.scoreboard')}</label>
 					<label style="display:flex;align-items:center;gap:8px;">
 						<span>${this._t('ui.toggle_off_on')}</span>
-						<ha-switch .checked=${cfg.show_scoreboard !== false} @change=${e=>{ this._config={...cfg, show_scoreboard: !!e.target.checked}; this._emit(); }}></ha-switch>
+						<ha-switch .checked=${(cfg.enable_points !== false) && (cfg.show_scoreboard !== false)} ?disabled=${cfg.enable_points === false} @change=${e=>{ this._config={...cfg, show_scoreboard: !!e.target.checked}; this._emit(); }}></ha-switch>
 					</label>
+				</div>
+				<div class="form-field" style="margin-top:8px;">
+					<label>${this._t('editor.colors')}</label>
+					<div style="display:grid; gap:12px; margin-top:8px;">
+						<ha-expansion-panel .header=${this._t('editor.color_group_start')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
+							<div style="padding:10px;">
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_bg')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.start_task_bg||''} @input=${e=>{ this._config={...cfg, start_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.start_task_bg||'') ? cfg.start_task_bg : '#000000')} @change=${e=>{ this._config={...cfg, start_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.start_task_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_text')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.start_task_text||''} @input=${e=>{ this._config={...cfg, start_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.start_task_text||'') ? cfg.start_task_text : '#000000')} @change=${e=>{ this._config={...cfg, start_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.start_task_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
+							</div>
+						</ha-expansion-panel>
+
+						<ha-expansion-panel .header=${this._t('editor.color_group_complete')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
+							<div style="padding:10px;">
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_bg')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.complete_task_bg||''} @input=${e=>{ this._config={...cfg, complete_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.complete_task_bg||'') ? cfg.complete_task_bg : '#000000')} @change=${e=>{ this._config={...cfg, complete_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.complete_task_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_text')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.complete_task_text||''} @input=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.complete_task_text||'') ? cfg.complete_task_text : '#000000')} @change=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.complete_task_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
+							</div>
+						</ha-expansion-panel>
+
+						${cfg.enable_points === false ? '' : html`<ha-expansion-panel .header=${this._t('editor.color_group_kid_points')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
+							<div style="padding:10px;">
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_bg')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.kid_points_bg||''} @input=${e=>{ this._config={...cfg, kid_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.kid_points_bg||'') ? cfg.kid_points_bg : '#000000')} @change=${e=>{ this._config={...cfg, kid_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.kid_points_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_text')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.kid_points_text||''} @input=${e=>{ this._config={...cfg, kid_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.kid_points_text||'') ? cfg.kid_points_text : '#000000')} @change=${e=>{ this._config={...cfg, kid_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.kid_points_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
+							</div>
+						</ha-expansion-panel>`}
+
+						${cfg.enable_points === false ? '' : html`<ha-expansion-panel .header=${this._t('editor.color_group_task_points')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
+							<div style="padding:10px;">
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_bg')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.task_points_bg||''} @input=${e=>{ this._config={...cfg, task_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_points_bg||'') ? cfg.task_points_bg : '#000000')} @change=${e=>{ this._config={...cfg, task_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.task_points_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_text')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.task_points_text||''} @input=${e=>{ this._config={...cfg, task_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_points_text||'') ? cfg.task_points_text : '#000000')} @change=${e=>{ this._config={...cfg, task_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+										<button @click=${()=>{ const next={...cfg}; delete next.task_points_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
+							</div>
+						</ha-expansion-panel>`}
+					</div>
 				</div>
 			` : ''}
 			${cfg.mode==='kid' ? html`
 				<div class="form-field" style="margin-top:8px;">
 					<label>${this._t('editor.child_label')}</label>
 					${kids.length ? html`
-						<select .value=${cfg.child||''} @change=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }}>
-							<option value="">${this._t('editor.child_select_prompt')}</option>
-							${cfg.child && !kids.includes(cfg.child) ? html`<option value=${cfg.child} selected>(custom) ${cfg.child}</option>`: ''}
-							${kids.map(n=> html`<option value=${n}>${n}</option>`) }
+						<select @change=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }}>
+							<option value="" ?selected=${!cfg.child}>${this._t('editor.child_select_prompt')}</option>
+							${cfg.child && !kids.includes(cfg.child) ? html`<option value=${cfg.child} ?selected=${true}>(custom) ${cfg.child}</option>`: ''}
+							${kids.map(n=> html`<option value=${n} ?selected=${n===cfg.child}>${n}</option>`) }
 						</select>
 					`: html`
 						<input .value=${cfg.child||''} @input=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }} placeholder="${this._t('editor.child_placeholder')}" />
@@ -2518,7 +3074,12 @@ class Chores4KidsDevCardEditor extends LitElement{
 }
 customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor);
 
+// Alias editor tag without "dev" (keep dev for backwards compatibility)
+if (!customElements.get('chores4kids-card-editor')) {
+	customElements.define('chores4kids-card-editor', Chores4KidsDevCardEditor);
+}
+
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-dev-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
 
