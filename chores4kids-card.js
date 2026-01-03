@@ -832,14 +832,17 @@ class Chores4KidsDevCard extends LitElement {
 		.task-icon{ display:flex; align-items:center; justify-content:center; width: 48px; }
 		.task-icon ha-icon{ --mdc-icon-size: 40px; width: 40px; height: 40px; opacity: .95; }
 		.title{ font-weight:700; }
+		.task .title{ font-size: var(--c4k-kid-task-title-size, 1rem); }
 		.title.completed{ text-decoration: line-through; }
 		.meta{ color: var(--secondary-text-color); font-size: 12px; display:flex; flex-wrap:wrap; gap:10px; }
 		.chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
 		.chip-points{ background: var(--c4k-task-points-bg, color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent)); color: var(--c4k-task-points-text, var(--warning-color, #ff9800)); }
+		.task .chip-points{ font-size: var(--c4k-kid-task-points-size, 12px); }
 		.chip-deadline{ background: color-mix(in srgb, var(--secondary-text-color) 14%, transparent); color: var(--secondary-text-color); }
 		.chip-bonus{ background: color-mix(in srgb, var(--success-color, #43a047) 18%, transparent); color: var(--success-color, #43a047); }
 		.chip-bonus-expired{ background: color-mix(in srgb, var(--error-color, #f44336) 18%, transparent); color: var(--error-color, #f44336); text-decoration: line-through; }
 		.actions{ display:flex; gap:8px; }
+		.task .actions button{ font-size: var(--c4k-kid-task-button-size, 14px); padding: .55em 1.05em; min-height: 2.4em; }
 		.img-preview{ width:72px; height:72px; border-radius:10px; border:1px solid var(--divider-color); background: color-mix(in srgb, var(--primary-color) 6%, transparent); object-fit:cover; }
 		.file-hidden{ display:none; }
 		/* Child shop grid – responsive */
@@ -1018,7 +1021,8 @@ class Chores4KidsDevCard extends LitElement {
 						const a = st.attributes || {};
 						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
-							|| ('task_points_bg' in a) || ('task_points_text' in a);
+							|| ('task_points_bg' in a) || ('task_points_text' in a)
+							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a);
 					}catch{ return false; }
 				});
 			}
@@ -1032,6 +1036,9 @@ class Chores4KidsDevCard extends LitElement {
 				kid_points_text: a.kid_points_text,
 				task_points_bg: a.task_points_bg,
 				task_points_text: a.task_points_text,
+				kid_task_title_size: a.kid_task_title_size,
+				kid_task_points_size: a.kid_task_points_size,
+				kid_task_button_size: a.kid_task_button_size,
 			};
 			if (typeof a.enable_points === 'boolean') out.enable_points = a.enable_points;
 			return out;
@@ -1053,6 +1060,10 @@ class Chores4KidsDevCard extends LitElement {
 			setVar('--c4k-kid-points-text', this.config?.kid_points_text || global.kid_points_text);
 			setVar('--c4k-task-points-bg', this.config?.task_points_bg || global.task_points_bg);
 			setVar('--c4k-task-points-text', this.config?.task_points_text || global.task_points_text);
+			// Font sizes are global (synced via integration)
+			setVar('--c4k-kid-task-title-size', global.kid_task_title_size);
+			setVar('--c4k-kid-task-points-size', global.kid_task_points_size);
+			setVar('--c4k-kid-task-button-size', global.kid_task_button_size);
 		}catch{ /* ignore */ }
 	}
 
@@ -1067,7 +1078,7 @@ class Chores4KidsDevCard extends LitElement {
 		this.requestUpdate();
 	}
 
-	static getConfigElement(){ return document.createElement('chores4kids-dev-card-editor'); }
+	static getConfigElement(){ return document.createElement('chores4kids-card-editor'); }
 	static getStubConfig(){ return { mode: 'admin' }; }
 
 	getCardSize(){ return this._mode==='admin'? 8 : 3; }
@@ -2813,7 +2824,9 @@ class Chores4KidsDevCard extends LitElement {
 	}
 }
 
-customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
+// Register non-dev element name (and keep legacy dev tag) without throwing on double-load.
+try{ customElements.define('chores4kids-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
+try{ customElements.define('chores4kids-dev-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
@@ -2909,55 +2922,115 @@ class Chores4KidsDevCardEditor extends LitElement{
 			return Array.from(new Set(names)).sort((a,b)=> String(a).localeCompare(String(b)));
 		}catch{ return []; }
 	}
-		render(){ const cfg=this._config||{}; const kids=this._getChildren(); return html`
+	_getUiSensorAttrs(){
+		try{
+			const states = this.hass?.states;
+			if (!states) return {};
+			let s = states['sensor.chores4kids_ui'];
+			if (!s){
+				s = Object.values(states).find(st=>{
+					try{
+						if (!st?.entity_id?.startsWith('sensor.')) return false;
+						const a = st.attributes || {};
+						return (
+							('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
+							|| ('task_points_bg' in a) || ('task_points_text' in a)
+							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a)
+						);
+					}catch{ return false; }
+				});
+			}
+			return (s?.attributes && typeof s.attributes === 'object') ? s.attributes : {};
+		}catch{ return {}; }
+	}
+	_getGlobalKidFontSizes(){
+		const a = this._getUiSensorAttrs();
+		return {
+			title: a?.kid_task_title_size || '',
+			points: a?.kid_task_points_size || '',
+			button: a?.kid_task_button_size || '',
+		};
+	}
+	_saveGlobalUiSettings(payload){
+		// Persist globally in HA backend so it syncs across users/devices.
+		try{
+			if (!this.hass) return;
+			const next = { ...(this._pendingUiColors || {}), ...(payload || {}) };
+			this._pendingUiColors = next;
+			if (this._uiColorSaveTimer) clearTimeout(this._uiColorSaveTimer);
+			this._uiColorSaveTimer = setTimeout(async ()=>{
+				try{
+					await this.hass.callService('chores4kids','set_ui_colors', this._pendingUiColors || next);
+				}catch(e){
+					console.warn('Failed to save UI settings', e);
+				}
+			}, 250);
+		}catch{ /* ignore */ }
+	}
+		render(){
+		const cfg=this._config||{};
+		const kids=this._getChildren();
+		const globalFs = this._getGlobalKidFontSizes();
+		const fsTitle = (this._fsTaskTitle != null) ? this._fsTaskTitle : globalFs.title;
+		const fsPoints = (this._fsTaskPoints != null) ? this._fsTaskPoints : globalFs.points;
+		const fsButton = (this._fsTaskButton != null) ? this._fsTaskButton : globalFs.button;
+		return html`
 		<div class="card-config">
-			<div class="form-field">
-				<label>${this._t('editor.developer_mode')}</label>
-				<label style="display:flex;align-items:center;gap:8px;">
-					<span>${this._t('ui.toggle_off_on')}</span>
-					<ha-switch .checked=${cfg.debug_mode === true} @change=${e=>{ this._config={...cfg, debug_mode: !!e.target.checked}; this._emit(); }}></ha-switch>
-				</label>
-				<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.developer_mode_help')}</small>
-			</div>
-			<div class="form-field" style="margin-top:8px;"><label>${this._t('editor.mode')}</label>
-				<select .value=${cfg.mode||'admin'} @change=${e=>{ this._config={...cfg, mode:e.target.value}; this._emit(); }}>
-					<option value="admin">${this._t('editor.mode_admin')}</option>
-					<option value="kid">${this._t('editor.mode_kid')}</option>
-					<option value="overview">${this._t('editor.mode_overview')}</option>
-				</select>
-			</div>
-			${cfg.mode !== 'kid' ? html`
-				<div class="form-field" style="margin-top:8px;">
-					<label>${this._t('editor.completion_sound')}</label>
-					<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="margin-bottom:4px;" />
-					${cfg.completion_sound ? html`
-						<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
-							<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound}</small>
-							<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">${this._t('form.clear')}</button>
-						</div>
-					` : ''}
-					<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.completion_sound_help')}</small>
+			<div class="section-box">
+				<div class="form-field">
+					<label>${this._t('editor.developer_mode')}</label>
+					<label style="display:flex;align-items:center;gap:8px;">
+						<span>${this._t('ui.toggle_off_on')}</span>
+						<ha-switch .checked=${cfg.debug_mode === true} @change=${e=>{ this._config={...cfg, debug_mode: !!e.target.checked}; this._emit(); }}></ha-switch>
+					</label>
+					<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.developer_mode_help')}</small>
 				</div>
-			` : ''}
+				<div class="form-field"><label>${this._t('editor.mode')}</label>
+					<select .value=${cfg.mode||'admin'} @change=${e=>{ this._config={...cfg, mode:e.target.value}; this._emit(); }}>
+						<option value="admin">${this._t('editor.mode_admin')}</option>
+						<option value="kid">${this._t('editor.mode_kid')}</option>
+						<option value="overview">${this._t('editor.mode_overview')}</option>
+					</select>
+				</div>
+				${cfg.mode !== 'kid' ? html`
+					<div class="form-field">
+						<label>${this._t('editor.completion_sound')}</label>
+						<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="margin-bottom:4px;" />
+						${cfg.completion_sound ? html`
+							<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+								<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound}</small>
+								<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">${this._t('form.clear')}</button>
+							</div>
+						` : ''}
+						<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.completion_sound_help')}</small>
+					</div>
+				` : ''}
+			</div>
+
 			${cfg.mode==='admin' ? html`
-				<div class="form-field" style="margin-top:8px;">
-					<label>${this._t('editor.enable_points')}</label>
-					<label style="display:flex;align-items:center;gap:8px;">
-						<span>${this._t('ui.toggle_off_on')}</span>
-						<ha-switch .checked=${this._getGlobalEnablePoints()} @change=${async e=>{ const enabled=!!e.target.checked; await this._saveGlobalEnablePoints(enabled); this._config={...cfg, enable_points: enabled}; this._emit(); }}></ha-switch>
-					</label>
-					<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.enable_points_help')}</small>
+				<div class="section-box">
+					<div class="form-field">
+						<label>${this._t('editor.enable_points')}</label>
+						<label style="display:flex;align-items:center;gap:8px;">
+							<span>${this._t('ui.toggle_off_on')}</span>
+							<ha-switch .checked=${this._getGlobalEnablePoints()} @change=${async e=>{ const enabled=!!e.target.checked; await this._saveGlobalEnablePoints(enabled); this._config={...cfg, enable_points: enabled}; this._emit(); }}></ha-switch>
+						</label>
+						<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.enable_points_help')}</small>
+					</div>
+					<div class="form-field">
+						<label>${this._t('section.scoreboard')}</label>
+						<label style="display:flex;align-items:center;gap:8px;">
+							<span>${this._t('ui.toggle_off_on')}</span>
+							<ha-switch .checked=${(cfg.enable_points !== false) && (cfg.show_scoreboard !== false)} ?disabled=${cfg.enable_points === false} @change=${e=>{ this._config={...cfg, show_scoreboard: !!e.target.checked}; this._emit(); }}></ha-switch>
+						</label>
+					</div>
 				</div>
-				<div class="form-field" style="margin-top:8px;">
-					<label>${this._t('section.scoreboard')}</label>
-					<label style="display:flex;align-items:center;gap:8px;">
-						<span>${this._t('ui.toggle_off_on')}</span>
-						<ha-switch .checked=${(cfg.enable_points !== false) && (cfg.show_scoreboard !== false)} ?disabled=${cfg.enable_points === false} @change=${e=>{ this._config={...cfg, show_scoreboard: !!e.target.checked}; this._emit(); }}></ha-switch>
-					</label>
-				</div>
-				<div class="form-field" style="margin-top:8px;">
-					<label>${this._t('editor.colors')}</label>
-					<div style="display:grid; gap:12px; margin-top:8px;">
+
+				<div class="section-box">
+					<div class="form-field">
+						<label>${this._t('editor.colors')}</label>
+						<div style="display:grid; gap:12px; margin-top:8px;">
 						<ha-expansion-panel .header=${this._t('editor.color_group_start')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
 							<div style="padding:10px;">
 								<div class="form-field" style="margin-top:6px;">
@@ -2965,7 +3038,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.start_task_bg||''} @input=${e=>{ this._config={...cfg, start_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.start_task_bg||'') ? cfg.start_task_bg : '#000000')} @change=${e=>{ this._config={...cfg, start_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.start_task_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, start_task_bg: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<div class="form-field" style="margin-top:6px;">
@@ -2973,7 +3046,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.start_task_text||''} @input=${e=>{ this._config={...cfg, start_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.start_task_text||'') ? cfg.start_task_text : '#000000')} @change=${e=>{ this._config={...cfg, start_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.start_task_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, start_task_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
@@ -2987,7 +3060,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.complete_task_bg||''} @input=${e=>{ this._config={...cfg, complete_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.complete_task_bg||'') ? cfg.complete_task_bg : '#000000')} @change=${e=>{ this._config={...cfg, complete_task_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.complete_task_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, complete_task_bg: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<div class="form-field" style="margin-top:6px;">
@@ -2995,7 +3068,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.complete_task_text||''} @input=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.complete_task_text||'') ? cfg.complete_task_text : '#000000')} @change=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.complete_task_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, complete_task_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
@@ -3009,7 +3082,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.kid_points_bg||''} @input=${e=>{ this._config={...cfg, kid_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.kid_points_bg||'') ? cfg.kid_points_bg : '#000000')} @change=${e=>{ this._config={...cfg, kid_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.kid_points_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, kid_points_bg: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<div class="form-field" style="margin-top:6px;">
@@ -3017,7 +3090,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.kid_points_text||''} @input=${e=>{ this._config={...cfg, kid_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.kid_points_text||'') ? cfg.kid_points_text : '#000000')} @change=${e=>{ this._config={...cfg, kid_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.kid_points_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, kid_points_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
@@ -3031,7 +3104,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.task_points_bg||''} @input=${e=>{ this._config={...cfg, task_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_points_bg||'') ? cfg.task_points_bg : '#000000')} @change=${e=>{ this._config={...cfg, task_points_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.task_points_bg; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, task_points_bg: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<div class="form-field" style="margin-top:6px;">
@@ -3039,37 +3112,81 @@ class Chores4KidsDevCardEditor extends LitElement{
 									<div style="display:flex; gap:8px; align-items:center;">
 										<input .value=${cfg.task_points_text||''} @input=${e=>{ this._config={...cfg, task_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_points_text||'') ? cfg.task_points_text : '#000000')} @change=${e=>{ this._config={...cfg, task_points_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
-										<button @click=${()=>{ const next={...cfg}; delete next.task_points_text; this._config=next; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+											<button @click=${()=>{ this._config={...cfg, task_points_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
 							</div>
 						</ha-expansion-panel>`}
 					</div>
+					</div>
+				</div>
+
+				<div class="section-box">
+					<div class="form-field">
+						<label>Font Sizes</label>
+						<div style="display:grid; gap:12px; margin-top:8px;">
+							<div class="form-field">
+								<label style="font-weight:600;">Task title</label>
+								<div style="display:flex; gap:8px; align-items:center;">
+									<input type="number" min="10" max="40" step="1" .value=${(fsTitle||'').replace('px','')} @input=${e=>{ const raw=String(e.target.value||'').trim(); this._fsTaskTitle = raw; const v = raw==='' ? '' : `${Number(raw)}px`; this._saveGlobalUiSettings({ kid_task_title_size: v }); }} placeholder="16" style="flex:1;" />
+									<span style="opacity:.8; white-space:nowrap;">px</span>
+									<button @click=${()=>{ this._fsTaskTitle=''; this._saveGlobalUiSettings({ kid_task_title_size: '' }); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+								</div>
+							</div>
+							<div class="form-field">
+								<label style="font-weight:600;">Task points</label>
+								<div style="display:flex; gap:8px; align-items:center;">
+									<input type="number" min="10" max="30" step="1" .value=${(fsPoints||'').replace('px','')} @input=${e=>{ const raw=String(e.target.value||'').trim(); this._fsTaskPoints = raw; const v = raw==='' ? '' : `${Number(raw)}px`; this._saveGlobalUiSettings({ kid_task_points_size: v }); }} placeholder="12" style="flex:1;" />
+									<span style="opacity:.8; white-space:nowrap;">px</span>
+									<button @click=${()=>{ this._fsTaskPoints=''; this._saveGlobalUiSettings({ kid_task_points_size: '' }); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+								</div>
+							</div>
+							<div class="form-field">
+								<label style="font-weight:600;">Task button text</label>
+								<div style="display:flex; gap:8px; align-items:center;">
+									<input type="number" min="10" max="30" step="1" .value=${(fsButton||'').replace('px','')} @input=${e=>{ const raw=String(e.target.value||'').trim(); this._fsTaskButton = raw; const v = raw==='' ? '' : `${Number(raw)}px`; this._saveGlobalUiSettings({ kid_task_button_size: v }); }} placeholder="14" style="flex:1;" />
+									<span style="opacity:.8; white-space:nowrap;">px</span>
+									<button @click=${()=>{ this._fsTaskButton=''; this._saveGlobalUiSettings({ kid_task_button_size: '' }); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			` : ''}
+
 			${cfg.mode==='kid' ? html`
-				<div class="form-field" style="margin-top:8px;">
-					<label>${this._t('editor.child_label')}</label>
-					${kids.length ? html`
-						<select @change=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }}>
-							<option value="" ?selected=${!cfg.child}>${this._t('editor.child_select_prompt')}</option>
-							${cfg.child && !kids.includes(cfg.child) ? html`<option value=${cfg.child} ?selected=${true}>(custom) ${cfg.child}</option>`: ''}
-							${kids.map(n=> html`<option value=${n} ?selected=${n===cfg.child}>${n}</option>`) }
-						</select>
-					`: html`
-						<input .value=${cfg.child||''} @input=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }} placeholder="${this._t('editor.child_placeholder')}" />
-						<small style="opacity:.8;">${this._t('editor.child_hint')}</small>
-					`}
+				<div class="section-box">
+					<div class="form-field">
+						<label>${this._t('editor.child_label')}</label>
+						${kids.length ? html`
+							<select @change=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }}>
+								<option value="" ?selected=${!cfg.child}>${this._t('editor.child_select_prompt')}</option>
+								${cfg.child && !kids.includes(cfg.child) ? html`<option value=${cfg.child} ?selected=${true}>(custom) ${cfg.child}</option>`: ''}
+								${kids.map(n=> html`<option value=${n} ?selected=${n===cfg.child}>${n}</option>`) }
+							</select>
+						`: html`
+							<input .value=${cfg.child||''} @input=${e=>{ this._config={...cfg, child: e.target.value}; this._emit(); }} placeholder="${this._t('editor.child_placeholder')}" />
+							<small style="opacity:.8;">${this._t('editor.child_hint')}</small>
+						`}
+					</div>
 				</div>
 			`:''}
 		</div>`;
-		}
-	static get styles(){ return css`.card-config{ display:grid; gap:8px; } label{ display:block; font-weight:600; margin-bottom:4px; } input,select{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); }`; }
+	}
+	static get styles(){
+		return css`
+			.card-config{ display:grid; gap:12px; }
+			.section-box{ border:1px solid var(--divider-color); border-radius: var(--ha-card-border-radius, 12px); padding: 12px; display:grid; gap:10px; }
+			label{ display:block; font-weight:600; margin-bottom:4px; }
+			input,select{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); }
+		`;
+	}
 }
-customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor);
+try{ customElements.define('chores4kids-card-editor', Chores4KidsDevCardEditor); }catch(e){ /* ignore */ }
+try{ customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor); }catch(e){ /* ignore */ }
 
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-dev-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Dev – Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
 
