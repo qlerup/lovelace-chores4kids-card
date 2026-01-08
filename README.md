@@ -1,4 +1,6 @@
-# Chores4Kids Card — Feature Guide & How‑To ✨🧹👧👦🧩
+# Chores4Kids Card — Feature Guide & How‑To 🧹👧👦
+
+[![hacs\_badge](https://img.shields.io/badge/HACS-Default-blue.svg)](https://hacs.xyz)
 
 If you find this project useful, you can support me on Ko-fi 💙  
 
