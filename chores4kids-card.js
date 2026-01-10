@@ -17,7 +17,7 @@ const C4K_I18N = {
 			'btn.add_category': 'Add category',
 		'section.children': 'Children',
 			'section.categories': 'Categories',
-		'th.name': 'Name', 'th.points': 'Points', 'th.pending': 'Pending', 'th.actions': 'Actions', 'th.status':'Status', 'th.assign':'Assigned to',
+		'th.name': 'Name', 'th.color': 'Color', 'th.points': 'Points', 'th.pending': 'Pending', 'th.actions': 'Actions', 'th.status':'Status', 'th.assign':'Assigned to',
 		'th.categories':'Categories', 'th.completed':'Completed',
 		'btn.rename': 'Rename', 'btn.delete': 'Delete',
 		'section.new_task': 'Create Task',
@@ -27,6 +27,9 @@ const C4K_I18N = {
 			'ph.early_bonus_points': 'Early bonus points',
 			'ui.early_bonus_enabled': 'Enable early completion bonus',
 			'warn.repeat_overrides_due': 'Repeat is enabled, so the deadline is based on the selected weekdays instead of this date.',
+			'warn.schedule_overrides_due': 'A schedule is enabled, so the deadline is based on the schedule instead of this date.',
+			'schedule.weekly': 'Weekly task',
+			'schedule.monthly': 'Monthly task',
 			'ph.categories': 'Categories',
 		'select.assign_child': 'Assign child',
 			'select.categories': 'Select categories',
@@ -81,6 +84,8 @@ const C4K_I18N = {
 			'editor.enable_points_help':'Show points, point shop, and point actions',
 			'editor.completion_sound':'Completion Sound',
 			'editor.completion_sound_help':'Saved as /local/chores4kids/completion.<ext> and used across dashboards',
+			'editor.confetti':'Confetti',
+			'editor.confetti_help':'Show confetti animation on completion',
 			'editor.colors':'Colors',
 			'editor.color_field_bg':'Background',
 			'editor.color_field_text':'Text',
@@ -112,7 +117,7 @@ const C4K_I18N = {
 			'btn.add_category': 'Tilføj kategori',
 		'section.children': 'Børn',
 			'section.categories': 'Kategorier',
-		'th.name': 'Navn', 'th.points': 'Point', 'th.pending': 'Ventende', 'th.actions': 'Handling', 'th.status':'Status', 'th.assign':'Tildelt til',
+		'th.name': 'Navn', 'th.color': 'Farve', 'th.points': 'Point', 'th.pending': 'Ventende', 'th.actions': 'Handling', 'th.status':'Status', 'th.assign':'Tildelt til',
 			'th.categories':'Kategorier', 'th.completed':'Fuldført',
 		'btn.rename': 'Omdøb', 'btn.delete': 'Slet',
 		'section.new_task': 'Ny opgave',
@@ -122,6 +127,9 @@ const C4K_I18N = {
 			'ph.early_bonus_points': 'Bonus point',
 			'ui.early_bonus_enabled': 'Aktivér førtidig bonus',
 			'warn.repeat_overrides_due': 'Gentagelse er slået til, så deadline beregnes ud fra de valgte ugedage i stedet for denne dato.',
+			'warn.schedule_overrides_due': 'En plan er slået til, så deadline er baseret på planen i stedet for denne dato.',
+			'schedule.weekly': 'Ugentlig opgave',
+			'schedule.monthly': 'Månedlig opgave',
 			'ph.categories': 'Kategorier',
 		'select.assign_child': 'Tildel barn',
 			'select.categories': 'Vælg kategorier',
@@ -170,6 +178,8 @@ const C4K_I18N = {
 			'editor.enable_points_help':'Vis point, pointshop og point-handlinger',
 			'editor.completion_sound':'Completion Sound',
 			'editor.completion_sound_help':'Gemmes som /local/chores4kids/completion.<ext> og bruges på tværs af dashboards',
+			'editor.confetti':'Konfetti',
+			'editor.confetti_help':'Vis konfetti-animation ved færdiggørelse',
 			'editor.colors':'Farver',
 			'editor.color_field_bg':'Baggrund',
 			'editor.color_field_text':'Tekst',
@@ -650,12 +660,14 @@ class Chores4KidsDevCard extends LitElement {
 			// Shared state
 			_mode: { state: true },
 			_childName: { state: true },
+			// Per-task in-flight locks (prevents double taps sending multiple requests)
+			_taskBusy: { state: true },
 			// UI collapse state
 			_collapsed: { state: true },
 			// Admin state
 			_name: { state: true }, _taskTitle: { state: true }, _taskPoints: { state: true }, _taskDesc: { state: true }, _taskIcon: { state: true }, _iconModalOpen: { state: true },
-			_taskCategories: { state: true }, _openCategoriesMenu: { state: true }, _newCategoryName: { state: true },
-			_repeatEnabled: { state: true }, _repeatAssign: { state: true }, _quickComplete: { state: true }, _skipApproval: { state: true }, _fastestWins: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
+			_taskCategories: { state: true }, _openCategoriesMenu: { state: true }, _newCategoryName: { state: true }, _newCategoryColor: { state: true },
+			_repeatEnabled: { state: true }, _weeklyEnabled: { state: true }, _monthlyEnabled: { state: true }, _repeatAssign: { state: true }, _persistUntilDone: { state: true }, _quickComplete: { state: true }, _skipApproval: { state: true }, _fastestWins: { state: true }, _editingTask: { state: true }, _tasksModalOpen: { state: true },
 			_customIconModalOpen: { state: true }, _customIconSearch: { state: true }, _customIconPreview: { state: true }, _customIconLabel: { state: true },
 			_shopModalOpen: { state: true }, _shopTitle: { state: true }, _shopPrice: { state: true }, _shopImage: { state: true }, _editItem: { state: true }, _advItem: { state: true },
 			// UI for nicer multi-assign dropdown
@@ -690,6 +702,14 @@ class Chores4KidsDevCard extends LitElement {
 		.icon-btn{ padding:4px 6px; border-radius:8px; min-height:auto; }
 		button:disabled { opacity:.55; cursor:not-allowed; }
 		input, select, textarea { width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color); box-sizing:border-box; font: inherit; }
+		/* Ensure native color inputs look like color pickers (and don't stretch as text inputs) */
+		input[type="color"]{ width:44px; min-width:44px; height:42px; padding:0; border-radius:10px; cursor:pointer; }
+		input[type="color"]::-webkit-color-swatch-wrapper{ padding:0; }
+		input[type="color"]::-webkit-color-swatch{ border:none; border-radius:8px; }
+		.color-cell{ display:inline-flex; align-items:center; }
+		/* Make disabled checkboxes/radios look disabled including label text */
+		label input:disabled + span{ color: var(--secondary-text-color); opacity: .75; }
+		label input:disabled{ opacity: .75; }
 		input::placeholder, textarea::placeholder{ color: var(--secondary-text-color); opacity:.85; }
 		textarea { resize: vertical; }
 		.form-field{ width:100%; display:flex; flex-direction:column; min-width:0; box-sizing:border-box; }
@@ -907,10 +927,13 @@ class Chores4KidsDevCard extends LitElement {
 		// Defaults
 		this._mode = 'admin';
 		this._childName = '';
+		this._taskBusy = {};
 		// Admin
 		this._repeatDays = new Set();
 		this._repeatAssign = new Set();
 		this._repeatEnabled = false;
+		this._weeklyEnabled = false;
+		this._monthlyEnabled = false;
 		this._editingTask = null;
 		this._taskIcon = '';
 		this._iconModalOpen = false;
@@ -922,6 +945,7 @@ class Chores4KidsDevCard extends LitElement {
 		this._taskCategories = new Set();
 		this._openCategoriesMenu = false;
 		this._newCategoryName = '';
+		this._newCategoryColor = '';
 		this._tasksModalOpen = false;
 		this._shopModalOpen = false;
 		this._shopTitle = ''; this._shopPrice = ''; this._shopImage = '';
@@ -950,6 +974,34 @@ class Chores4KidsDevCard extends LitElement {
 		
 		// Bind storage listener
 		this._storageListener = this._handleStorageChange.bind(this);
+	}
+	_normalizeScheduleFlags(){
+		try{
+			// Carry unfinished cannot be combined with weekly/monthly
+			if (this._persistUntilDone){
+				this._weeklyEnabled = false;
+				this._monthlyEnabled = false;
+			}
+			// Weekly/monthly are mutually exclusive with repeat and with each other
+			if (this._weeklyEnabled){
+				this._monthlyEnabled = false;
+				this._repeatEnabled = false;
+				this._repeatDays = new Set();
+				this._openRepeatMenu = false;
+				this._persistUntilDone = false;
+			}
+			if (this._monthlyEnabled){
+				this._weeklyEnabled = false;
+				this._repeatEnabled = false;
+				this._repeatDays = new Set();
+				this._openRepeatMenu = false;
+				this._persistUntilDone = false;
+			}
+			if (this._repeatEnabled){
+				this._weeklyEnabled = false;
+				this._monthlyEnabled = false;
+			}
+		}catch{ /* ignore */ }
 	}
 
 	connectedCallback() {
@@ -1010,6 +1062,36 @@ class Chores4KidsDevCard extends LitElement {
 		return this.config?.enable_points !== false;
 	}
 
+	_confettiEnabled(){
+		// Global only (admin card controls this); default ON.
+		try{
+			const global = this._getBackendUiColors?.() || {};
+			if (typeof global.confetti_enabled === 'boolean') return global.confetti_enabled;
+		}catch{ /* ignore */ }
+		return true;
+	}
+
+	_isTaskBusy(taskId){
+		const id = String(taskId ?? '');
+		if (!id) return false;
+		return !!(this._taskBusy && this._taskBusy[id]);
+	}
+
+	_setTaskBusy(taskId, busy){
+		const id = String(taskId ?? '');
+		if (!id) return;
+		const cur = this._taskBusy || {};
+		if (busy){
+			if (cur[id]) return;
+			this._taskBusy = { ...cur, [id]: true };
+			return;
+		}
+		if (!cur[id]) return;
+		const next = { ...cur };
+		delete next[id];
+		this._taskBusy = next;
+	}
+
 	_getBackendUiColors(){
 		try{
 			const states = this.hass?.states || {};
@@ -1022,7 +1104,8 @@ class Chores4KidsDevCard extends LitElement {
 						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
 							|| ('task_points_bg' in a) || ('task_points_text' in a)
-							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a);
+							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a)
+							|| ('confetti_enabled' in a);
 					}catch{ return false; }
 				});
 			}
@@ -1041,6 +1124,7 @@ class Chores4KidsDevCard extends LitElement {
 				kid_task_button_size: a.kid_task_button_size,
 			};
 			if (typeof a.enable_points === 'boolean') out.enable_points = a.enable_points;
+			if (typeof a.confetti_enabled === 'boolean') out.confetti_enabled = a.confetti_enabled;
 			return out;
 		}catch{ return {}; }
 	}
@@ -1070,15 +1154,48 @@ class Chores4KidsDevCard extends LitElement {
 	_toggleRepeat(e){
 		const enabled = !!(e?.target?.checked);
 		this._repeatEnabled = enabled;
+		if (enabled){
+			this._weeklyEnabled = false;
+			this._monthlyEnabled = false;
+		}
 		if (!enabled){
 			this._repeatDays = new Set();
 			this._repeatAssign = new Set();
 			this._openRepeatMenu = false;
 		}
+		this._normalizeScheduleFlags();
+		this.requestUpdate();
+	}
+	_toggleWeekly(e){
+		const enabled = !!(e?.target?.checked);
+		this._weeklyEnabled = enabled;
+		if (enabled){
+			this._monthlyEnabled = false;
+			this._repeatEnabled = false;
+			this._repeatDays = new Set();
+			this._openRepeatMenu = false;
+			// Weekly/monthly must not be used with carry unfinished
+			this._persistUntilDone = false;
+		}
+		this._normalizeScheduleFlags();
+		this.requestUpdate();
+	}
+	_toggleMonthly(e){
+		const enabled = !!(e?.target?.checked);
+		this._monthlyEnabled = enabled;
+		if (enabled){
+			this._weeklyEnabled = false;
+			this._repeatEnabled = false;
+			this._repeatDays = new Set();
+			this._openRepeatMenu = false;
+			// Weekly/monthly must not be used with carry unfinished
+			this._persistUntilDone = false;
+		}
+		this._normalizeScheduleFlags();
 		this.requestUpdate();
 	}
 
-	static getConfigElement(){ return document.createElement('chores4kids-card-editor'); }
+	static getConfigElement(){ return document.createElement('chores4kids-dev-card-editor'); }
 	static getStubConfig(){ return { mode: 'admin' }; }
 
 	getCardSize(){ return this._mode==='admin'? 8 : 3; }
@@ -1104,7 +1221,37 @@ class Chores4KidsDevCard extends LitElement {
 		const tip = st==='taken' ? this._t('lbl.taken_by',{name: claimedByName||'—'}) : '';
 		return html`<span class="badge status-${st}" title="${tip}">${this._statusLabel(st)}</span>${this._isTaskOverdue(t)? html` <span class="badge status-overdue">${this._t('status.overdue')}</span>`:''}`;
 	}
-	_autoAssignActive(task){ try{ const d=Array.isArray(task?.repeat_days)? task.repeat_days:[]; const ks = Array.isArray(task?.repeat_child_ids)? task.repeat_child_ids:[]; const k=task?.repeat_child_id; return d.length>0 && (ks.length>0 || !!k); }catch{ return false; } }
+	_autoAssignActive(task){
+		try{
+			const mode = String(task?.schedule_mode||'').toLowerCase();
+			const d=Array.isArray(task?.repeat_days)? task.repeat_days:[];
+			const ks = Array.isArray(task?.repeat_child_ids)? task.repeat_child_ids:[];
+			const k=task?.repeat_child_id;
+			const hasTargets = (ks.length>0 || !!k);
+			const hasSchedule = (mode==='weekly' || mode==='monthly' || d.length>0);
+			return hasSchedule && hasTargets;
+		}catch{ return false; }
+	}
+	_isScheduledToday(task){
+		try{
+			const mode = String(task?.schedule_mode||'').toLowerCase();
+			const today = new Date();
+			if (mode === 'monthly') return today.getDate() === 1;
+			if (mode === 'weekly'){
+				const jsDay = today.getDay(); // 0=Sun
+				const weekdayMap = [6, 0, 1, 2, 3, 4, 5];
+				const todayBackend = weekdayMap[jsDay];
+				return todayBackend === 0; // Mon
+			}
+			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
+			const jsDay = today.getDay();
+			const weekdayMap = [6, 0, 1, 2, 3, 4, 5];
+			const todayBackend = weekdayMap[jsDay];
+			const map = ['mon','tue','wed','thu','fri','sat','sun'];
+			const todayKey = map[todayBackend];
+			return (repeatDays.includes(todayBackend) || repeatDays.includes(todayKey));
+		}catch{ return false; }
+	}
 	_isTaskOverdue(task){ try{ if(!task?.carried_over) return false; return task.carried_over === true; }catch{ return false; } }
 	_isFromBeforeToday(task){
 		try{
@@ -1270,6 +1417,49 @@ class Chores4KidsDevCard extends LitElement {
 			return String(a.title||'').localeCompare(String(b.title||''));
 		});
 	}
+	_categoryById(id){ try{ return (this._store.categories||[]).find(c=> c.id===id); }catch{ return null; } }
+	_normalizeHexColor(value){
+		try{
+			let v = String(value||'').trim().toLowerCase();
+			if (!v) return '';
+			if (!v.startsWith('#')) v = '#' + v;
+			const m3 = v.match(/^#([0-9a-f]{3})$/);
+			if (m3){ const s=m3[1]; return `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`; }
+			if (/^#[0-9a-f]{6}$/.test(v)) return v;
+			return '';
+		}catch{ return ''; }
+	}
+	_colorInputValue(value){ return this._normalizeHexColor(value) || '#808080'; }
+	_textColorForBg(bg){
+		try{
+			const hex = this._normalizeHexColor(bg);
+			if (!hex) return '';
+			const r = parseInt(hex.slice(1,3), 16);
+			const g = parseInt(hex.slice(3,5), 16);
+			const b = parseInt(hex.slice(5,7), 16);
+			const lum = (0.299*r + 0.587*g + 0.114*b) / 255;
+			return lum > 0.6 ? '#000000' : '#ffffff';
+		}catch{ return ''; }
+	}
+	_renderCategoryChip(cat){
+		try{
+			const name = String(cat?.name||'').trim();
+			if (!name) return '';
+			const bg = this._normalizeHexColor(cat?.color);
+			if (!bg) return html`<span class="chip">${name}</span>`;
+			const fg = this._textColorForBg(bg) || 'var(--primary-text-color)';
+			return html`<span class="chip" style="background:${bg}; color:${fg};">${name}</span>`;
+		}catch{ return html``; }
+	}
+	_orderedCategories(ids){
+		try{
+			const cats=this._store.categories||[];
+			const catMap=new Map(cats.map(c=>[c.id,c]));
+			const clean=(ids||[]).filter(id=> catMap.has(id));
+			const sorted=[...clean].sort((a,b)=> this._catRankForId(a)-this._catRankForId(b));
+			return sorted.map(id=> catMap.get(id)).filter(Boolean);
+		}catch{ return []; }
+	}
 	_orderedCategoryNames(ids){ const cats=this._store.categories||[]; const catMap=new Map(cats.map(c=>[c.id,c.name])); const clean=(ids||[]).filter(id=> catMap.has(id)); const sorted=[...clean].sort((a,b)=> this._catRankForId(a)-this._catRankForId(b)); return sorted.map(id=> catMap.get(id)); }
 
 	// ===== STORE =====
@@ -1346,14 +1536,22 @@ class Chores4KidsDevCard extends LitElement {
 						</h3>
 						${this._isCollapsed('categories')? '' : html`<div class="row">
 							<input placeholder="${this._t('input.new_category_name')}" .value=${this._newCategoryName||''} @input=${(e)=> this._newCategoryName = e.target.value} />
+							<div class="color-cell" style="flex:0 0 auto; align-items:center;">
+								<input type="color" .value=${this._colorInputValue(this._newCategoryColor)} @change=${(e)=>{ this._newCategoryColor = e?.target?.value || ''; }} />
+							</div>
 							<button class="btn-ghost" @click=${this._addCategory}>${this._t('btn.add_category')}</button>
 						</div>
 						<div class="table-wrap"><table class="table-center">
-							<thead><tr><th>${this._t('th.name')}</th><th>${this._t('th.actions')}</th></tr></thead>
+							<thead><tr><th>${this._t('th.name')}</th><th>${this._t('th.color')}</th><th>${this._t('th.actions')}</th></tr></thead>
 							<tbody>
 								${(this._store.categories||[]).map(cat=> html`
 									<tr>
 										<td data-label="${this._t('th.name')}">${cat.name}</td>
+										<td data-label="${this._t('th.color')}">
+											<div class="color-cell">
+												<input type="color" .value=${this._colorInputValue(cat?.color)} @change=${(e)=>this._setCategoryColor(cat, e)} />
+											</div>
+										</td>
 										<td data-label="${this._t('th.actions')}">
 											<button class="btn-ghost" @click=${()=> this._promptRenameCategory(cat)}>${this._t('btn.rename')}</button>
 											<button class="btn-danger" @click=${()=> this._deleteCategory(cat)}>${this._t('btn.delete')}</button>
@@ -1409,8 +1607,8 @@ class Chores4KidsDevCard extends LitElement {
 										<div style="width:100%;">
 											<div class="row fields" style="margin-top:4px;">
 												<div class="form-field">
-													<input type="date" placeholder="${this._t('ph.due')}" ?disabled=${!!this._repeatEnabled && !!this._taskEarlyBonusEnabled} .value=${this._taskDue||''} @input=${e=>{ this._taskDue=e.target.value; this.requestUpdate(); }} />
-												<div class="error-space">${(!!this._repeatEnabled && !!this._taskEarlyBonusEnabled) ? html`<span class="error-text">${this._t('warn.repeat_overrides_due')}</span>` : ''}</div>
+																<input type="date" placeholder="${this._t('ph.due')}" ?disabled=${(!!this._taskEarlyBonusEnabled) && (!!this._repeatEnabled || !!this._weeklyEnabled || !!this._monthlyEnabled)} .value=${this._taskDue||''} @input=${e=>{ this._taskDue=e.target.value; this.requestUpdate(); }} />
+																<div class="error-space">${((!!this._taskEarlyBonusEnabled) && (!!this._repeatEnabled || !!this._weeklyEnabled || !!this._monthlyEnabled)) ? html`<span class="error-text">${this._t('warn.schedule_overrides_due')}</span>` : ''}</div>
 											</div>
 											${this._taskEarlyBonusEnabled ? html`
 												<div class="form-field">
@@ -1429,10 +1627,10 @@ class Chores4KidsDevCard extends LitElement {
 										</div>
 								` : ''}
 							` : ''}
-								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
-									<input style="margin:0;" type="checkbox" .checked=${!!this._persistUntilDone} @change=${e=>{ this._persistUntilDone = !!e.target.checked; }} />
-									<span style="white-space:nowrap;">${this._t('ui.persist_until_done')}</span>
-								</label>
+																<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+																	<input style="margin:0;" type="checkbox" .checked=${!!this._persistUntilDone} ?disabled=${!!this._weeklyEnabled || !!this._monthlyEnabled} @change=${e=>{ this._persistUntilDone = !!e.target.checked; this._normalizeScheduleFlags(); this.requestUpdate(); }} />
+																	<span style="white-space:nowrap;">${this._t('ui.persist_until_done')}</span>
+																</label>
 								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
 									<input style="margin:0;" type="checkbox" .checked=${!!this._quickComplete} @change=${e=>{ this._quickComplete = !!e.target.checked; }} />
 									<span style="white-space:nowrap;">${this._t('ui.quick_complete')}</span>
@@ -1446,11 +1644,19 @@ class Chores4KidsDevCard extends LitElement {
 									<span style="white-space:nowrap;">${this._t('ui.fastest_wins')}</span>
 								</label>
 								<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
-									<input style="margin:0;" type="checkbox" .checked=${!!this._repeatEnabled} @change=${this._toggleRepeat} />
+																	<input style="margin:0;" type="checkbox" .checked=${!!this._repeatEnabled} ?disabled=${(!!this._weeklyEnabled || !!this._monthlyEnabled) && !this._repeatEnabled} @change=${this._toggleRepeat} />
 									<span style="white-space:nowrap;">${this._t('repeat.enable')}</span>
 								</label>
+																<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+																	<input style="margin:0;" type="checkbox" .checked=${!!this._weeklyEnabled} ?disabled=${!!this._persistUntilDone || ((!!this._repeatEnabled || !!this._monthlyEnabled) && !this._weeklyEnabled)} @change=${this._toggleWeekly} />
+																	<span style="white-space:nowrap;">${this._t('schedule.weekly')}</span>
+																</label>
+																<label style="display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0; font-size:.95rem; width:fit-content; text-align:left;">
+																	<input style="margin:0;" type="checkbox" .checked=${!!this._monthlyEnabled} ?disabled=${!!this._persistUntilDone || ((!!this._repeatEnabled || !!this._weeklyEnabled) && !this._monthlyEnabled)} @change=${this._toggleMonthly} />
+																	<span style="white-space:nowrap;">${this._t('schedule.monthly')}</span>
+																</label>
 							</div>
-							${this._repeatEnabled ? html`
+															${this._repeatEnabled ? html`
 								<div class="repeat-line">
 									<div class="repeat-days">
 										<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.label')}</div>
@@ -1504,7 +1710,7 @@ class Chores4KidsDevCard extends LitElement {
 									<td data-label="${this._t('ph.title')}">${t.title}${t.icon? html` <ha-icon class="inline-ico" icon="${t.icon}"></ha-icon>`:''}</td>
 								${pointsEnabled ? html`<td data-label="${this._t('ph.points')}"><b>${t.points}</b></td>`:''}
 									<td data-label="${this._t('th.categories')}">
-										${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const names=this._orderedCategoryNames(ids); return names.length? names.map(n=> html`<span class="chip">${n}</span>`): html`—`; })()}
+										${(()=>{ const ids=Array.isArray(t.categories)? t.categories:[]; const cats=this._orderedCategories(ids); return cats.length? cats.map(c=> this._renderCategoryChip(c)) : html`—`; })()}
 									</td>
 												<td data-label="${this._t('th.assign')}">
 													${this._autoAssignActive(t) ? (()=>{
@@ -1522,6 +1728,26 @@ class Chores4KidsDevCard extends LitElement {
 													</div>`}
 												</td>
 									<td data-label="${this._t('th.actions')}">
+														${(this._weeklyEnabled || this._monthlyEnabled) ? html`
+															<div class="repeat-line">
+																<div class="repeat-assign">
+																	<div style="font-size:.9rem; color: var(--secondary-text-color); margin-bottom:4px;">${this._t('repeat.auto_assign')}</div>
+																	<div class="multi-dd" @click=${(e)=>{ e.stopPropagation(); this._openRepeatMenu = !this._openRepeatMenu; }}>
+																		<div class="box">
+																			<span class="multi-dd-value ${this._repeatAssign && this._repeatAssign.size ? '' : 'placeholder'}">
+																				${(()=>{ const ids=this._repeatAssign||new Set(); const names=children.filter(c=>ids.has(c.id)).map(c=>c.name); return names.length? (names.slice(0,2).join(', ')+(names.length>2?` +${names.length-2}`:'')) : '—'; })()}
+																			</span>
+																			<ha-icon icon="mdi:chevron-down"></ha-icon>
+																		</div>
+																		${this._openRepeatMenu ? html`
+																			<div class="multi-dd-menu" @click=${e=> e.stopPropagation()}>
+																				${children.map(c=> html`<label><input type="checkbox" .checked=${this._repeatAssign?.has?.(c.id)} @change=${(e)=>{ const s=this._repeatAssign instanceof Set? this._repeatAssign : new Set(this._repeatAssign||[]); if(e.target.checked){ s.add(c.id);}else{ s.delete(c.id);} this._repeatAssign=s; this.requestUpdate(); }} /><span>${c.name}</span></label>`)}
+																			</div>
+																		` : ''}
+																	</div>
+																</div>
+															</div>
+														` : ''}
 										<button class="btn-ghost" @click=${()=> this._editTask(t)}>${this._t('btn.edit')}</button>
 										<button class="btn-primary" ?disabled=${this._autoAssignActive(t)} title="${this._autoAssignActive(t)? this._t('assign.disabled_auto') : ''}" @click=${()=> {
 											const row = this.shadowRoot.querySelector(`tr[data-task="${t.id}"]`);
@@ -2179,7 +2405,9 @@ class Chores4KidsDevCard extends LitElement {
 			const NONE='__none__';
 			const order = this._catOrderResolved();
 			const cats = this._store.categories||[];
-			const nameFor=(id)=> id===NONE? this._t('sort.none') : (cats.find(c=> c.id===id)?.name || id);
+			const catFor=(id)=> (id && id!==NONE) ? (cats.find(c=> c.id===id) || null) : null;
+			const nameFor=(id)=> id===NONE? this._t('sort.none') : (catFor(id)?.name || id);
+			const colorFor=(id)=>{ try{ return id===NONE? '' : this._normalizeHexColor(catFor(id)?.color); }catch{ return ''; } };
 			// group tasks by primary category (based on order)
 			const groups = new Map();
 			for (const t of taskList){
@@ -2194,14 +2422,19 @@ class Chores4KidsDevCard extends LitElement {
 				<div class="cat-section">
 					<div class="cat-title">${nameFor(cid)}</div>
 					${groups.get(cid).map(t=>{
+						const groupColor = colorFor(cid);
 						const bonusInfo = this._bonusByDateInfo(t);
 						const bonusBy = bonusInfo?.dateStr;
 						const bonusClass = bonusInfo?.expired ? 'chip chip-bonus chip-bonus-expired' : 'chip chip-bonus';
 						const claimedById = t?.fastest_wins_claimed_by_child_id;
 						const claimedByName = t?.fastest_wins_claimed_by_child_name || claimedById;
 						const isTakenByOther = !!t?.fastest_wins && !!claimedById && !!myChildId && claimedById !== myChildId;
+						const isOverdue = this._isTaskOverdue(t);
+						const rowStyle = (!isOverdue && groupColor)
+							? `background: color-mix(in srgb, ${groupColor} 10%, var(--card-background-color)); box-shadow: inset 6px 0 0 ${groupColor};`
+							: '';
 						return html`
-							<div class="task ${this._isTaskOverdue(t)?'task-overdue':''}">
+							<div class="task ${isOverdue?'task-overdue':''}" style="${rowStyle}">
 								<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
 								<div>
 									<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
@@ -2215,8 +2448,8 @@ class Chores4KidsDevCard extends LitElement {
 								</div>
 								<div class="actions" style="display:flex; flex-direction:column; gap:6px;">
 									${isTakenByOther ? html`<button class="btn" disabled>${this._t('lbl.taken_by',{name: claimedByName||'—'})}</button>`
-										: t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary start-task" @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
-										: t.status==="in_progress" ? html`<button class="btn-primary complete-task" @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
+										: t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary start-task" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
+										: t.status==="in_progress" ? html`<button class="btn-primary complete-task" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
 										: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
 										: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
 									${this.config?.debug_mode && !this._isTaskOverdue(t) && t.status!=="approved" ? html`
@@ -2344,22 +2577,30 @@ class Chores4KidsDevCard extends LitElement {
 		this._touchedPoints = pointsEnabled;
 		if(this._hasFormErrors) return;
 		const beforeUnassignedIds = new Set((this._store.allTasks||[]).filter(t=>!t.assigned_to).map(t=>t.id));
-		const repeatOn = !!this._repeatEnabled;
+		const scheduleMode = this._weeklyEnabled ? 'weekly' : (this._monthlyEnabled ? 'monthly' : (this._repeatEnabled ? 'repeat' : ''));
+		const repeatOn = (scheduleMode === 'repeat');
 		const bonusOn = pointsEnabled ? !!this._taskEarlyBonusEnabled : false;
-		const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
+		const dueVal = (bonusOn && (scheduleMode==='repeat' || scheduleMode==='weekly' || scheduleMode==='monthly')) ? undefined : (String(this._taskDue||'').trim() || undefined);
 		const _days = repeatOn ? Array.from(this._repeatDays||[]) : [];
 		const _ids = repeatOn ? Array.from(this._repeatAssign||[]) : [];
 		const _cats = Array.from(this._taskCategories||[]);
-		const _persist = !!this._persistUntilDone;
+		const _persist = (scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone;
 		const _quick = !!this._quickComplete;
 		const _skip = !!this._skipApproval;
 		const _fastest = !!this._fastestWins;
+		const _autoAssignIds = (scheduleMode ? Array.from(this._repeatAssign||[]) : []);
 		
-		// Check if today is in repeat days - if so, auto-assign immediately
-		const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
+		// Check if today matches schedule - if so, auto-assign immediately
+		const now = new Date();
+		const jsDay = now.getDay(); // 0=Sun
 		const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
-		const todayBackend = weekdayMap[today];
-		const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
+		const todayBackend = weekdayMap[jsDay];
+		const assignToday = (
+			scheduleMode==='weekly' ? (todayBackend===0) :
+			scheduleMode==='monthly' ? (now.getDate()===1) :
+			repeatOn ? (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend])) :
+			false
+		);
 		
 		// Always create a reusable unassigned template task.
 		// If today is included in repeat_days, we then assign today's copies from the template
@@ -2369,6 +2610,7 @@ class Chores4KidsDevCard extends LitElement {
 			points: pointsEnabled ? Number(this._taskPoints) : 0,
 			description:this._taskDesc||'',
 			due: dueVal,
+			schedule_mode: scheduleMode || undefined,
 			early_bonus_enabled: bonusOn,
 			early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
 			early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
@@ -2377,17 +2619,17 @@ class Chores4KidsDevCard extends LitElement {
 			skip_approval: _skip,
 			fastest_wins: _fastest,
 			repeat_days:_days,
-			repeat_child_id: repeatOn ? ((_ids[0]||'') || undefined) : undefined,
-			repeat_child_ids: repeatOn ? (_ids.length ? _ids : undefined) : undefined,
+			repeat_child_id: scheduleMode ? (((_autoAssignIds[0]||'') || undefined)) : undefined,
+			repeat_child_ids: scheduleMode ? (_autoAssignIds.length ? _autoAssignIds : undefined) : undefined,
 			persist_until_completed: _persist,
 			categories: _cats
 		};
 		await this.hass.callService('chores4kids','add_task', taskData);
 
-		if (assignToday && _ids.length){
+		if (assignToday && _autoAssignIds.length){
 			const tpl = await this._waitForNewTemplateTask(beforeUnassignedIds, { title: this._taskTitle, points: pointsEnabled ? Number(this._taskPoints) : 0 });
 			if (tpl?.id){
-				for (const cid of _ids){
+				for (const cid of _autoAssignIds){
 					if(!cid) continue;
 					await this.hass.callService('chores4kids','assign_task', { task_id: tpl.id, child_id: cid });
 				}
@@ -2412,6 +2654,8 @@ class Chores4KidsDevCard extends LitElement {
 		this._repeatDays=new Set();
 		this._repeatAssign=new Set();
 		this._repeatEnabled=false;
+		this._weeklyEnabled=false;
+		this._monthlyEnabled=false;
 		this._taskCategories=new Set();
 		this._persistUntilDone=false;
 		this._quickComplete=false;
@@ -2428,13 +2672,7 @@ class Chores4KidsDevCard extends LitElement {
 			const isCarry = this._isTaskOverdue(task) || this._isFromBeforeToday(task);
 			if(!isCarry) return false;
 			if(!this._autoAssignActive(task)) return false;
-			const today = new Date().getDay(); // 0=Sun
-			const weekdayMap = [6, 0, 1, 2, 3, 4, 5];
-			const todayBackend = weekdayMap[today];
-			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
-			const map = ['mon','tue','wed','thu','fri','sat','sun'];
-			const todayKey = map[todayBackend];
-			if(!(repeatDays.includes(todayBackend) || repeatDays.includes(todayKey))) return false;
+			if(!this._isScheduledToday(task)) return false;
 			const targetIds = Array.isArray(task.repeat_child_ids) && task.repeat_child_ids.length
 				? task.repeat_child_ids
 				: (task.repeat_child_id ? [task.repeat_child_id] : [task.assigned_to]);
@@ -2461,13 +2699,7 @@ class Chores4KidsDevCard extends LitElement {
 			// Note: backend clears carried_over when approving, so also infer carry-over by created < today.
 			const isCarry = this._isTaskOverdue(task) || this._isFromBeforeToday(task);
 			if(!isCarry || !this._autoAssignActive(task)) return;
-			const today = new Date().getDay(); // 0=Sun
-			const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
-			const todayBackend = weekdayMap[today];
-			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
-			const map = ['mon','tue','wed','thu','fri','sat','sun'];
-			const todayKey = map[todayBackend];
-			if(!(repeatDays.includes(todayBackend) || repeatDays.includes(todayKey))) return;
+			if(!this._isScheduledToday(task)) return;
 
 			// Assign today's version to same child(ren)
 			const targetIds = Array.isArray(task.repeat_child_ids) && task.repeat_child_ids.length
@@ -2502,6 +2734,7 @@ class Chores4KidsDevCard extends LitElement {
 						});
 					}else{
 						// Fallback: if there's no template (e.g. task was created as assigned), create an assigned copy.
+						const mode = String(task?.schedule_mode||'').toLowerCase();
 						await this.hass.callService('chores4kids','add_task',{
 							title: task.title,
 							points: Number(task.points),
@@ -2511,7 +2744,8 @@ class Chores4KidsDevCard extends LitElement {
 							skip_approval: !!task.skip_approval,
 							persist_until_completed: !!task.persist_until_completed,
 							categories: Array.isArray(task.categories) ? task.categories : [],
-							repeat_days: Array.isArray(task.repeat_days) ? task.repeat_days : [],
+							schedule_mode: (mode==='weekly' || mode==='monthly' || mode==='repeat') ? mode : undefined,
+							repeat_days: (mode==='repeat' || !mode) ? (Array.isArray(task.repeat_days) ? task.repeat_days : []) : [],
 							repeat_child_id: task.repeat_child_id || undefined,
 							child_id: childId,
 						});
@@ -2530,12 +2764,7 @@ class Chores4KidsDevCard extends LitElement {
 	async _approve(task){ 
 		// Check if task is overdue and has auto-assign for today
 		if (this._isTaskOverdue(task) && this._autoAssignActive(task)) {
-			const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
-			const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
-			const todayBackend = weekdayMap[today];
-			const repeatDays = Array.isArray(task?.repeat_days) ? task.repeat_days : [];
-			
-			if (repeatDays.includes(todayBackend)) {
+			if (this._isScheduledToday(task)) {
 				// Show re-assign prompt
 				this._reassignTask = task;
 				this.requestUpdate();
@@ -2591,7 +2820,24 @@ class Chores4KidsDevCard extends LitElement {
 	}
 
 	// Category management
-	async _addCategory(){ const n=String(this._newCategoryName||'').trim(); if(!n) return; await this.hass.callService('chores4kids','add_category',{ name:n }); this._newCategoryName=''; }
+	async _addCategory(){
+		const n=String(this._newCategoryName||'').trim();
+		if(!n) return;
+		const color=this._normalizeHexColor(this._newCategoryColor);
+		const payload = color ? { name:n, color } : { name:n };
+		await this.hass.callService('chores4kids','add_category', payload);
+		this._newCategoryName='';
+		this._newCategoryColor='';
+	}
+	async _setCategoryColor(cat, e){
+		try{
+			if (!cat?.id) return;
+			const color = String(e?.target?.value || '').trim();
+			await this.hass.callService('chores4kids','set_category_color',{ category_id: cat.id, color });
+		}catch(err){
+			console.error('Failed to set category color:', err);
+		}
+	}
 	async _promptRenameCategory(cat){ const nn=prompt(this._t('btn.rename'), cat.name); if(!nn || nn===cat.name) return; await this.hass.callService('chores4kids','rename_category',{ category_id: cat.id, new_name: nn }); }
 	async _deleteCategory(cat){ if(!confirm(this._t('btn.delete')+'?')) return; await this.hass.callService('chores4kids','delete_category',{ category_id: cat.id }); }
 
@@ -2612,7 +2858,7 @@ class Chores4KidsDevCard extends LitElement {
 			}
 		}catch{}
 	}
-	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; this._taskDue = (()=>{ const d=this._parseDueToDate(t?.due); return d? this._formatDateISO(d) : ''; })(); this._taskEarlyBonusDays = (t?.early_bonus_days!=null && Number(t.early_bonus_days)>0)? String(t.early_bonus_days) : ''; this._taskEarlyBonusPoints = (t?.early_bonus_points!=null && Number(t.early_bonus_points)>0)? String(t.early_bonus_points) : ''; this._taskEarlyBonusEnabled = (()=>{ const v=t?.early_bonus_enabled; if (v===true) return true; if (v===false) return false; return (Number(t?.early_bonus_days||0)>0 && Number(t?.early_bonus_points||0)>0); })(); const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._repeatEnabled = !!(fromAttr.length || kids.length); this._persistUntilDone = !!t.persist_until_completed; this._quickComplete = !!t.quick_complete; this._skipApproval = !!t.skip_approval; this._fastestWins = !!t.fastest_wins; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); }
+	_editTask(t){ this._editingTask=t; this._taskTitle=t.title; this._taskPoints=t.points; this._taskDesc=t.description||''; this._taskIcon=t.icon||''; this._taskDue = (()=>{ const d=this._parseDueToDate(t?.due); return d? this._formatDateISO(d) : ''; })(); this._taskEarlyBonusDays = (t?.early_bonus_days!=null && Number(t.early_bonus_days)>0)? String(t.early_bonus_days) : ''; this._taskEarlyBonusPoints = (t?.early_bonus_points!=null && Number(t.early_bonus_points)>0)? String(t.early_bonus_points) : ''; this._taskEarlyBonusEnabled = (()=>{ const v=t?.early_bonus_enabled; if (v===true) return true; if (v===false) return false; return (Number(t?.early_bonus_days||0)>0 && Number(t?.early_bonus_points||0)>0); })(); const mode = String(t?.schedule_mode||'').toLowerCase(); this._weeklyEnabled = (mode==='weekly'); this._monthlyEnabled = (mode==='monthly'); const map=["mon","tue","wed","thu","fri","sat","sun"]; const fromAttr=Array.isArray(t.repeat_days)? t.repeat_days.map(d=> typeof d==='number'? map[d] : String(d).slice(0,3)) : []; this._repeatDays=new Set(fromAttr); const kids = Array.isArray(t.repeat_child_ids)? t.repeat_child_ids : (t.repeat_child_id? [t.repeat_child_id]:[]); this._repeatAssign=new Set(kids); this._repeatEnabled = (!this._weeklyEnabled && !this._monthlyEnabled) && !!(fromAttr.length || kids.length || mode==='repeat'); this._persistUntilDone = !!t.persist_until_completed; this._quickComplete = !!t.quick_complete; this._skipApproval = !!t.skip_approval; this._fastestWins = !!t.fastest_wins; const cats = Array.isArray(t.categories)? t.categories : []; this._taskCategories = new Set(cats); if (this._weeklyEnabled || this._monthlyEnabled){ this._persistUntilDone = false; } }
 	async _saveEditedTask(){
 		if(!this._editingTask) return;
 		// validate like create
@@ -2621,8 +2867,9 @@ class Chores4KidsDevCard extends LitElement {
 		if (this._hasFormErrors) return;
 		try{
 			const bonusOn = pointsEnabled ? !!this._taskEarlyBonusEnabled : false;
-			const repeatOn = !!this._repeatEnabled;
-			const dueVal = (bonusOn && repeatOn) ? undefined : (String(this._taskDue||'').trim() || undefined);
+			const scheduleMode = this._weeklyEnabled ? 'weekly' : (this._monthlyEnabled ? 'monthly' : (this._repeatEnabled ? 'repeat' : ''));
+			const repeatOn = (scheduleMode === 'repeat');
+			const dueVal = (bonusOn && (scheduleMode==='repeat' || scheduleMode==='weekly' || scheduleMode==='monthly')) ? undefined : (String(this._taskDue||'').trim() || undefined);
 			await this.hass.callService('chores4kids','update_task',{
 				task_id: this._editingTask.id,
 				title: this._taskTitle,
@@ -2633,28 +2880,35 @@ class Chores4KidsDevCard extends LitElement {
 				early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
 				early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
 				icon: this._taskIcon||'',
-				persist_until_completed: !!this._persistUntilDone,
+				persist_until_completed: (scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone,
 				quick_complete: !!this._quickComplete,
 				skip_approval: !!this._skipApproval,
 				fastest_wins: !!this._fastestWins,
 				categories: Array.from(this._taskCategories||[])
 			});
 			// Try to set multi-children (backend may ignore list if unsupported). Fallback: set first only.
-			const _ids = repeatOn ? Array.from(this._repeatAssign||[]) : [];
+			const _ids = scheduleMode ? Array.from(this._repeatAssign||[]) : [];
 			const _days = repeatOn ? Array.from(this._repeatDays||[]) : [];
 			await this.hass.callService('chores4kids','set_task_repeat',{
 				task_id: this._editingTask.id,
 				repeat_days: _days,
 				repeat_child_id: _ids[0]||undefined,
-				repeat_child_ids: _ids
+				repeat_child_ids: _ids,
+				schedule_mode: scheduleMode || undefined,
 			});
 			
 			// Check if today is in repeat days and task is unassigned template - if so, auto-assign now
-			if (!this._editingTask.assigned_to && repeatOn && _ids.length > 0) {
-				const today = new Date().getDay(); // 0=Sun, 1=Mon, etc
-				const weekdayMap = [6, 0, 1, 2, 3, 4, 5]; // Convert JS day (0=Sun) to backend format (0=Mon)
-				const todayBackend = weekdayMap[today];
-				const assignToday = repeatOn && (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend]));
+			if (!this._editingTask.assigned_to && scheduleMode && _ids.length > 0) {
+				const now = new Date();
+				const jsDay = now.getDay();
+				const weekdayMap = [6, 0, 1, 2, 3, 4, 5];
+				const todayBackend = weekdayMap[jsDay];
+				const assignToday = (
+					scheduleMode==='weekly' ? (todayBackend===0) :
+					scheduleMode==='monthly' ? (now.getDate()===1) :
+					repeatOn ? (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend])) :
+					false
+				);
 				
 				if (assignToday) {
 					// Assign only for children missing a today's active instance (avoid duplicates)
@@ -2688,6 +2942,8 @@ class Chores4KidsDevCard extends LitElement {
 			this._taskEarlyBonusEnabled=false;
 			this._repeatDays=new Set(); this._repeatAssign=new Set();
 			this._repeatEnabled=false;
+			this._weeklyEnabled=false;
+			this._monthlyEnabled=false;
 			this._taskCategories=new Set();
 			this._quickComplete=false;
 			this._skipApproval=false;
@@ -2721,38 +2977,51 @@ class Chores4KidsDevCard extends LitElement {
 	async _saveAdvanced(){ if(!this._pointsEnabled()) return; if(!this._advItem) return; const actions=(this._advSteps||[]).map(st=> st.type==='delay'? { type:'delay', seconds: Number(st.seconds||0) } : { type:'entity_service', entity_id: st.entity_id, op: st.op||'turn_on' }); await this.hass.callService('chores4kids','update_shop_item',{ item_id: this._advItem.id, actions }); this._advItem=null; this._advSteps=[]; this.requestUpdate(); }
 	async _completeNow(task){
 		if(!task||!task.id) return;
-		const next = 'awaiting_approval';
-		// Trigger konfetti + record completion timestamp (same behavior as completing via in_progress)
-		console.log('Triggering confetti!');
-		this._triggerConfetti();
-		const ts = Date.now();
-		console.log('Recording completion timestamp:', task.id, ts);
-		this._recordCompleted(task.id, ts);
-		this.requestUpdate();
-		await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next, completed_ts: ts });
-	}
-	async _advance(task){ 
-		if(!task||!task.id) return; 
-		const next=task.status==='assigned'? 'in_progress' : 'awaiting_approval'; 
-		// Trigger konfetti hvis opgaven bliver completed
-		if(next === 'awaiting_approval') {
+		if (this._isTaskBusy(task.id)) return;
+		this._setTaskBusy(task.id, true);
+		try{
+			const next = 'awaiting_approval';
+			// Trigger konfetti + record completion timestamp (same behavior as completing via in_progress)
 			console.log('Triggering confetti!');
-			this._triggerConfetti();
-			// Record completion timestamp for parent view
+			this._playCompletionSound();
+			if (this._confettiEnabled()) this._triggerConfetti();
 			const ts = Date.now();
 			console.log('Recording completion timestamp:', task.id, ts);
 			this._recordCompleted(task.id, ts);
 			this.requestUpdate();
-			// Send timestamp to backend
-			await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next, completed_ts: ts }); 
-		} else {
-			await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next }); 
+			await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next, completed_ts: ts });
+		} finally {
+			this._setTaskBusy(task.id, false);
+		}
+	}
+	async _advance(task){ 
+		if(!task||!task.id) return; 
+		if (this._isTaskBusy(task.id)) return;
+		this._setTaskBusy(task.id, true);
+		try{
+			const next=task.status==='assigned'? 'in_progress' : 'awaiting_approval'; 
+			// Trigger konfetti hvis opgaven bliver completed
+			if(next === 'awaiting_approval') {
+				console.log('Triggering confetti!');
+				this._playCompletionSound();
+				if (this._confettiEnabled()) this._triggerConfetti();
+				// Record completion timestamp for parent view
+				const ts = Date.now();
+				console.log('Recording completion timestamp:', task.id, ts);
+				this._recordCompleted(task.id, ts);
+				this.requestUpdate();
+				// Send timestamp to backend
+				await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next, completed_ts: ts }); 
+			} else {
+				await this.hass.callService('chores4kids','set_task_status',{ task_id: task.id, status: next }); 
+			}
+		} finally {
+			this._setTaskBusy(task.id, false);
 		}
 	}
 	_triggerConfetti() {
+		if (!this._confettiEnabled()) return;
 		console.log('_triggerConfetti called!');
-		// Play completion sound (with fallbacks)
-		this._playCompletionSound();
 		const container = document.createElement('div');
 		container.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999; overflow: hidden;';
 		
@@ -2824,15 +3093,28 @@ class Chores4KidsDevCard extends LitElement {
 	}
 }
 
-// Register non-dev element name (and keep legacy dev tag) without throwing on double-load.
-try{ customElements.define('chores4kids-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
-try{ customElements.define('chores4kids-dev-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
+customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
 	setConfig(config){
 		this._config = { mode:'admin', ...config };
 		this.requestUpdate();
+	}
+	_getGlobalConfettiEnabled(){
+		try{
+			const a = this._getUiSensorAttrs?.() || {};
+			if (typeof a.confetti_enabled === 'boolean') return a.confetti_enabled;
+		}catch{ /* ignore */ }
+		// Default ON
+		return true;
+	}
+	async _saveGlobalConfettiEnabled(enabled){
+		try{
+			await this._saveGlobalUiSettings({ confetti_enabled: !!enabled });
+		}catch(e){
+			console.warn('Failed to save confetti_enabled', e);
+		}
 	}
 	_getGlobalEnablePoints(){
 		try{
@@ -2937,6 +3219,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
 							|| ('task_points_bg' in a) || ('task_points_text' in a)
 							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a)
+							|| ('confetti_enabled' in a)
 						);
 					}catch{ return false; }
 				});
@@ -2993,6 +3276,16 @@ class Chores4KidsDevCardEditor extends LitElement{
 						<option value="overview">${this._t('editor.mode_overview')}</option>
 					</select>
 				</div>
+				${(cfg.mode||'admin')==='admin' ? html`
+					<div class="form-field">
+						<label>${this._t('editor.confetti')}</label>
+						<label style="display:flex;align-items:center;gap:8px;">
+							<span>${this._t('ui.toggle_off_on')}</span>
+							<ha-switch .checked=${this._getGlobalConfettiEnabled()} @change=${async e=>{ const enabled=!!e.target.checked; await this._saveGlobalConfettiEnabled(enabled); this._config={...cfg, confetti: enabled}; this._emit(); }}></ha-switch>
+						</label>
+						<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.confetti_help')}</small>
+					</div>
+				` : ''}
 				${cfg.mode !== 'kid' ? html`
 					<div class="form-field">
 						<label>${this._t('editor.completion_sound')}</label>
