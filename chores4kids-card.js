@@ -1,4 +1,14 @@
-import { LitElement, html, css } from "https://unpkg.com/lit?module";
+// Bootstrap: pull Lit from HA frontend globals so the card can render without external imports
+const _haPanel = customElements.get("ha-panel-lovelace");
+const _Base = _haPanel ? Object.getPrototypeOf(_haPanel) : undefined;
+// Fallbacks from HA globals
+const LitElement = window.LitElement || (_Base ? _Base : class {});
+const html = (window.litHtml && window.litHtml.html) || window.html || (_Base?.prototype?.html);
+const css  = (window.litHtml && window.litHtml.css)  || window.css  || (_Base?.prototype?.css);
+
+if (!html || !css) {
+	throw new Error("chores4kids-card: Lit html/css not found in the frontend environment");
+}
 
 // Unified i18n (admin + child keys)
 const C4K_I18N = {
@@ -84,6 +94,9 @@ const C4K_I18N = {
 			'editor.enable_points_help':'Show points, point shop, and point actions',
 			'editor.completion_sound':'Completion Sound',
 			'editor.completion_sound_help':'Saved as /local/chores4kids/completion.<ext> and used across dashboards',
+			'editor.delete_sound':'Delete sound file',
+			'editor.delete_sound_confirm':'Delete the uploaded completion sound file?',
+			'editor.delete_sound_failed':'Failed to delete sound file',
 			'editor.confetti':'Confetti',
 			'editor.confetti_help':'Show confetti animation on completion',
 			'editor.colors':'Colors',
@@ -178,6 +191,9 @@ const C4K_I18N = {
 			'editor.enable_points_help':'Vis point, pointshop og point-handlinger',
 			'editor.completion_sound':'Completion Sound',
 			'editor.completion_sound_help':'Gemmes som /local/chores4kids/completion.<ext> og bruges på tværs af dashboards',
+			'editor.delete_sound':'Slet lydfil',
+			'editor.delete_sound_confirm':'Slet den uploadede completion-lydfil?',
+			'editor.delete_sound_failed':'Kunne ikke slette lydfilen',
 			'editor.confetti':'Konfetti',
 			'editor.confetti_help':'Vis konfetti-animation ved færdiggørelse',
 			'editor.colors':'Farver',
@@ -697,6 +713,7 @@ class Chores4KidsDevCard extends LitElement {
 		.btn-primary { background: var(--primary-color); color: var(--text-primary-color, #fff); border-color: transparent; }
 		.btn-primary.start-task{ background: var(--c4k-start-task-bg, var(--primary-color)); color: var(--c4k-start-task-text, var(--text-primary-color, #fff)); }
 		.btn-primary.complete-task{ background: var(--c4k-complete-task-bg, var(--primary-color)); color: var(--c4k-complete-task-text, var(--text-primary-color, #fff)); }
+		.btn-primary.task-done{ background: var(--c4k-task-done-bg, var(--primary-color)); color: var(--c4k-task-done-text, var(--text-primary-color, #fff)); }
 		.btn-danger { background: var(--error-color, #d32f2f); color:#fff; border-color: transparent; }
 		.btn-ghost { background: transparent; }
 		.icon-btn{ padding:4px 6px; border-radius:8px; min-height:auto; }
@@ -1102,6 +1119,7 @@ class Chores4KidsDevCard extends LitElement {
 						if (!st?.entity_id?.startsWith('sensor.')) return false;
 						const a = st.attributes || {};
 						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('task_done_bg' in a) || ('task_done_text' in a)
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
 							|| ('task_points_bg' in a) || ('task_points_text' in a)
 							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a)
@@ -1114,9 +1132,11 @@ class Chores4KidsDevCard extends LitElement {
 				start_task_bg: a.start_task_bg,
 				complete_task_bg: a.complete_task_bg,
 				kid_points_bg: a.kid_points_bg,
+				task_done_bg: a.task_done_bg,
 				start_task_text: a.start_task_text,
 				complete_task_text: a.complete_task_text,
 				kid_points_text: a.kid_points_text,
+				task_done_text: a.task_done_text,
 				task_points_bg: a.task_points_bg,
 				task_points_text: a.task_points_text,
 				kid_task_title_size: a.kid_task_title_size,
@@ -1139,9 +1159,11 @@ class Chores4KidsDevCard extends LitElement {
 			setVar('--c4k-start-task-bg', this.config?.start_task_bg || global.start_task_bg);
 			setVar('--c4k-complete-task-bg', this.config?.complete_task_bg || global.complete_task_bg);
 			setVar('--c4k-kid-points-bg', this.config?.kid_points_bg || global.kid_points_bg);
+			setVar('--c4k-task-done-bg', this.config?.task_done_bg || global.task_done_bg);
 			setVar('--c4k-start-task-text', this.config?.start_task_text || global.start_task_text);
 			setVar('--c4k-complete-task-text', this.config?.complete_task_text || global.complete_task_text);
 			setVar('--c4k-kid-points-text', this.config?.kid_points_text || global.kid_points_text);
+			setVar('--c4k-task-done-text', this.config?.task_done_text || global.task_done_text);
 			setVar('--c4k-task-points-bg', this.config?.task_points_bg || global.task_points_bg);
 			setVar('--c4k-task-points-text', this.config?.task_points_text || global.task_points_text);
 			// Font sizes are global (synced via integration)
@@ -1195,7 +1217,7 @@ class Chores4KidsDevCard extends LitElement {
 		this.requestUpdate();
 	}
 
-	static getConfigElement(){ return document.createElement('chores4kids-dev-card-editor'); }
+	static getConfigElement(){ return document.createElement('chores4kids-card-editor'); }
 	static getStubConfig(){ return { mode: 'admin' }; }
 
 	getCardSize(){ return this._mode==='admin'? 8 : 3; }
@@ -2448,7 +2470,7 @@ class Chores4KidsDevCard extends LitElement {
 								</div>
 								<div class="actions" style="display:flex; flex-direction:column; gap:6px;">
 									${isTakenByOther ? html`<button class="btn" disabled>${this._t('lbl.taken_by',{name: claimedByName||'—'})}</button>`
-										: t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary start-task" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
+										: t.status==="assigned" ? (t.quick_complete ? html`<button class="btn-primary task-done" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._completeNow(t)}>${this._t('btn.task_done')}</button>` : html`<button class="btn-primary start-task" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._advance(t)}>${this._t('btn.start_task')}</button>`)
 										: t.status==="in_progress" ? html`<button class="btn-primary complete-task" ?disabled=${this._isTaskBusy(t.id)} @click=${()=>this._advance(t)}>${this._t('btn.complete_task')}</button>`
 										: t.status==="awaiting_approval" ? html`<span class="chip status-awaiting_approval">${this._t('lbl.awaiting')}</span>`
 										: html`<button class="btn" disabled>✓ ${this._t('btn.done')}</button>`}
@@ -3070,7 +3092,9 @@ class Chores4KidsDevCard extends LitElement {
 			candidates.push('/local/chores4kids/completion.mp3','/local/chores4kids/completion.wav','/local/chores4kids/completion.ogg');
 			for (const url of candidates){
 				try{
-					const audio = new Audio(url);
+					// Cache-bust so deletions take effect immediately
+					const sep = url.includes('?') ? '&' : '?';
+					const audio = new Audio(`${url}${sep}_=${Date.now()}`);
 					audio.volume = 0.7;
 					await audio.play();
 					return; // success
@@ -3093,13 +3117,21 @@ class Chores4KidsDevCard extends LitElement {
 	}
 }
 
-customElements.define('chores4kids-dev-card', Chores4KidsDevCard);
+try{ customElements.define('chores4kids-dev-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
+try{ customElements.define('chores4kids-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
 	static get properties(){ return { hass: {}, _config: {} }; }
 	setConfig(config){
 		this._config = { mode:'admin', ...config };
 		this.requestUpdate();
+	}
+	updated(changedProps){
+		try{
+			if (changedProps.has('hass') || changedProps.has('_config')){
+				this._ensureDetectedCompletionSound();
+			}
+		}catch{ /* ignore */ }
 	}
 	_getGlobalConfettiEnabled(){
 		try{
@@ -3126,6 +3158,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 						if (!st?.entity_id?.startsWith('sensor.')) return false;
 						const a = st.attributes || {};
 						return ('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('task_done_bg' in a) || ('task_done_text' in a)
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
 							|| ('task_points_bg' in a) || ('task_points_text' in a);
 					}catch{ return false; }
@@ -3152,9 +3185,11 @@ class Chores4KidsDevCardEditor extends LitElement{
 				start_task_bg: cfg?.start_task_bg || '',
 				complete_task_bg: cfg?.complete_task_bg || '',
 				kid_points_bg: cfg?.kid_points_bg || '',
+				task_done_bg: cfg?.task_done_bg || '',
 				start_task_text: cfg?.start_task_text || '',
 				complete_task_text: cfg?.complete_task_text || '',
 				kid_points_text: cfg?.kid_points_text || '',
+				task_done_text: cfg?.task_done_text || '',
 				task_points_bg: cfg?.task_points_bg || '',
 				task_points_text: cfg?.task_points_text || '',
 			};
@@ -3186,6 +3221,8 @@ class Chores4KidsDevCardEditor extends LitElement{
 				await this.hass.callService('chores4kids','upload_shop_image',{ filename: name, data: String(dataUrl) });
 				// Update config with the path
 				this._config = {...this._config, completion_sound: `/local/chores4kids/${name}`};
+				// allow selecting the same file again later
+				try{ if (e?.target) e.target.value = ''; }catch{}
 				this._emit();
 			} catch(err) {
 				console.error('Sound upload failed:', err);
@@ -3193,6 +3230,74 @@ class Chores4KidsDevCardEditor extends LitElement{
 			}
 		};
 		reader.readAsDataURL(file);
+	}
+	_getCompletionSoundFilename(){
+		try{
+			const raw = String(this._config?.completion_sound || '').trim();
+			if (!raw) return '';
+			const m = raw.match(/\/local\/chores4kids\/([^/?#]+)$/);
+			if (m && m[1]) return m[1];
+			const last = raw.split('/').pop();
+			return String(last || '').trim();
+		}catch{ return ''; }
+	}
+	async _urlExists(url){
+		try{
+			const bust = (url.includes('?') ? '&' : '?') + `_=${Date.now()}`;
+			let r = await fetch(url + bust, { method:'HEAD', cache:'no-store' });
+			if (r.ok) return true;
+			// Some servers block HEAD; try a tiny GET.
+			if (r.status === 405 || r.status === 403){
+				r = await fetch(url + bust, { method:'GET', cache:'no-store', headers: { 'Range': 'bytes=0-0' } });
+				if (r.ok) return true;
+			}
+		}catch{ /* ignore */ }
+		return false;
+	}
+	async _ensureDetectedCompletionSound(force=false){
+		try{
+			const cfg = this._config || {};
+			if (cfg.mode === 'kid') return;
+			// If explicitly configured, no need to detect.
+			if (cfg.completion_sound){
+				this._detectedCompletionSound = null;
+				return;
+			}
+			if (!force && this._detectedCompletionSound) return;
+			if (this._soundDetectInFlight) return;
+			this._soundDetectInFlight = true;
+			const exts = ['mp3','wav','ogg','m4a','aac'];
+			let found = null;
+			for (const ext of exts){
+				const url = `/local/chores4kids/completion.${ext}`;
+				// eslint-disable-next-line no-await-in-loop
+				if (await this._urlExists(url)) { found = { url, filename: `completion.${ext}` }; break; }
+			}
+			this._detectedCompletionSound = found;
+			this.requestUpdate();
+		}catch{ /* ignore */ }
+		finally{ this._soundDetectInFlight = false; }
+	}
+	async _deleteCompletionSound(){
+		try{
+			if (!this.hass) return;
+			const fromCfg = this._getCompletionSoundFilename();
+			const filename = fromCfg || this._detectedCompletionSound?.filename || '';
+			if (!confirm(this._t('editor.delete_sound_confirm'))) return;
+			// Try deleting the explicitly referenced filename (if any)
+			if (filename){
+				try{ await this.hass.callService('chores4kids','delete_uploaded_file',{ filename }); }catch(e){ /* fall through */ }
+			}
+			// Always also delete legacy completion files
+			await this.hass.callService('chores4kids','delete_completion_sound',{});
+			this._config = {...(this._config||{}), completion_sound: ''};
+			this._detectedCompletionSound = null;
+			this._emit();
+			this._ensureDetectedCompletionSound(true);
+		}catch(e){
+			console.error('Sound delete failed:', e);
+			alert(this._t('editor.delete_sound_failed'));
+		}
 	}
 	_getChildren(){
 		try{
@@ -3216,6 +3321,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 						const a = st.attributes || {};
 						return (
 							('enable_points' in a) || ('start_task_bg' in a) || ('complete_task_bg' in a) || ('kid_points_bg' in a)
+							|| ('task_done_bg' in a) || ('task_done_text' in a)
 							|| ('start_task_text' in a) || ('complete_task_text' in a) || ('kid_points_text' in a)
 							|| ('task_points_bg' in a) || ('task_points_text' in a)
 							|| ('kid_task_title_size' in a) || ('kid_task_points_size' in a) || ('kid_task_button_size' in a)
@@ -3289,11 +3395,19 @@ class Chores4KidsDevCardEditor extends LitElement{
 				${cfg.mode !== 'kid' ? html`
 					<div class="form-field">
 						<label>${this._t('editor.completion_sound')}</label>
-						<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="margin-bottom:4px;" />
-						${cfg.completion_sound ? html`
+						<input type="file" accept="audio/*" @change=${e=> this._onSoundUpload(e)} style="width:100%; max-width:100%; box-sizing:border-box; margin-bottom:4px;" />
+						${(cfg.completion_sound || this._detectedCompletionSound) ? html`
+							<div style="display:flex;align-items:center;gap:8px;margin-top:4px; flex-wrap:wrap;">
+								<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound || this._detectedCompletionSound?.url}</small>
+								${cfg.completion_sound ? html`
+									<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">${this._t('form.clear')}</button>
+								` : ''}
+								<button @click=${()=> this._deleteCompletionSound()} ?disabled=${!(cfg.completion_sound || this._detectedCompletionSound?.filename)} style="padding:4px 8px;font-size:0.8rem;">${this._t('editor.delete_sound')}</button>
+							</div>
+						` : ''}
+						${(!(cfg.completion_sound || this._detectedCompletionSound)) ? html`
 							<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
-								<small style="opacity:.8;flex:1;word-break:break-all;">${cfg.completion_sound}</small>
-								<button @click=${()=>{ this._config={...cfg, completion_sound: ''}; this._emit(); }} style="padding:4px 8px;font-size:0.8rem;">${this._t('form.clear')}</button>
+								<button @click=${()=> this._deleteCompletionSound()} style="padding:4px 8px;font-size:0.8rem;">${this._t('editor.delete_sound')}</button>
 							</div>
 						` : ''}
 						<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.completion_sound_help')}</small>
@@ -3362,6 +3476,28 @@ class Chores4KidsDevCardEditor extends LitElement{
 										<input .value=${cfg.complete_task_text||''} @input=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
 										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.complete_task_text||'') ? cfg.complete_task_text : '#000000')} @change=${e=>{ this._config={...cfg, complete_task_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
 											<button @click=${()=>{ this._config={...cfg, complete_task_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
+							</div>
+						</ha-expansion-panel>
+
+						<ha-expansion-panel .header=${this._t('btn.task_done')} style="border:1px solid var(--divider-color); border-radius:8px; overflow:hidden;">
+							<div style="padding:10px;">
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_bg')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.task_done_bg||''} @input=${e=>{ this._config={...cfg, task_done_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_done_bg||'') ? cfg.task_done_bg : '#000000')} @change=${e=>{ this._config={...cfg, task_done_bg: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+											<button @click=${()=>{ this._config={...cfg, task_done_bg: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
+									</div>
+								</div>
+								<div class="form-field" style="margin-top:6px;">
+									<label style="font-weight:600;">${this._t('editor.color_field_text')}</label>
+									<div style="display:flex; gap:8px; align-items:center;">
+										<input .value=${cfg.task_done_text||''} @input=${e=>{ this._config={...cfg, task_done_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} placeholder="#RRGGBB" style="flex:1;" />
+										<input type="color" .value=${(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(cfg.task_done_text||'') ? cfg.task_done_text : '#000000')} @change=${e=>{ this._config={...cfg, task_done_text: e.target.value}; this._saveGlobalColors(this._config); this._emit(); }} style="width:44px; height:36px; padding:0; border:0; background:transparent;" />
+											<button @click=${()=>{ this._config={...cfg, task_done_text: ''}; this._saveGlobalColors(this._config); this._emit(); }} style="padding:6px 10px;">${this._t('form.clear')}</button>
 									</div>
 								</div>
 								<small style="opacity:.8; margin-top:4px; display:block;">${this._t('editor.color_empty_default')}</small>
@@ -3481,5 +3617,6 @@ try{ customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEdit
 
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Dev – Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
+
 
