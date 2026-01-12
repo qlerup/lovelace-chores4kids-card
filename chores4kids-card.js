@@ -3117,7 +3117,6 @@ class Chores4KidsDevCard extends LitElement {
 	}
 }
 
-try{ customElements.define('chores4kids-dev-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
 try{ customElements.define('chores4kids-card', Chores4KidsDevCard); }catch(e){ /* ignore */ }
 // Simple GUI editor
 class Chores4KidsDevCardEditor extends LitElement{
@@ -3613,10 +3612,7 @@ class Chores4KidsDevCardEditor extends LitElement{
 	}
 }
 try{ customElements.define('chores4kids-card-editor', Chores4KidsDevCardEditor); }catch(e){ /* ignore */ }
-try{ customElements.define('chores4kids-dev-card-editor', Chores4KidsDevCardEditor); }catch(e){ /* ignore */ }
 
 // Lovelace card registry
 window.customCards = window.customCards || [];
-window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Forældre/Barn/Seneste)', preview: true, description: 'Kombineret kort – vælg Forældre, Barn eller Seneste opgaver i editoren' });
-
-
+window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Parent/Child/Latest)', preview: true, description: 'Combined card – choose Parent, Child, or Latest tasks in the editor' });
