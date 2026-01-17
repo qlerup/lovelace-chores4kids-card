@@ -1,14 +1,4 @@
-// Bootstrap: pull Lit from HA frontend globals so the card can render without external imports
-const _haPanel = customElements.get("ha-panel-lovelace");
-const _Base = _haPanel ? Object.getPrototypeOf(_haPanel) : undefined;
-// Fallbacks from HA globals
-const LitElement = window.LitElement || (_Base ? _Base : class {});
-const html = (window.litHtml && window.litHtml.html) || window.html || (_Base?.prototype?.html);
-const css  = (window.litHtml && window.litHtml.css)  || window.css  || (_Base?.prototype?.css);
-
-if (!html || !css) {
-	throw new Error("chores4kids-card: Lit html/css not found in the frontend environment");
-}
+import { LitElement, html, css } from "https://unpkg.com/lit?module";
 
 // Unified i18n (admin + child keys)
 const C4K_I18N = {
