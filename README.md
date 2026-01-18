@@ -1,6 +1,7 @@
 # Chores4Kids Card — Feature Guide & How‑To 🧹👧👦
 
-[![hacs\_badge](https://img.shields.io/badge/HACS-Default-blue.svg)](https://hacs.xyz)
+[![hacs\_badge](https://img.shields.io/badge/HACS-Default-blue.svg)](https://hacs.xyz) [![Downloads](https://img.shields.io/github/downloads/qlerup/lovelace-chores4kids-card/total)](https://github.com/qlerup/lovelace-chores4kids-card/releases)
+
 
 If you find this project useful, you can support me on Ko-fi 💙  
 
