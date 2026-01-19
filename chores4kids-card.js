@@ -1214,6 +1214,18 @@ class Chores4KidsDevCard extends LitElement {
 
 	// Helpers
 	_t(key, vars){ return c4kLocalize(key, this.hass || navigator.language || 'en', vars); }
+	_resolveUrl(url){
+		if (!url) return '';
+		if (String(url).startsWith('http') || String(url).startsWith('data:')) return url;
+		try{
+			const baseUrl = this.hass?.auth?.data?.hassUrl || '';
+			if (baseUrl && String(url).startsWith('/')) {
+				const base = baseUrl.endsWith('/') ? baseUrl.slice(0,-1) : baseUrl;
+				return base + url;
+			}
+		}catch(e){}
+		return url;
+	}
 	_statusLabel(s){ return this._t(`status.${s}`) || s; }
 	_effectiveStatus(t){
 		try{
@@ -2007,7 +2019,7 @@ class Chores4KidsDevCard extends LitElement {
 				</div>
 				<div class="shop-add-row">
 					<div class="shop-add-left">
-						${this._shopImage ? html`<img class="img-preview" src="${this._shopImage}" alt="preview" loading="lazy" decoding="async"/>` : html`<div class="img-preview" style="display:grid;place-items:center;color:var(--secondary-text-color);">${this._t('shop.image')}</div>`}
+						${this._shopImage ? html`<img class="img-preview" src="${this._resolveUrl(this._shopImage)}" alt="preview" loading="lazy" decoding="async"/>` : html`<div class="img-preview" style="display:grid;place-items:center;color:var(--secondary-text-color);">${this._t('shop.image')}</div>`}
 						<input id="c4k-shop-file" class="file-hidden" type="file" accept="image/*" @change=${this._onPickImage} />
 						<button class="btn-ghost" @click=${()=> this.shadowRoot.getElementById('c4k-shop-file')?.click()}>${this._t('shop.upload')}</button>
 					</div>
@@ -2019,14 +2031,14 @@ class Chores4KidsDevCard extends LitElement {
 						${this._store.items.map(i=> html`
 							${this._editItem && this._editItem.id===i.id ? html`
 								<tr>
-									<td data-label="${this._t('shop.item')}"><div style="display:flex; align-items:center; gap:8px;">${this._editItem.image? html`<img class="img-preview" style="width:36px;height:36px;" src="${this._editItem.image}" loading="lazy" decoding="async">`:''}<input style="max-width:220px;" .value=${this._editItem.title||''} @input=${e=> this._editItem={...this._editItem, title:e.target.value}} /><input type="file" accept="image/*" @change=${this._onPickEditImage} /></div></td>
+									<td data-label="${this._t('shop.item')}"><div style="display:flex; align-items:center; gap:8px;">${this._editItem.image? html`<img class="img-preview" style="width:36px;height:36px;" src="${this._resolveUrl(this._editItem.image)}" loading="lazy" decoding="async">`:''}<input style="max-width:220px;" .value=${this._editItem.title||''} @input=${e=> this._editItem={...this._editItem, title:e.target.value}} /><input type="file" accept="image/*" @change=${this._onPickEditImage} /></div></td>
 									<td data-label="${this._t('shop.price')}"><input type="number" style="max-width:120px;" .value=${this._editItem.price||0} @input=${e=> this._editItem={...this._editItem, price:Number(e.target.value||0)}} /></td>
 									<td data-label="${this._t('shop.active')}"><input type="checkbox" .checked=${this._editItem.active!==false} @change=${e=> this._editItem={...this._editItem, active: e.target.checked}} /></td>
 									<td data-label="${this._t('th.actions')}"><button class="btn-primary" @click=${this._saveEditItem}>${this._t('form.save')}</button><button class="btn-ghost" @click=${()=>{this._editItem=null; this.requestUpdate();}}>${this._t('form.cancel')}</button></td>
 								</tr>
 							`: html`
 								<tr>
-									<td data-label="${this._t('shop.item')}">${i.image? html`<img class="img-preview" style="width:36px;height:36px;margin-right:6px;vertical-align:middle;" src="${i.image}" loading="lazy" decoding="async">`:''}${i.title}</td>
+									<td data-label="${this._t('shop.item')}">${i.image? html`<img class="img-preview" style="width:36px;height:36px;margin-right:6px;vertical-align:middle;" src="${this._resolveUrl(i.image)}" loading="lazy" decoding="async">`:''}${i.title}</td>
 									<td data-label="${this._t('shop.price')}"><b>${i.price}</b></td>
 									<td data-label="${this._t('shop.active')}"><input type="checkbox" .checked=${i.active!==false} @change=${e=> this._toggleItemActive(i,e)} /></td>
 									<td data-label="${this._t('th.actions')}"><button class="btn-ghost" @click=${()=> this._startEditItem(i)}>${this._t('btn.edit')}</button><button class="btn-ghost" @click=${()=> this._openAdvanced(i)}>${this._t('shop.advanced')}</button><button class="btn-danger" @click=${()=>this._deleteShopItem(i.id)}>${this._t('btn.delete')}</button></td>
@@ -2040,7 +2052,7 @@ class Chores4KidsDevCard extends LitElement {
 									${this._store.items.map(i=> html`
 										<div class="shop-admin-card">
 											<div class="shop-admin-head">
-												${i.image? html`<img src="${i.image}" alt="${i.title}" loading="lazy" decoding="async">` : html`<div class="img-preview" style="width:44px;height:44px;display:grid;place-items:center;">?</div>`}
+												${i.image? html`<img src="${this._resolveUrl(i.image)}" alt="${i.title}" loading="lazy" decoding="async">` : html`<div class="img-preview" style="width:44px;height:44px;display:grid;place-items:center;">?</div>`}
 												<div class="shop-admin-meta">
 													<div class="shop-admin-title">${i.title}</div>
 													<div class="shop-admin-price">${i.price}</div>
@@ -2491,7 +2503,7 @@ class Chores4KidsDevCard extends LitElement {
 							<div class="shop-grid">
 								${items.map(i=> html`
 									<div class="shop-item">
-										${i.image ? html`<div class="img-wrap"><img src="${i.image}" alt="${i.title}" loading="lazy" decoding="async"></div>` : html`<div class="img-wrap" style="display:grid;place-items:center;opacity:.7;">${i.icon? html`<ha-icon icon="${i.icon}" style="--mdc-icon-size:48px"></ha-icon>`:'?'}</div>`}
+										${i.image ? html`<div class="img-wrap"><img src="${this._resolveUrl(i.image)}" alt="${i.title}" loading="lazy" decoding="async"></div>` : html`<div class="img-wrap" style="display:grid;place-items:center;opacity:.7;">${i.icon? html`<ha-icon icon="${i.icon}" style="--mdc-icon-size:48px"></ha-icon>`:'?'}</div>`}
 										<div class="body">
 											<div class="title">${i.title}</div>
 											<div class="meta"><span class="chip chip-points">${i.price} ${this._t('lbl.points')}</span></div>
