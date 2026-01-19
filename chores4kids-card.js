@@ -3096,7 +3096,8 @@ class Chores4KidsDevCard extends LitElement {
 				try{
 					// Cache-bust so deletions take effect immediately
 					const sep = url.includes('?') ? '&' : '?';
-					const audio = new Audio(`${url}${sep}_=${Date.now()}`);
+					const resolvedUrl = this._resolveUrl(url);
+					const audio = new Audio(`${resolvedUrl}${sep}_=${Date.now()}`);
 					audio.volume = 0.7;
 					await audio.play();
 					return; // success
