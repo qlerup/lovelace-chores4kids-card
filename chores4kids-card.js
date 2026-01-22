@@ -684,7 +684,9 @@ class Chores4KidsDevCard extends LitElement {
 			// Child state
 			_shopOpen: { state: true },
 			// Sorting/categories order
-			_sortModalOpen: { state: true }, _catOrder: { state: true }
+			_sortModalOpen: { state: true }, _catOrder: { state: true },
+			// Task description view
+			_viewingTaskDesc: { state: true }
 		};
 	}
 	static get styles(){ return css`
@@ -966,6 +968,7 @@ class Chores4KidsDevCard extends LitElement {
 		this._fastestWins = false;
 		// Child
 		this._shopOpen = false;
+		this._viewingTaskDesc = null;
 		// caches
 		this._idTasks = null; this._idShop = null; this._idChild = null;
 		try{ this._iconRecents = JSON.parse(localStorage.getItem('c4k_icn_recent')||'[]') || []; }catch{ this._iconRecents = []; }
@@ -2381,6 +2384,37 @@ class Chores4KidsDevCard extends LitElement {
 		</div>`;
 	}
 
+	_openTaskDescription(task, e) {
+		try{
+			const path = e.composedPath();
+			if (path.some(el => el.tagName === 'BUTTON' || el.tagName === 'HA-ICON-BUTTON' || el.classList?.contains?.('btn') || el.classList?.contains?.('btn-primary') || el.classList?.contains?.('btn-ghost') || el.classList?.contains?.('btn-danger'))) {
+				return;
+			}
+		}catch(err){}
+		if (task && task.description) {
+			this._viewingTaskDesc = task;
+			this.requestUpdate();
+		}
+	}
+	_closeTaskDescription() {
+		this._viewingTaskDesc = null;
+		this.requestUpdate();
+	}
+	_renderDescriptionModal() {
+		if (!this._viewingTaskDesc) return '';
+		return html`
+			<div class="overlay open" @click=${()=>this._closeTaskDescription()}>
+				<div class="modal" style="max-width: 500px;" @click=${e=>e.stopPropagation()}>
+					<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 12px;">
+						<h3 style="margin:0; padding-right: 16px;">${this._viewingTaskDesc.title}</h3>
+						<ha-icon icon="mdi:close" style="cursor:pointer;" @click=${()=>this._closeTaskDescription()}></ha-icon>
+					</div>
+					<div style="white-space: pre-wrap;">${this._viewingTaskDesc.description}</div>
+				</div>
+			</div>
+		`;
+	}
+
 	// ------- CHILD VIEW -------
 	_findChildSensor(){
 		const childName = this._childName || this.config.child;
@@ -2446,7 +2480,7 @@ class Chores4KidsDevCard extends LitElement {
 							? `background: color-mix(in srgb, ${groupColor} 10%, var(--card-background-color)); box-shadow: inset 6px 0 0 ${groupColor};`
 							: '';
 						return html`
-							<div class="task ${isOverdue?'task-overdue':''}" style="${rowStyle}">
+							<div class="task ${isOverdue?'task-overdue':''}" style="${rowStyle} cursor:${t.description?'pointer':'default'};" @click=${(e)=>this._openTaskDescription(t,e)}>
 								<div class="task-icon">${t.icon? html`<ha-icon icon="${t.icon}"></ha-icon>`:''}</div>
 								<div>
 									<div class="title ${t.status==='approved' ? 'completed' : ''}">${t.title}</div>
@@ -2506,7 +2540,9 @@ class Chores4KidsDevCard extends LitElement {
 						</div>
 					</div>` : ''}
 				</div>
-			</ha-card>`;
+			</ha-card>
+			${this._renderDescriptionModal()}
+		`;
 	}
 
 	// ===== Actions (admin + child) =====
