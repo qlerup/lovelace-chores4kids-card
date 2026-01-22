@@ -2387,12 +2387,24 @@ class Chores4KidsDevCard extends LitElement {
 	_openTaskDescription(task, e) {
 		try{
 			const path = e.composedPath();
-			if (path.some(el => el.tagName === 'BUTTON' || el.tagName === 'HA-ICON-BUTTON' || el.classList?.contains?.('btn') || el.classList?.contains?.('btn-primary') || el.classList?.contains?.('btn-ghost') || el.classList?.contains?.('btn-danger'))) {
+			if (path.some(el => {
+				if (!el || !el.tagName) return false;
+				const tag = el.tagName;
+				return tag === 'BUTTON' || tag === 'HA-ICON-BUTTON' || el.classList?.contains?.('btn') || el.classList?.contains?.('btn-primary') || el.classList?.contains?.('btn-ghost') || el.classList?.contains?.('btn-danger');
+			})) {
 				return;
 			}
 		}catch(err){}
-		if (task && task.description) {
-			this._viewingTaskDesc = task;
+
+		// Ensure we have description (rendered tasks should be enriched, but fallback just in case)
+		let desc = task.description;
+		if (!desc && task.id && this._store?.allTasks) {
+			const full = this._store.allTasks.find(t=> t.id===task.id);
+			if (full) desc = full.description;
+		}
+
+		if (desc) {
+			this._viewingTaskDesc = desc === task.description ? task : { ...task, description: desc };
 			this.requestUpdate();
 		}
 	}
@@ -2438,19 +2450,35 @@ class Chores4KidsDevCard extends LitElement {
 		const pointsEnabled = this._pointsEnabled();
 		const s = this._findChildSensor();
 		if (!s){ return html`<ha-card header="${this._t('card.child_title_fallback',{name: this._childName||this.config.child||''})}"><div class="card-content">${this._t('msg.child_not_found')}</div></ha-card>`; }
+
+		// Fetch store once
+		const store = this._store;
+		const allTasksMap = new Map((store.allTasks||[]).map(t=>[t.id, t]));
+
 		const myChildId = s?.attributes?.child_id;
-		const tasks = (s.attributes.tasks||[]).filter(t=> ['assigned','in_progress','awaiting_approval','approved'].includes(t.status));
+
+		// Enrich tasks with description from master list if missing
+		const rawTasks = (s.attributes.tasks||[]).filter(t=> ['assigned','in_progress','awaiting_approval','approved'].includes(t.status));
+		const tasks = rawTasks.map(t => {
+			if (t.description) return t;
+			const full = allTasksMap.get(t.id);
+			if (full && full.description) return { ...t, description: full.description };
+			return t;
+		});
+
 		const dailyTasks = tasks.filter(t=> !t?.due);
 		const weeklyTasks = tasks.filter(t=> !!t?.due);
+
 		// shop items
 		let shopSensor = this._idShop && this.hass.states[this._idShop];
 		if (!shopSensor){ shopSensor = Object.values(this.hass.states).find(st=> st?.entity_id?.includes('chores4kids_shop')); if (shopSensor?.entity_id) this._idShop = shopSensor.entity_id; }
 		const items = (pointsEnabled && this._shopOpen) ? (shopSensor?.attributes?.items||[]).filter(i=> i.active!==false) : [];
+
 		const renderTaskGroups = (taskList)=>{
 			if (taskList.length===0) return html`<i>${this._t('msg.no_tasks')}</i>`;
 			const NONE='__none__';
 			const order = this._catOrderResolved();
-			const cats = this._store.categories||[];
+			const cats = store.categories||[]; // Use captured store
 			const catFor=(id)=> (id && id!==NONE) ? (cats.find(c=> c.id===id) || null) : null;
 			const nameFor=(id)=> id===NONE? this._t('sort.none') : (catFor(id)?.name || id);
 			const colorFor=(id)=>{ try{ return id===NONE? '' : this._normalizeHexColor(catFor(id)?.color); }catch{ return ''; } };
