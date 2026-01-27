@@ -2610,7 +2610,7 @@ class Chores4KidsDevCard extends LitElement {
 		const assignToday = (
 			scheduleMode==='weekly' ? (todayBackend===0) :
 			scheduleMode==='monthly' ? (now.getDate()===1) :
-			repeatOn ? (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend])) :
+			repeatOn ? (_days.includes(todayBackend) || _days.includes(['mon','tue','wed','thu','fri','sat','sun'][todayBackend])) :
 			false
 		);
 		
@@ -2918,7 +2918,7 @@ class Chores4KidsDevCard extends LitElement {
 				const assignToday = (
 					scheduleMode==='weekly' ? (todayBackend===0) :
 					scheduleMode==='monthly' ? (now.getDate()===1) :
-					repeatOn ? (_days.includes(todayBackend) || _days.includes(['sun','mon','tue','wed','thu','fri','sat'][todayBackend])) :
+					repeatOn ? (_days.includes(todayBackend) || _days.includes(['mon','tue','wed','thu','fri','sat','sun'][todayBackend])) :
 					false
 				);
 				
@@ -3606,3 +3606,4 @@ try{ customElements.define('chores4kids-card-editor', Chores4KidsDevCardEditor);
 // Lovelace card registry
 window.customCards = window.customCards || [];
 window.customCards.push({ type: 'chores4kids-card', name: 'Chores4Kids (Parent/Child/Latest)', preview: true, description: 'Combined card – choose Parent, Child, or Latest tasks in the editor' });
+
