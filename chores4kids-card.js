@@ -962,7 +962,8 @@ class Chores4KidsDevCard extends LitElement {
 		this._touchedTitle = false; this._touchedPoints = false;
 		this._openAssignMenuFor = null;
 		this._openRepeatMenu = false;
-		this._persistUntilDone = false; this._markOverdue = true;
+		this._persistUntilDone = false;
+		this._markOverdue = true;
 		this._quickComplete = false;
 		this._skipApproval = false;
 		this._fastestWins = false;
@@ -997,14 +998,16 @@ class Chores4KidsDevCard extends LitElement {
 				this._repeatEnabled = false;
 				this._repeatDays = new Set();
 				this._openRepeatMenu = false;
-				this._persistUntilDone = false; this._markOverdue = true;
+				this._persistUntilDone = false;
+				this._markOverdue = true;
 			}
 			if (this._monthlyEnabled){
 				this._weeklyEnabled = false;
 				this._repeatEnabled = false;
 				this._repeatDays = new Set();
 				this._openRepeatMenu = false;
-				this._persistUntilDone = false; this._markOverdue = true;
+				this._persistUntilDone = false;
+				this._markOverdue = true;
 			}
 			if (this._repeatEnabled){
 				this._weeklyEnabled = false;
@@ -1189,7 +1192,8 @@ class Chores4KidsDevCard extends LitElement {
 			this._repeatDays = new Set();
 			this._openRepeatMenu = false;
 			// Weekly/monthly must not be used with carry unfinished
-			this._persistUntilDone = false; this._markOverdue = true;
+			this._persistUntilDone = false;
+			this._markOverdue = true;
 		}
 		this._normalizeScheduleFlags();
 		this.requestUpdate();
@@ -1203,7 +1207,8 @@ class Chores4KidsDevCard extends LitElement {
 			this._repeatDays = new Set();
 			this._openRepeatMenu = false;
 			// Weekly/monthly must not be used with carry unfinished
-			this._persistUntilDone = false; this._markOverdue = true;
+			this._persistUntilDone = false;
+			this._markOverdue = true;
 		}
 		this._normalizeScheduleFlags();
 		this.requestUpdate();
@@ -2641,7 +2646,8 @@ class Chores4KidsDevCard extends LitElement {
 			repeat_days:_days,
 			repeat_child_id: scheduleMode ? (((_autoAssignIds[0]||'') || undefined)) : undefined,
 			repeat_child_ids: scheduleMode ? (_autoAssignIds.length ? _autoAssignIds : undefined) : undefined,
-			persist_until_completed: _persist, mark_overdue: _persist ? !!this._markOverdue : true,
+			persist_until_completed: _persist,
+			mark_overdue: _persist ? !!this._markOverdue : true,
 			categories: _cats
 		};
 		await this.hass.callService('chores4kids','add_task', taskData);
@@ -2676,8 +2682,9 @@ class Chores4KidsDevCard extends LitElement {
 		this._repeatEnabled=false;
 		this._weeklyEnabled=false;
 		this._monthlyEnabled=false;
-		this._taskCategories=new Set(); this._markOverdue=true;
-		this._persistUntilDone=false; this._markOverdue=true;
+		this._taskCategories=new Set();
+		this._markOverdue=true;
+		this._persistUntilDone=false;
 		this._quickComplete=false;
 		this._skipApproval=false;
 		this._fastestWins=false;
@@ -2900,7 +2907,8 @@ class Chores4KidsDevCard extends LitElement {
 				early_bonus_days: (bonusOn && this._taskEarlyBonusDays!=='' && this._taskEarlyBonusDays!=null) ? Number(this._taskEarlyBonusDays) : undefined,
 				early_bonus_points: (bonusOn && this._taskEarlyBonusPoints!=='' && this._taskEarlyBonusPoints!=null) ? Number(this._taskEarlyBonusPoints) : undefined,
 				icon: this._taskIcon||'',
-				persist_until_completed: (scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone, mark_overdue: ((scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone) ? !!this._markOverdue : true,
+				persist_until_completed: (scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone,
+				mark_overdue: ((scheduleMode==='weekly' || scheduleMode==='monthly') ? false : !!this._persistUntilDone) ? !!this._markOverdue : true,
 				quick_complete: !!this._quickComplete,
 				skip_approval: !!this._skipApproval,
 				fastest_wins: !!this._fastestWins,
@@ -2964,7 +2972,8 @@ class Chores4KidsDevCard extends LitElement {
 			this._repeatEnabled=false;
 			this._weeklyEnabled=false;
 			this._monthlyEnabled=false;
-			this._taskCategories=new Set(); this._markOverdue=true;
+			this._taskCategories=new Set();
+			this._markOverdue=true;
 			this._quickComplete=false;
 			this._skipApproval=false;
 			this._touchedTitle=false; this._touchedPoints=false;
